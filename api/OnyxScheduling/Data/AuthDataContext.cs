@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace OnyxScheduling.Auth
 {
-    public class DataContext : IdentityDbContext<IdentityUser>
+    public class AuthDataContext : IdentityDbContext<IdentityUser>
     {
-        public DataContext(DbContextOptions<DataContext> options) : base(options)
+        public AuthDataContext(DbContextOptions<AuthDataContext> options) : base(options)
         {
 
         }

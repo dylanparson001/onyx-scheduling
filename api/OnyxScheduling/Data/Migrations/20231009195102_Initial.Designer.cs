@@ -10,7 +10,7 @@ using OnyxScheduling.Auth;
 
 namespace OnyxScheduling.Data.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(AuthDataContext))]
     [Migration("20231009195102_Initial")]
     partial class Initial
     {

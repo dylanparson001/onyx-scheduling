@@ -11,11 +11,11 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 
 // For Entity Framework
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AuthDataContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
 // For Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<DataContext>()
+    .AddEntityFrameworkStores<AuthDataContext>()
     .AddDefaultTokenProviders();
 
 // Adding Authentication
@@ -52,6 +52,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
+
     app.UseSwaggerUI();
 }
 

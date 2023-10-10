@@ -1,9 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using OnyxScheduling.Auth;
 
 namespace OnyxScheduling.Controllers
 {
     [ApiController]
+    [Authorize(Roles = UserRoles.Office)]
     [Route("[controller]")]
+
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

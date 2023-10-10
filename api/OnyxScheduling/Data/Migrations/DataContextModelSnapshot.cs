@@ -9,7 +9,7 @@ using OnyxScheduling.Auth;
 
 namespace OnyxScheduling.Data.Migrations
 {
-    [DbContext(typeof(DataContext))]
+    [DbContext(typeof(AuthDataContext))]
     partial class DataContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
