@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnyxScheduling.Auth;
+using OnyxScheduling.Data.Repositories;
+using OnyxScheduling.Interfaces;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -41,8 +43,12 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -57,6 +63,11 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(options =>
+{
+    options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
+});
 
 // Authentication & Authorization
 app.UseAuthentication();

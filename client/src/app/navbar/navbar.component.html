@@ -1,0 +1,18 @@
+<nav>
+  <ul>
+    <li class="navLinks"><img src="../../favicon.ico" alt="Onyx Logo"></li>
+
+    <div class = "navLinks"
+    *ngIf="!(this.authService.currentUser$ | async)"
+    >
+    <li class="navLinks"><a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Login</a></li>
+  </div>
+
+  <div class = "navLinks"
+  *ngIf="(this.authService.currentUser$ | async)"
+  >
+    <li class="navLinks"><a routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a></li>
+  </div>
+  </ul>
+</nav>
+<router-outlet></router-outlet>
