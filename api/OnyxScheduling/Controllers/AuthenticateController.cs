@@ -1,8 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnyxScheduling.Auth;
+using OnyxScheduling.Dtos;
+using OnyxScheduling.Interfaces;
+using OnyxScheduling.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -13,25 +17,30 @@ namespace OnyxScheduling.Controllers
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<User> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IAccountRepository _accountRepository;
 
         public AuthenticateController(
-            UserManager<IdentityUser> userManager,
+            UserManager<User> userManager,
             RoleManager<IdentityRole> roleManager,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IAccountRepository accountRepository
+            )
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _accountRepository = accountRepository;
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto model)
+        public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
+            var validUserRole = await _userManager.GetRolesAsync(user);
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
@@ -49,10 +58,19 @@ namespace OnyxScheduling.Controllers
 
                 var token = GetToken(authClaims);
 
-                return Ok(new
+                UserDto returnUser = new UserDto()
+                {
+                    UserName = user.UserName,
+                    Role = validUserRole[0],
+
+                };
+
+                return Ok(new 
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
+                    expiration = token.ValidTo,
+                    role = validUserRole[0],
+                    userName = user.UserName
                 });
             }
             return Unauthorized();
@@ -66,41 +84,57 @@ namespace OnyxScheduling.Controllers
             if (userExists != null)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-            IdentityUser user = new()
+            User user = new()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
                 UserName = model.Username,
+                FirstName = model.FirstName, 
+                LastName = model.LastName,
+                Role = model.Role,
+                Phone = model.Phone,
+                State = model.State
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+            if (!await _roleManager.RoleExistsAsync(Auth.UserRoles.Admin))
+                await _roleManager.CreateAsync(new IdentityRole(Auth.UserRoles.Admin));
 
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Office))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Office));
+            if (!await _roleManager.RoleExistsAsync(Auth.UserRoles.Office))
+                await _roleManager.CreateAsync(new IdentityRole(Auth.UserRoles.Office));
 
-            if (!await _roleManager.RoleExistsAsync(UserRoles.Field))
-                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Field));
+            if (!await _roleManager.RoleExistsAsync(Auth.UserRoles.Field))
+                await _roleManager.CreateAsync(new IdentityRole(Auth.UserRoles.Field));
+            
+            if (!await _roleManager.RoleExistsAsync(Auth.UserRoles.Customer))
+                await _roleManager.CreateAsync(new IdentityRole(Auth.UserRoles.Customer));
 
             switch (model.Role)
             {
-                case UserRoles.Office:
-                    await _userManager.AddToRoleAsync(user, UserRoles.Office);
+                case Auth.UserRoles.Office:
+                    await _userManager.AddToRoleAsync(user, Auth.UserRoles.Office);
                     break;
-                case UserRoles.Field:
-                    await _userManager.AddToRoleAsync(user, UserRoles.Field);
+                    
+                case Auth.UserRoles.Field:
+                    await _userManager.AddToRoleAsync(user, Auth.UserRoles.Field);
                     break;
-                case UserRoles.Admin:
-                    await _userManager.AddToRoleAsync(user, UserRoles.Admin);
+
+                case Auth.UserRoles.Admin:
+                    await _userManager.AddToRoleAsync(user, Auth.UserRoles.Admin);
+                    break;
+
+                case Auth.UserRoles.Customer:
+                    await _userManager.AddToRoleAsync(user, Auth.UserRoles.Customer);
                     break;
             }
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
+
+
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {

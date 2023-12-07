@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class LoginFormComponent {
 
   model: loginDto = {
-    username: '',
+    userName: '',
     password: '',
     token: ''
   }

@@ -6,6 +6,10 @@ using OnyxScheduling.Auth;
 using OnyxScheduling.Data.Repositories;
 using OnyxScheduling.Interfaces;
 using System.Text;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using OnyxScheduling.Models;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -14,9 +18,10 @@ ConfigurationManager configuration = builder.Configuration;
 
 // For Entity Framework
 builder.Services.AddDbContext<AuthDataContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
 // For Identity
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AuthDataContext>()
     .AddDefaultTokenProviders();
 
@@ -43,16 +48,43 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Adding Repositories 
+builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IInvoiceItemRepository, InvoiceItemRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+builder.Services.AddScoped<IInvoiceInvoiceItemRepository, InvoiceInvoice_ItemRepository>();
+
 
 
 builder.Services.AddControllers();
+   /* .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.WriteIndented = true;
+        options.JsonSerializerOptions.PropertyNamingPolicy = null; // To keep the property names as-is
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault;
+        options.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
+        options.JsonSerializerOptions.DictionaryKeyPolicy = null;
+
+        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+
+
+        options.JsonSerializerOptions.Converters.Add(new MyCustomDateTimeConverter()); // Add your custom date converter
+
+    });*/
 
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors(options =>
+{
+    options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -64,10 +96,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors(options =>
-{
-    options.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200");
-});
 
 // Authentication & Authorization
 app.UseAuthentication();

@@ -13,6 +13,9 @@ ul {
   margin: 0;
   padding: 0;
 }
+li {
+  max-width: 20%;
+}
 a {
   color: white;
   text-decoration: none;
@@ -33,4 +36,16 @@ a:hover {
   height: 100%;
   background-color: #353935;
   color: #FFF;
+}
+
+.logout:hover {
+  cursor: pointer;
+  background-color: #ced6ce;
+  color: #353935;
+}
+
+.logo-title {
+  display: flex;
+  flex-direction: row;
+
 }

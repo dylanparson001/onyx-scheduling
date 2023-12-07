@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using OnyxScheduling.Auth;
+using OnyxScheduling.Dtos;
 using OnyxScheduling.Interfaces;
 using OnyxScheduling.Models;
 
@@ -7,31 +9,40 @@ namespace OnyxScheduling.Data.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly AuthDataContext _context;
+        private readonly DataContext _context;
+        private readonly AuthDataContext _authDataContext;
 
-        public AccountRepository(AuthDataContext context)
+        public AccountRepository(DataContext context, AuthDataContext authDataContext)
         {
             _context = context;
-        }
-        public Task<LoginDto> Login(LoginDto loginDto)
-        {
-            throw new NotImplementedException();
+            _authDataContext = authDataContext;
         }
 
-        public void Register(User user)
+        public async Task AddCustomer(Customer customer)
         {
-            _context.Users.AddAsync(user);
-            _context.SaveChanges();
+            await _context.Customer.AddAsync(customer);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> UserExists(string username)
+        
+        public async Task<List<User>> GetAllCustomers()
         {
-            var user = await _context.Users.FirstOrDefaultAsync(x => x.UserName == username);
-            if (user == null)
-            {
-                return false;
-            }
-            return true;
+            return await _authDataContext.Users.Where(x => x.Role == "Customer").ToListAsync();
+        }
+
+        public async Task<List<User>> GetAllOfficeStaff()
+        {
+            return await _authDataContext.Users.Where(x => x.Role == "Office").ToListAsync();
+        }
+
+        public async Task<List<User>> GetAllTechnicians()
+        {
+            return await _authDataContext.Users.Where(x => x.Role == "Field").ToListAsync();
+        }
+
+        public async Task<Customer> GetCustomerByName(int id)
+        {
+            return await _context.Customer.FirstOrDefaultAsync(x => x.Id == id.ToString());
         }
     }
 }

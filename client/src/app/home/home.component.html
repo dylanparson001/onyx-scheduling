@@ -1,2 +1,6 @@
-<p>home works!</p>
-<button (click)="logout()">Logout</button>
+<h1>Onyx Solutions</h1>
+
+<h3 *ngIf="(accountService.currentUser$  | async) as user">
+  Welcome {{accountService.user.userName | titlecase}}
+</h3>
+

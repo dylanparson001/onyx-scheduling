@@ -6,5 +6,6 @@
         public const string Admin = "Admin";
         public const string Office = "Office";
         public const string Field = "Field";
+        public const string Customer = "Customer";
     }
 }

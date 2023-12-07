@@ -13,6 +13,19 @@
   >
     <li class="navLinks"><a routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a></li>
   </div>
+
+  <div class = "navLinks"
+  *ngIf="(this.authService.currentUser$ | async)"
+  >
+    <li class="navLinks"><a routerLink="/invoices" routerLinkActive="active" ariaCurrentWhenActive="page">Invoices</a></li>
+  </div>
+
+  <div class = "navLinks logout"
+  (click)="logout()"
+  *ngIf="(this.authService.currentUser$ | async)"
+  >
+    <li class=""><a ariaCurrentWhenActive="page" >Logout</a></li>
+  </div>
   </ul>
 </nav>
 <router-outlet></router-outlet>

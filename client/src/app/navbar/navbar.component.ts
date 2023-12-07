@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { LoginServiceService } from '../_services/login-service.service';
 
 @Component({
@@ -11,5 +11,10 @@ import { LoginServiceService } from '../_services/login-service.service';
   styleUrl: './navbar.component.css'
 })
 export class NavbarComponent {
-  constructor(public authService: LoginServiceService) {}
+  constructor(public authService: LoginServiceService, private router: Router) {}
+
+  logout() {
+    this.authService.logout();
+    this.router.navigateByUrl('/login')
+}
 }

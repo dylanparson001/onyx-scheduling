@@ -11,7 +11,7 @@ import { Router, RouterLink } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  constructor(private accountService: LoginServiceService, private router: Router) {}
+  constructor(public accountService: LoginServiceService, private router: Router) {}
 
   logout() {
     this.accountService.logout();

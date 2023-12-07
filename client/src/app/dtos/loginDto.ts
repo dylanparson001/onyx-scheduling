@@ -1,5 +1,5 @@
 export interface loginDto  {
-  username: string,
+  userName: string,
   password: string,
   token: string
 }
