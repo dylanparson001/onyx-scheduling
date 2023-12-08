@@ -26,6 +26,10 @@ export class UsersService {
   constructor (private http: HttpClient) { }
 
   getAllUsers(): Observable<User> {
-    return this.http.get(this.baseUrl + "")
+    return this.http.get<User>(this.baseUrl + "")
+  }
+
+  getCustomersFromInvoiceId(invoiceId: number): Observable<User> {
+    return this.http.get<User>(`${this.baseUrl}User/GetCustomerFromInvoice?customerId=${invoiceId}`);
   }
 }

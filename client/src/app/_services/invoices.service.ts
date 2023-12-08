@@ -23,4 +23,9 @@ export class InvoicesService {
     return this.http.get(this.baseUrl + "InvoiceItem/GetInvoiceItemsFromInvoice/" + invoiceId)
 
   }
+
+  getInvoicesByDate(date: string): Observable<Invoice[]> {
+    return this.http.get<Invoice[]>(this.baseUrl + `Invoices/GetInvoicesByDate?setDate=${date}`);
+  }
+
 }

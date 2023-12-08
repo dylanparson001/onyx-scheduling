@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OnyxScheduling.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20231208185031_changedData")]
+    partial class changedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -117,9 +120,6 @@ namespace OnyxScheduling.Data.Migrations
                     b.Property<int>("InvoiceItemId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("InvoiceId", "InvoiceItemId");
 
                     b.HasIndex("InvoiceItemId");
@@ -130,20 +130,17 @@ namespace OnyxScheduling.Data.Migrations
                         new
                         {
                             InvoiceId = 1,
-                            InvoiceItemId = 123,
-                            Quantity = 2
+                            InvoiceItemId = 123
                         },
                         new
                         {
                             InvoiceId = 2,
-                            InvoiceItemId = 234,
-                            Quantity = 0
+                            InvoiceItemId = 234
                         },
                         new
                         {
                             InvoiceId = 2,
-                            InvoiceItemId = 123,
-                            Quantity = 10
+                            InvoiceItemId = 123
                         });
                 });
 
@@ -231,8 +228,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 1,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2023, 12, 8, 14, 27, 11, 386, DateTimeKind.Local).AddTicks(1506),
-                            FinishedDateTime = new DateTime(2023, 12, 8, 14, 27, 11, 386, DateTimeKind.Local).AddTicks(1551),
+                            CreatedDateTime = new DateTime(2023, 12, 8, 13, 50, 30, 985, DateTimeKind.Local).AddTicks(1347),
+                            FinishedDateTime = new DateTime(2023, 12, 8, 13, 50, 30, 985, DateTimeKind.Local).AddTicks(1386),
                             InvoiceId = 0,
                             InvoiceNumber = "INV001",
                             Total_Price = 0.0
@@ -242,8 +239,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 2,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2023, 12, 8, 14, 27, 11, 386, DateTimeKind.Local).AddTicks(1553),
-                            FinishedDateTime = new DateTime(2023, 12, 8, 14, 27, 11, 386, DateTimeKind.Local).AddTicks(1554),
+                            CreatedDateTime = new DateTime(2023, 12, 8, 13, 50, 30, 985, DateTimeKind.Local).AddTicks(1389),
+                            FinishedDateTime = new DateTime(2023, 12, 8, 13, 50, 30, 985, DateTimeKind.Local).AddTicks(1390),
                             InvoiceId = 0,
                             InvoiceNumber = "INV002",
                             Total_Price = 0.0

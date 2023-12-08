@@ -7,6 +7,7 @@ namespace OnyxScheduling.Interfaces
         public Task<List<Invoice_Items>> GetAllInvoiceItems();
         public Task<List<Invoice_Items>> GetAllInvoiceItemsByCateogry(int categoryId);
         public Task AddInvoiceItems(Invoice_Items item);
+        public Task<double> GetPriceOfItem(int id);
         public Task<bool> InvoiceItemCategoryExists(int categoryId);
     }
 }

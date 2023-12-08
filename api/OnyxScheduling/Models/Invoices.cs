@@ -14,11 +14,10 @@ namespace OnyxScheduling.Models
         public DateTime CreatedDateTime { get; set; }
         [JsonConverter(typeof(MyCustomDateTimeConverter))]
         public DateTime FinishedDateTime { get; set; }
-        public int Assigned_Technician_Id{ get; set; }
-        public int Assigned_Customer_Id { get; set; }
+        public string Assigned_Technician_Id{ get; set; }
+        public string Assigned_Customer_Id { get; set; }
         public double Total_Price { get; set; }
         public string InvoiceNumber { get; set; }
-
 
         public List<InvoiceInvoice_Item> InvoiceInvoice_Items{ get; set; }
         public int InvoiceId { get; internal set; }

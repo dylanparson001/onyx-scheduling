@@ -1,7 +1,23 @@
-<p>invoice-card works!</p>
 
-<div *ngIf="invoice">
-  <p>{{invoice.invoiceNumber}}</p>
-  <p>{{invoice.assigned_Technician_Id}}</p>
+<div class="card mb-3 w-100"  *ngIf="invoice" >
+  <div class="row g-0">
+    <div class="col-md-4">
+      <h5 class="card-title">{{customer?.firstName}} {{customer?.lastName}}</h5>
+
+      <h6 class="card-title">Technician</h6>
+      <p>${{invoice.total_Price}}</p>
+
+      <p>Completed: {{invoice.finishedDateTime}}</p>
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h6 class="card-title">Items</h6>
+        <p class= "card-text"*ngFor="let item of items">
+          {{item.item_Name }} ${{item.price}} Quantity:{{item.invoiceInvoiceItems[0].quantity}}
+        </p>
+        <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+      </div>
+    </div>
+  </div>
 </div>
-

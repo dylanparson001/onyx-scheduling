@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LoginServiceService } from '../_services/login-service.service';
 import { Router, RouterLink } from '@angular/router';
+import { User } from '../models/user';
 
 @Component({
   selector: 'app-home',
@@ -10,8 +11,21 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   constructor(public accountService: LoginServiceService, private router: Router) {}
+
+  ngOnInit(): void {
+    const staffString = localStorage.getItem("user");
+
+    // if it doesn't, return from function
+    if(!staffString) return;
+
+    // gets employee parsed from string
+    const employee: User = JSON.parse(staffString);
+
+    this.accountService.setCurrentUser(employee);
+  }
+
 
   logout() {
     this.accountService.logout();

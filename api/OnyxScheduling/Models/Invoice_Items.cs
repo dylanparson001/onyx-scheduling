@@ -10,7 +10,6 @@ namespace OnyxScheduling.Models
         public string Item_Name { get; set; }
         public double Price { get; set; }
 
-
         public List<InvoiceInvoice_Item> InvoiceInvoiceItems { get; set; }
 
     }

@@ -12,10 +12,12 @@ namespace OnyxScheduling.Controllers
     public class InvoicesController : ControllerBase
     {
         private readonly IInvoiceRepository _invoiceRepository;
+        private readonly IInvoiceItemRepository _invoiceItemRepository;
 
-        public InvoicesController(IInvoiceRepository invoiceRepository )
+        public InvoicesController(IInvoiceRepository invoiceRepository, IInvoiceItemRepository invoiceItemRepository )
         {
             _invoiceRepository = invoiceRepository;
+            _invoiceItemRepository = invoiceItemRepository;
         }
 
         [HttpGet]
@@ -34,11 +36,27 @@ namespace OnyxScheduling.Controllers
 
         [HttpGet]
         [Route("GetInvoicesByTechnician")]
-        public async Task<ActionResult<List<Invoices>>> GetInvoicesByTechnician(int technicianId)
+        public async Task<ActionResult<List<Invoices>>> GetInvoicesByTechnician(string technicianId)
         {
             var result = await _invoiceRepository.GetInvoicesByTechnician(technicianId);
 
             return result;
+        }
+
+        [HttpGet]
+        [Route("GetInvoicesByDate")]
+        public async Task<ActionResult<List<Invoices>>> GetInvoicesByDate(string setDate)
+        {
+            var parsedDate = DateTime.Parse(setDate);
+            var result = await _invoiceRepository.GetInvoicesByDate(parsedDate);
+
+            if (result == null)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+            return Ok(result);
         }
 
         [HttpPost]
@@ -50,6 +68,12 @@ namespace OnyxScheduling.Controllers
                 return BadRequest();
             }
 
+
+ /*           foreach(var item in invoice.InvoiceInvoice_Items)
+            {
+                var price = await _invoiceItemRepository.GetPriceOfItem(item.InvoiceItemId);
+                invoice.Total_Price += price * item.Quantity;
+            }*/
 
             await _invoiceRepository.AddInvoice(invoice);
 
@@ -65,6 +89,7 @@ namespace OnyxScheduling.Controllers
 
             return Ok();
         }
+                
         
     }
 }

@@ -11,5 +11,6 @@ namespace OnyxScheduling.Models
         public int InvoiceItemId { get; set; }
         [JsonIgnore]
         public Invoice_Items InvoiceItem { get; set; }
+        public int Quantity { get; set; }
     }
 }

@@ -1,6 +1,26 @@
-<h2>Invoices</h2>
+<div class="container">
+  <h2>Invoices</h2>
 
+  <form
+  #searchDateForm="ngForm"
+  class="d-flex ms-auto"
+  (ngSubmit)="getInvoicesByDate()"
+  autocomplete="off"
+  >
+  <!-- Uses ngmodel to set model variables when submitted      -->
+  <input
+    class="form-control me-2 w-25"
+    name="searchDate"
+    [(ngModel)]="model.currentDate"
+    type="text"
+    placeholder="Date"
+  />
 
-<div *ngFor="let invoice of invoices">
-  <app-invoice-card [invoice]="invoice"></app-invoice-card>
+  <button class="btn btn-success" type="submit">Search</button>
+  </form>
+
+  <div *ngFor="let invoice of invoices">
+    <app-invoice-card [invoice]="invoice"></app-invoice-card>
+  </div>
+
 </div>

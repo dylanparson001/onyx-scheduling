@@ -27,14 +27,20 @@ namespace OnyxScheduling.Data.Repositories
             return result;
         }
 
-        public async Task<List<Invoices>> GetInvoicesByTechnician(int technician_id)
+        public async Task<List<Invoices>> GetInvoicesByDate(DateTime date)
+        {
+            var result = await _context.Invoices.Where(x => x.FinishedDateTime.Date == date.Date).ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Invoices>> GetInvoicesByTechnician(string technician_id)
         {
             List<Invoices> result = await _context.Invoices.Where(x => x.Assigned_Technician_Id == technician_id).ToListAsync();
 
             return result;
         }
 
-        [Authorize(Roles = UserRoles.Admin)]
         public async Task RemoveInvoiceAsync(int invoiceId)
         {
             var invoices = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceId);

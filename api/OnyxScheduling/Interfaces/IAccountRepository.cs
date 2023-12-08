@@ -9,6 +9,6 @@ namespace OnyxScheduling.Interfaces
         public Task<List<User>> GetAllOfficeStaff();
         public Task<List<User>> GetAllTechnicians();
         public Task AddCustomer(Customer customer);
-
+        public Task<User> GetCustomersFromCustomerId(string customerId);
     }
 }

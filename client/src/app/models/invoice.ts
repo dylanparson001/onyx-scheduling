@@ -1,6 +1,7 @@
 import { Item } from "./item";
 
 export interface Invoice {
+  id: number,
   address: string,
   invoiceNumber: string,
   assigned_Customer_Id: number,

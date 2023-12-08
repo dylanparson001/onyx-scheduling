@@ -1,4 +1,4 @@
-<nav>
+<!-- <nav>
   <ul>
     <li class="navLinks"><img src="../../favicon.ico" alt="Onyx Logo"></li>
 
@@ -27,5 +27,36 @@
     <li class=""><a ariaCurrentWhenActive="page" >Logout</a></li>
   </div>
   </ul>
+</nav> -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <li class="navbar-brand" href="#"><img src="../../favicon.ico" alt="Onyx Logo"></li>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item me-4"   *ngIf="(this.authService.currentUser$ | async)">
+          <p class="nav-link active"routerLink="/home" routerLinkActive="active" aria-current="page">Home</p>
+        </li>
+        <li class="nav-item me-4"
+         *ngIf="(this.authService.currentUser$ | async)">
+
+          <p class="nav-link" routerLink="/invoices"  routerLinkActive="active" >Invoices</p>
+        </li>
+      </ul>
+      <a
+      class="navbar-brand"
+      routerLink="login"
+      *ngIf="!(this.authService.currentUser$ | async)">
+      <button class="btn btn-outline-light" >Login</button>
+      </a>
+      <button class="btn btn-outline-light" (click)="logout()"
+      *ngIf="(this.authService.currentUser$ | async)" >Logout</button>
+    </div>
+  </div>
 </nav>
+
+
+
 <router-outlet></router-outlet>
