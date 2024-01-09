@@ -16,5 +16,6 @@ namespace OnyxScheduling.Dtos
         [Required(ErrorMessage = "State is required")]
         public string State { get; set; }
         public List<Invoices> Invoices { get; set; }
+        public string Id { get; internal set; }
     }
 }

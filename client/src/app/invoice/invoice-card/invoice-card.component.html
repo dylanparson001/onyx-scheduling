@@ -5,16 +5,33 @@
       <h5 class="card-title">{{customer?.firstName}} {{customer?.lastName}}</h5>
 
       <h6 class="card-title">Technician</h6>
-      <p>${{invoice.total_Price}}</p>
+      <p>Total Price: <br>${{invoice.total_Price}}</p>
 
       <p>Completed: {{invoice.finishedDateTime}}</p>
     </div>
     <div class="col-md-8">
       <div class="card-body">
         <h6 class="card-title">Items</h6>
-        <p class= "card-text"*ngFor="let item of items">
-          {{item.item_Name }} ${{item.price}} Quantity:{{item.invoiceInvoiceItems[0].quantity}}
-        </p>
+        <div class="" data-bs-spy="scroll">
+
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Item Name</th>
+                  <th scope="col">Price</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr  *ngFor="let item of items">
+                  <td scope="row">{{item.invoiceInvoiceItems[0].quantity}}</td>
+                  <td scope="row">{{item.item_Name}} </td>
+                  <td>${{item.price}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+        </div>
         <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
       </div>

@@ -40,7 +40,7 @@ namespace OnyxScheduling.Controllers
         {
             var result = await _invoiceRepository.GetInvoicesByTechnician(technicianId);
 
-            return result;
+            return Ok(result);
         }
 
         [HttpGet]
@@ -55,27 +55,52 @@ namespace OnyxScheduling.Controllers
                 return BadRequest(ModelState);
             }
 
+            result = result.OrderBy(x => x.CreatedDateTime).ToList();
 
             return Ok(result);
         }
 
         [HttpPost]
         [Route("AddInvoice")]
-        public async Task<ActionResult> AddInvoice(Invoices invoice)
+        public async Task<ActionResult> AddInvoice(InvoiceDto invoice)
         {
             if (invoice == null)
             {
                 return BadRequest();
             }
 
+            var parsedDate = DateTime.Parse(invoice.CreatedDateTime);
+            var parsedFinishedDate = DateTime.Parse(invoice.CreatedDateTime);
+            var parsedScheduledStartDate = DateTime.Parse(invoice.ScheduledStartDateTime);
+            var parsedScheduledEndDate = DateTime.Parse(invoice.ScheduledEndDateTime);
 
- /*           foreach(var item in invoice.InvoiceInvoice_Items)
+            var newInvoice = new Invoices()
             {
-                var price = await _invoiceItemRepository.GetPriceOfItem(item.InvoiceItemId);
-                invoice.Total_Price += price * item.Quantity;
-            }*/
+                CreatedDateTime = parsedDate,
+                FinishedDateTime = parsedFinishedDate,
+                ScheduledStartDateTime = parsedScheduledStartDate,
+                ScheduledEndDateTime = parsedScheduledEndDate,
+                Assigned_Customer_Id = invoice.Assigned_Customer_id,
+                Assigned_Technician_Id = invoice.Assigned_Technician_Id,
+                InvoiceNumber = invoice.InvoiceNumber,
+                Total_Price = 0.0,
+                InvoiceInvoice_Items = new List<InvoiceInvoice_Item>(),
+                Processing_Status = ProcessingStatus.Open,
+                Address = invoice.Address
+            };
 
-            await _invoiceRepository.AddInvoice(invoice);
+            if (newInvoice.InvoiceInvoice_Items.Count != 0)
+            {
+
+                foreach (var item in newInvoice.InvoiceInvoice_Items)
+                {
+                    var price = await _invoiceItemRepository.GetPriceOfItem(item.InvoiceItemId);
+                    newInvoice.Total_Price += price * item.Quantity;
+                }
+
+            } 
+
+            await _invoiceRepository.AddInvoice(newInvoice);
 
             return NoContent();
         }

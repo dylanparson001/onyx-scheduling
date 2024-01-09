@@ -6,7 +6,7 @@ public class DataContext : DbContext
     public DataContext(DbContextOptions options) : base(options) {}
 
     public DbSet<Category> Category { get; set; }
-    public DbSet<Customer> Customer { get; set; }
+    //public DbSet<Customer> Customer { get; set; }
     public DbSet<Invoice_Items> Invoice_Items { get; set; }
     public DbSet<Invoices> Invoices { get; set; }
 /*    public DbSet<OfficeStaff> OfficeStaff { get; set; }

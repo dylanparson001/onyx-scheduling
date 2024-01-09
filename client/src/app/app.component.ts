@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './navbar/navbar.component';
 import { FormsModule, NgModelGroup } from '@angular/forms';
 import { LoginServiceService } from './_services/login-service.service';
 import { User } from './models/user';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatHint } from '@angular/material/form-field';
+
 
 @Component({
     selector: 'app-root',
@@ -17,7 +20,8 @@ import { User } from './models/user';
       RouterLinkActive,
       NavbarComponent,
       FormsModule,
-    ]
+      MatNativeDateModule
+        ]
 })
 export class AppComponent implements OnInit {
   title = 'Onyx';
@@ -36,5 +40,11 @@ export class AppComponent implements OnInit {
 
     this.accountService.setCurrentUser(employee);
 
+  }
+
+  convertDateFormat(currentDateTime: Date): string {
+    return `${currentDateTime.getMonth()}-${
+      currentDateTime.getDay() + 1
+    }-${currentDateTime.getFullYear()} ${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:${currentDateTime.getSeconds()}`;
   }
 }

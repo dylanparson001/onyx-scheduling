@@ -15,5 +15,6 @@ namespace OnyxScheduling.Dtos
         public string City { get; set; }
         [Required(ErrorMessage = "State is required")]
         public string State { get; set; }
+        public string Id { get; internal set; }
     }
 }

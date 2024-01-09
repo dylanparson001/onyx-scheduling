@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { InvoicesService } from '../_services/invoices.service';
 import { Invoice } from '../models/invoice';
 import { InvoiceCardComponent } from './invoice-card/invoice-card.component';
-import { Observable } from 'rxjs';
 import { FormsModule } from '@angular/forms';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-invoice',
@@ -19,7 +19,7 @@ export class InvoiceComponent implements OnInit {
     currentDate: '',
   };
 
-  constructor(private invoiceService: InvoicesService) {}
+  constructor(private invoiceService: InvoicesService,  private router: Router) {}
 
   ngOnInit() {
     let today = new Date();
@@ -34,9 +34,11 @@ export class InvoiceComponent implements OnInit {
     let yyyy = today.getFullYear();
 
     // Format the date as mm-dd-yyyy and log it
-    let todayString = yyyy + '-' + mm + '-' + dd;
+    let todayString = mm + '-' + dd + '-' + yyyy;
 
     this.model.currentDate = todayString;
+
+    //this.model.currentDate = '2023-12-11' // for development
     this.getInvoicesByDate();
   }
   getInvoices() {
@@ -52,7 +54,16 @@ export class InvoiceComponent implements OnInit {
     this.invoiceService.getInvoicesByDate(this.model.currentDate).subscribe({
       next: (response: Invoice[]) => {
         this.invoices = response;
+        console.log(response);
+
       },
     });
+  }
+
+  routeToNewInvoiceForm() {
+    this.router.navigateByUrl('/invoices/new-invoice');
+  }
+  routeToEditInvoiceForm() {
+    this.router.navigateByUrl('/invoices/edit-invoice');
   }
 }

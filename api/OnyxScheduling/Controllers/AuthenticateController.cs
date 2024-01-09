@@ -91,6 +91,8 @@ namespace OnyxScheduling.Controllers
                 UserName = model.Username,
                 FirstName = model.FirstName, 
                 LastName = model.LastName,
+                Address = model.Address,
+                City = model.City,
                 Role = model.Role,
                 Phone = model.Phone,
                 State = model.State

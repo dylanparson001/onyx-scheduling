@@ -5,31 +5,43 @@ import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
   baseUrl: string = environment.apiUrl;
 
-
   public user: User = {
+    id: '',
     userName: '',
     firstName: '',
     lastName: '',
+    address: '',
     city: '',
     state: '',
     phone: '',
     role: '',
-    token: ''
+    token: '',
   };
   roleAs: string = '';
 
-  constructor (private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
-  getAllUsers(): Observable<User> {
-    return this.http.get<User>(this.baseUrl + "")
+  // getAllUsers(): Observable<User> {
+  //   return this.http.get<User>(this.baseUrl + "")
+  // }
+
+  getCustomersFromInvoiceId(invoiceId: string): Observable<User> {
+    return this.http.get<User>(
+      `${this.baseUrl}User/GetCustomerFromInvoice?customerId=${invoiceId}`
+    );
   }
 
-  getCustomersFromInvoiceId(invoiceId: number): Observable<User> {
-    return this.http.get<User>(`${this.baseUrl}User/GetCustomerFromInvoice?customerId=${invoiceId}`);
+  getAllCustomers(): Observable<User[]> {
+    let result = this.http.get<User[]>(`${this.baseUrl}User/GetAllCustomers`);
+    return result;
+  }
+
+  getAllTechnicians(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.baseUrl}User/GetAllTechnicians`);
   }
 }

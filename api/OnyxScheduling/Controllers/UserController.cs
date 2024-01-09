@@ -27,6 +27,7 @@ namespace OnyxScheduling.Controllers
             {
                 officeStaffDtos.Add(new OfficeStaffDto()
                 {
+                    Id = user.Id,
                     UserName = user.UserName,
                     FirstName = user.FirstName,
                     LastName = user.LastName,
@@ -48,13 +49,17 @@ namespace OnyxScheduling.Controllers
             {
                 customerDtoResut.Add(new CustomerDto()
                 {
+                    Id = customer.Id,
                     UserName = customer.UserName,
                     FirstName = customer.FirstName,
                     LastName = customer.LastName,
                     City = customer.City,
-                    State = customer.State
+                    State = customer.State,
+                    Address = customer.Address
                 });
             }
+
+            customerDtoResut = customerDtoResut.OrderBy(x => x.LastName).ToList(); 
 
             return customerDtoResut;
         }
@@ -70,6 +75,7 @@ namespace OnyxScheduling.Controllers
             {
                 technicianDtos.Add(new TechnicianDto()
                 {
+                    Id = technician.Id,
                     UserName = technician.UserName,
                     FirstName = technician.FirstName,
                     LastName = technician.LastName,
@@ -88,6 +94,7 @@ namespace OnyxScheduling.Controllers
 
             var customerDto = new CustomerDto()
             {
+                Id = customer.Id,
                 UserName = customer.UserName,
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,

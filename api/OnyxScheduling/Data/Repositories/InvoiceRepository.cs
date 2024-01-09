@@ -22,21 +22,25 @@ namespace OnyxScheduling.Data.Repositories
 
         public async Task<List<Invoices>> GetInvoicesAsync()
         {
-            List<Invoices> result = await _context.Invoices.ToListAsync();
+            List<Invoices> result = await _context.Invoices.AsNoTracking().OrderBy(x => x.CreatedDateTime).ToListAsync();
 
             return result;
         }
 
         public async Task<List<Invoices>> GetInvoicesByDate(DateTime date)
         {
-            var result = await _context.Invoices.Where(x => x.FinishedDateTime.Date == date.Date).ToListAsync();
+            var result = await _context.Invoices
+                .Where(x => x.FinishedDateTime.Date == date.Date)
+                .ToListAsync();
 
             return result;
         }
 
         public async Task<List<Invoices>> GetInvoicesByTechnician(string technician_id)
         {
-            List<Invoices> result = await _context.Invoices.Where(x => x.Assigned_Technician_Id == technician_id).ToListAsync();
+            List<Invoices> result = await _context.Invoices
+                .Where(x => x.Assigned_Technician_Id == technician_id)
+                .ToListAsync();
 
             return result;
         }
@@ -49,7 +53,7 @@ namespace OnyxScheduling.Data.Repositories
 
             await _context.SaveChangesAsync();
 
-            
+
         }
     }
 }

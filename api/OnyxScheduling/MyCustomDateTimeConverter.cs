@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 internal class MyCustomDateTimeConverter : JsonConverter<DateTime>
 {
-    private const string Format = "yyyy-MM-ddTHH:mm:ss"; // Your desired date format
+    private const string Format = "MM-dd-yyyyTHH:mm:ss"; // Your desired date format
 
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {

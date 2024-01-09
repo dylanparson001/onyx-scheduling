@@ -27,6 +27,6 @@ namespace OnyxScheduling.Auth
         [Required(ErrorMessage = "State is required")]
         public string State { get; set; }
         public string Phone { get; set; }
-
+        public string Address { get; set; }
     }
 }

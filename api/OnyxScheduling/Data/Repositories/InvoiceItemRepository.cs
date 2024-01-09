@@ -30,7 +30,12 @@ namespace OnyxScheduling.Data.Repositories
 
         public async Task<double> GetPriceOfItem(int id)
         {
-            var result =  await _context.Invoice_Items.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            var result =  await _context.Invoice_Items.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (result == null)
+            {
+                return 0.0;
+            }
 
             return result.Price;
         }

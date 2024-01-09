@@ -1,0 +1,136 @@
+<div class="container">
+  <form #newInvoiceForm="ngForm" autocomplete="off" class="d-flex ms-auto">
+    <h2>New Invoice</h2>
+
+    <!-- Choosing current customer -->
+    <div class="current-customer-info">
+      <label for="">Customer</label>
+      <select
+        class="form-select input-boxes"
+        aria-label="Default select example"
+        [(ngModel)]="selectedCustomer"
+        (change)="inputSelectedCustomerInfo()"
+        name="customerId"
+        required
+      >
+        <option selected></option>
+        <option
+          *ngFor="let customer of existingCustomers"
+          [ngValue]="customer"
+          name="selectedCustomer"
+        >
+          {{ customer.firstName }} {{ customer.lastName }} {{ customer.city }},
+          {{ customer.state }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Choosing current customer -->
+    <div class="technician-select">
+      <label for="">Technician</label>
+      <select
+        class="form-select input-boxes"
+        aria-label="Default select example"
+        name="techId"
+        [(ngModel)]="invoice.assigned_Technician_Id"
+        required
+      >
+        <option selected></option>
+        <option *ngFor="let tech of technicianList" [ngValue]="tech.id">
+          {{ tech.firstName }} {{ tech.lastName }} {{ tech.city }},
+          {{ tech.state }}
+        </option>
+      </select>
+    </div>
+
+    <label for="address">Address</label>
+    <input
+      required
+      type="text"
+      class="input-boxes"
+      [(ngModel)]="invoice.address"
+      placeholder="Address"
+      name="address"
+    />
+    <label for="city">City</label>
+    <input
+      type="text"
+      class="input-boxes"
+      [(ngModel)]="invoice.city"
+      placeholder="City"
+      name="city"
+      required
+    />
+
+    <label for="start-date">Scheduled Start Date</label>
+    <input
+      required
+      matInput
+      type="datetime"
+      class="input-boxes"
+      [(ngModel)]="invoice.scheduledStartDateTime"
+      name="start-date"
+      [matDatepicker]="startDate"
+      placeholder="DD/MM/YYYY"
+    />
+    <mat-datepicker-toggle
+      matIconSuffix
+      [for]="startDate"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #startDate></mat-datepicker>
+
+    <label for="start-date">Scheduled End Date</label>
+    <input
+      required
+      matInput
+      type="datetime"
+      class="input-boxes"
+      [(ngModel)]="invoice.scheduledEndDateTime"
+      name="start-date"
+      [matDatepicker]="endDate"
+      placeholder="DD/MM/YYYY"
+    />
+    <mat-datepicker-toggle
+      matIconSuffix
+      [for]="endDate"
+    ></mat-datepicker-toggle>
+    <mat-datepicker #endDate></mat-datepicker>
+<!--
+    <label for="city">Scheduled Start Time</label>
+    <input
+      type="text"
+      class="input-boxes"
+      [(ngModel)]="invoice.scheduledStartDateTime"
+      placeholder="HH:MM"
+      name="start-time"
+      required
+    />
+    <label for="city">Scheduled End Time</label>
+    <input
+      type="text"
+      class="input-boxes"
+      [(ngModel)]="invoice.scheduledEndDateTime"
+      placeholder="HH:MM"
+      name="end-time"
+      required
+    /> -->
+    <div class="container flex-row w-100">
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-25 mx-5"
+        (click)="submitForm()"
+      >
+        Submit
+      </button>
+      <button
+        mat-button
+        color="accent"
+        class="w-25 mx-5"
+        (click)="cancelForm()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

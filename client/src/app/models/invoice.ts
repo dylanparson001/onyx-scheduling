@@ -3,12 +3,14 @@ import { Item } from "./item";
 export interface Invoice {
   id: number,
   address: string,
+  city: string,
   invoiceNumber: string,
-  assigned_Customer_Id: number,
-  assigned_Technician_Id: number,
+  assigned_Customer_Id: string,
+  assigned_Technician_Id: string,
   total_Price: number,
-  items: Item[],
-  createdDateTime: Date,
-  finishedDateTime: Date,
-  invoiceInvoice_Items: string
+  invoiceInvoice_Items: Item[],
+  createdDateTime: string,
+  finishedDateTime: string,
+  scheduledStartDateTime: string
+  scheduledEndDateTime: string
 }

@@ -18,12 +18,6 @@ namespace OnyxScheduling.Data.Repositories
             _authDataContext = authDataContext;
         }
 
-        public async Task AddCustomer(Customer customer)
-        {
-            await _context.Customer.AddAsync(customer);
-            await _context.SaveChangesAsync();
-        }
-
         
         public async Task<List<User>> GetAllCustomers()
         {
@@ -38,11 +32,6 @@ namespace OnyxScheduling.Data.Repositories
         public async Task<List<User>> GetAllTechnicians()
         {
             return await _authDataContext.Users.Where(x => x.Role == "Field").ToListAsync();
-        }
-
-        public async Task<Customer> GetCustomerByName(int id)
-        {
-            return await _context.Customer.FirstOrDefaultAsync(x => x.Id == id.ToString());
         }
 
         public async Task<User> GetCustomersFromCustomerId(string customerId)
