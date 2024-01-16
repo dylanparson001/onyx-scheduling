@@ -9,6 +9,7 @@ export interface Invoice {
   assigned_Technician_Id: string,
   total_Price: number,
   invoiceInvoice_Items: Item[],
+  processing_Status: string,
   createdDateTime: string,
   finishedDateTime: string,
   scheduledStartDateTime: string

@@ -9,11 +9,11 @@ namespace OnyxScheduling.Models
         [Key]
         public int Id { get; set; }
         public string Address { get; set; }
-        public ProcessingStatus Processing_Status { get; set; }
+        public string Processing_Status { get; set; }
         [JsonConverter(typeof(MyCustomDateTimeConverter))]
         public DateTime CreatedDateTime { get; set; }
         [JsonConverter(typeof(MyCustomDateTimeConverter))]
-        public DateTime FinishedDateTime { get; set; }
+        public DateTime? FinishedDateTime { get; set; }
         [JsonConverter(typeof(MyCustomDateTimeConverter))]
         public DateTime ScheduledStartDateTime { get; set; }
         [JsonConverter(typeof(MyCustomDateTimeConverter))]

@@ -9,5 +9,6 @@ namespace OnyxScheduling.Interfaces
         public Task AddInvoice(Invoices invoice);
         public Task<List<Invoices>> GetInvoicesByDate(DateTime date);
         public Task RemoveInvoiceAsync(int invoiceId);
+        public Task<List<Invoices>> GetInvoicesByDateAndStatus(DateTime date, string status);
     }
 }

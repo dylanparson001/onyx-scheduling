@@ -4,9 +4,9 @@
     <div class="col-md-4">
       <h5 class="card-title">{{customer?.firstName}} {{customer?.lastName}}</h5>
 
-      <h6 class="card-title">Technician</h6>
-      <p>Total Price: <br>${{invoice.total_Price}}</p>
-
+      <h6 class="card-title">Technician: {{technician?.firstName}} {{technician?.lastName}}</h6>
+      <p>Total Price: ${{invoice.total_Price}}</p>
+      <p>Status: {{invoice.processing_Status}}</p>
       <p>Completed: {{invoice.finishedDateTime}}</p>
     </div>
     <div class="col-md-8">
@@ -17,7 +17,7 @@
             <table class="table table-striped">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
+                  <th scope="col">Quantity</th>
                   <th scope="col">Item Name</th>
                   <th scope="col">Price</th>
                 </tr>

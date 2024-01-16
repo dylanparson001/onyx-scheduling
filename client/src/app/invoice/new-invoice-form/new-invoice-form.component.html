@@ -67,53 +67,55 @@
       required
       matInput
       type="datetime"
-      class="input-boxes"
+      class="datePicker"
       [(ngModel)]="invoice.scheduledStartDateTime"
       name="start-date"
       [matDatepicker]="startDate"
-      placeholder="DD/MM/YYYY"
+      placeholder="MM/DD/YYYY"
     />
     <mat-datepicker-toggle
       matIconSuffix
       [for]="startDate"
     ></mat-datepicker-toggle>
-    <mat-datepicker #startDate></mat-datepicker>
+    <mat-datepicker class="input-boxes" #startDate></mat-datepicker>
 
-    <label for="start-date">Scheduled End Date</label>
-    <input
-      required
-      matInput
-      type="datetime"
-      class="input-boxes"
-      [(ngModel)]="invoice.scheduledEndDateTime"
-      name="start-date"
-      [matDatepicker]="endDate"
-      placeholder="DD/MM/YYYY"
-    />
-    <mat-datepicker-toggle
-      matIconSuffix
-      [for]="endDate"
-    ></mat-datepicker-toggle>
-    <mat-datepicker #endDate></mat-datepicker>
-<!--
-    <label for="city">Scheduled Start Time</label>
-    <input
-      type="text"
-      class="input-boxes"
-      [(ngModel)]="invoice.scheduledStartDateTime"
-      placeholder="HH:MM"
-      name="start-time"
-      required
-    />
-    <label for="city">Scheduled End Time</label>
-    <input
-      type="text"
-      class="input-boxes"
-      [(ngModel)]="invoice.scheduledEndDateTime"
-      placeholder="HH:MM"
-      name="end-time"
-      required
-    /> -->
+    <div class="flex">
+      <label for="appt">Start Time: </label>
+      <input
+        type="time"
+        id="appt"
+        name="appt"
+        min="09:00"
+        max="18:00"
+        [(ngModel)]="scheduledStartTime"
+        required
+      />
+      <label for="appt">End Time: </label>
+      <input
+        type="time"
+        id="appt"
+        name="appt"
+        min="09:00"
+        max="18:00"
+        [(ngModel)]="scheduledEndTime"
+        required
+      />
+    </div>
+    <small class="input-boxes">Office hours are 9am to 6pm</small>
+
+    <div class="technician-select">
+      <label for="">Status</label>
+      <select
+        class="form-select input-boxes"
+        aria-label="Default select example"
+        name="status"
+        [(ngModel)]="invoice.processing_Status"
+        required
+      >
+        <option selected></option>
+        <option *ngFor="let status of statusList">{{ status }}</option>
+      </select>
+    </div>
     <div class="container flex-row w-100">
       <button
         mat-raised-button

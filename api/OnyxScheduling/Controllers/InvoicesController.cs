@@ -8,13 +8,13 @@ namespace OnyxScheduling.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-/*    [Authorize(Roles = "Office, Field, Admin")]*/
+    /*    [Authorize(Roles = "Office, Field, Admin")]*/
     public class InvoicesController : ControllerBase
     {
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IInvoiceItemRepository _invoiceItemRepository;
 
-        public InvoicesController(IInvoiceRepository invoiceRepository, IInvoiceItemRepository invoiceItemRepository )
+        public InvoicesController(IInvoiceRepository invoiceRepository, IInvoiceItemRepository invoiceItemRepository)
         {
             _invoiceRepository = invoiceRepository;
             _invoiceItemRepository = invoiceItemRepository;
@@ -26,8 +26,8 @@ namespace OnyxScheduling.Controllers
         {
 
             var result = await _invoiceRepository.GetInvoicesAsync();
-            
-            if ( result == null )
+
+            if (result == null)
             {
                 return BadRequest();
             }
@@ -45,10 +45,14 @@ namespace OnyxScheduling.Controllers
 
         [HttpGet]
         [Route("GetInvoicesByDate")]
-        public async Task<ActionResult<List<Invoices>>> GetInvoicesByDate(string setDate)
+        public async Task<ActionResult<List<Invoices>>> GetInvoicesByDate(string setDate, string status)
         {
+            if (setDate == null || status == null)
+            {
+                return BadRequest(ModelState);
+            }
             var parsedDate = DateTime.Parse(setDate);
-            var result = await _invoiceRepository.GetInvoicesByDate(parsedDate);
+            var result = await _invoiceRepository.GetInvoicesByDateAndStatus(parsedDate, status);
 
             if (result == null)
             {
@@ -70,9 +74,18 @@ namespace OnyxScheduling.Controllers
             }
 
             var parsedDate = DateTime.Parse(invoice.CreatedDateTime);
-            var parsedFinishedDate = DateTime.Parse(invoice.CreatedDateTime);
+            DateTime? parsedFinishedDate = DateTime.Parse(invoice.CreatedDateTime);
             var parsedScheduledStartDate = DateTime.Parse(invoice.ScheduledStartDateTime);
             var parsedScheduledEndDate = DateTime.Parse(invoice.ScheduledEndDateTime);
+
+            if (invoice.Processing_Status == "Completed")
+            {
+                parsedFinishedDate = DateTime.Now;
+            } else
+            {
+                parsedFinishedDate = null;
+            }
+
 
             var newInvoice = new Invoices()
             {
@@ -85,7 +98,7 @@ namespace OnyxScheduling.Controllers
                 InvoiceNumber = invoice.InvoiceNumber,
                 Total_Price = 0.0,
                 InvoiceInvoice_Items = new List<InvoiceInvoice_Item>(),
-                Processing_Status = ProcessingStatus.Open,
+                Processing_Status = invoice.Processing_Status,
                 Address = invoice.Address
             };
 
@@ -98,7 +111,7 @@ namespace OnyxScheduling.Controllers
                     newInvoice.Total_Price += price * item.Quantity;
                 }
 
-            } 
+            }
 
             await _invoiceRepository.AddInvoice(newInvoice);
 
@@ -114,7 +127,18 @@ namespace OnyxScheduling.Controllers
 
             return Ok();
         }
-                
-        
+
+        [HttpGet]
+        [Route("GetProcessingStatuses")]
+        public ActionResult<string[]> GetProcessingStatuses()
+        {
+            string[] result = { "Open",
+                "Pending",
+                "Started",
+                "Completed"};
+
+            return Ok(result);
+        }
+
     }
 }

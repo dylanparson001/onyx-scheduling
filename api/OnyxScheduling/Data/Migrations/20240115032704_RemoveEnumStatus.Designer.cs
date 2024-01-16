@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OnyxScheduling.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240115032704_RemoveEnumStatus")]
+    partial class RemoveEnumStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -122,7 +125,7 @@ namespace OnyxScheduling.Data.Migrations
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("FinishedDateTime")
+                    b.Property<DateTime>("FinishedDateTime")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("InvoiceId")
@@ -153,8 +156,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 1,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2024, 1, 15, 22, 8, 33, 423, DateTimeKind.Local).AddTicks(5327),
-                            FinishedDateTime = new DateTime(2024, 1, 15, 22, 8, 33, 423, DateTimeKind.Local).AddTicks(5370),
+                            CreatedDateTime = new DateTime(2024, 1, 14, 22, 27, 4, 424, DateTimeKind.Local).AddTicks(2100),
+                            FinishedDateTime = new DateTime(2024, 1, 14, 22, 27, 4, 424, DateTimeKind.Local).AddTicks(2148),
                             InvoiceId = 0,
                             InvoiceNumber = "INV001",
                             ScheduledEndDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
@@ -166,8 +169,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 2,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2024, 1, 15, 22, 8, 33, 423, DateTimeKind.Local).AddTicks(5375),
-                            FinishedDateTime = new DateTime(2024, 1, 15, 22, 8, 33, 423, DateTimeKind.Local).AddTicks(5376),
+                            CreatedDateTime = new DateTime(2024, 1, 14, 22, 27, 4, 424, DateTimeKind.Local).AddTicks(2151),
+                            FinishedDateTime = new DateTime(2024, 1, 14, 22, 27, 4, 424, DateTimeKind.Local).AddTicks(2153),
                             InvoiceId = 0,
                             InvoiceNumber = "INV002",
                             ScheduledEndDateTime = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),

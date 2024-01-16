@@ -4,6 +4,7 @@ import { InvoicesService } from '../../_services/invoices.service';
 import { Invoice } from '../../models/invoice';
 import { User } from '../../models/user';
 import { UsersService } from '../../_services/users.service';
+import { ProcessingStatus } from '../../enums/ProcessingStatus';
 
 @Component({
   selector: 'app-invoice-card',
@@ -21,10 +22,14 @@ export class InvoiceCardComponent implements OnInit {
     private userService: UsersService
   ) {}
   customer: User | undefined;
+  technician: any | undefined;
 
   ngOnInit(): void {
+    console.log(this.invoice);
     this.getCustomersFromInvoice();
+    this.getTechnicianFromInvoice();
     this.getInvoiceItems();
+
   }
 
   getCustomersFromInvoice() {
@@ -34,6 +39,18 @@ export class InvoiceCardComponent implements OnInit {
         .subscribe({
           next: (response) => {
             this.customer = response;
+          },
+        });
+    }
+  }
+
+  getTechnicianFromInvoice() {
+    if (this.invoice?.assigned_Technician_Id) {
+      this.userService
+        .getTechniciansFromInvoiceId(this.invoice.assigned_Technician_Id)
+        .subscribe({
+          next: (response) => {
+            this.technician = response;
           },
         });
     }

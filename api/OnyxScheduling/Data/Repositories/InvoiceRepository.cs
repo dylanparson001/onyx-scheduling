@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using OnyxScheduling.Interfaces;
 using OnyxScheduling.Models;
@@ -30,8 +31,40 @@ namespace OnyxScheduling.Data.Repositories
         public async Task<List<Invoices>> GetInvoicesByDate(DateTime date)
         {
             var result = await _context.Invoices
-                .Where(x => x.FinishedDateTime.Date == date.Date)
+                .Where(x => x.FinishedDateTime.Value.Date == date.Date)
                 .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<List<Invoices>> GetInvoicesByDateAndStatus(DateTime date, string status)
+        {
+            var result = new List<Invoices>();
+            switch (status)
+            {
+                // If invoice hasnt been completed yet, get invoice by the scheduled start time
+                case "Open":
+                case "Pending":
+                case "Started":
+                    result = await _context.Invoices
+                        .Where(x => x.ScheduledStartDateTime.Month == date.Month &&
+                        x.ScheduledStartDateTime.Day == date.Day &&
+                        x.Processing_Status == status)
+                        .ToListAsync();
+                    break;
+                // If it has been completed, get the invoice by the finished date
+                case "Completed":
+                    result = await _context.Invoices
+                        .Where(x => x.FinishedDateTime.Value.Month == date.Month &&
+                        x.FinishedDateTime.Value.Month == date.Day &&
+                        x.Processing_Status == status)
+                        .ToListAsync();
+                    break;
+                // If for some reason another option was sent, return null
+                default:
+                    
+                    return null;
+            }
 
             return result;
         }
@@ -44,6 +77,7 @@ namespace OnyxScheduling.Data.Repositories
 
             return result;
         }
+
 
         public async Task RemoveInvoiceAsync(int invoiceId)
         {

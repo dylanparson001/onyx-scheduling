@@ -10,6 +10,9 @@ form {
   margin-bottom: 5%;
 }
 
+.datePicker {
+  margin-bottom: 0;
+}
 
 input.ng-invalid.ng-touched,
 select.ng-invalid.ng-touched {

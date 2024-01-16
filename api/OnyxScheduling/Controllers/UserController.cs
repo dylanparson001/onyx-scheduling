@@ -105,5 +105,29 @@ namespace OnyxScheduling.Controllers
 
             return Ok(customerDto);
         }
+
+        [HttpGet]
+        [Route("GetTechnicianFromInvoice")]
+        public async Task<ActionResult<TechnicianDto>> GetTechniciansFromInvoice(string technicianId)
+        {
+            var technician = await _accountRepository.GetTechnciainsFromTechId(technicianId);
+            
+            if (technician == null)
+            {
+                return BadRequest();
+            }
+
+            var techDto = new TechnicianDto()
+            {
+                Id = technician.Id,
+                UserName = technician.UserName,
+                FirstName = technician.FirstName,
+                LastName = technician.LastName,
+                City = technician.City,
+                State = technician.State
+            };
+
+            return Ok(techDto);
+        }
     }
 }

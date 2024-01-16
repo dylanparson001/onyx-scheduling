@@ -38,5 +38,10 @@ namespace OnyxScheduling.Data.Repositories
         {
             return await _authDataContext.Users.FirstOrDefaultAsync(x => x.Id == customerId);
         }
+
+        public async Task<User> GetTechnciainsFromTechId(string techniciainId)
+        {
+            return await _authDataContext.Users.FirstOrDefaultAsync(x => x.Id == techniciainId);
+        }
     }
 }

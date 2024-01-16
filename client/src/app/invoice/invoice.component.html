@@ -1,27 +1,44 @@
 <div class="container">
   <h2>Invoices</h2>
 
-  <div class="button-container d-flex flex-row justify-content ms-auto">
+  <div class="button-container d-flex flex-row justify-content">
+    <div class="search-container">
+      <form
+        #searchDateForm="ngForm"
+        class="invoice-search-form d-flex"
+        (ngSubmit)="getInvoicesByDate()"
+        autocomplete="off"
+      >
+        <input
+          class="form-control w-25 searchDate"
+          name="searchDate"
+          [(ngModel)]="currentDate"
+          type="text"
+          placeholder="Date"
+        />
+        <div class="status-selector mx-2">
+          <select
+            class="form-select"
+            name="status"
+            [(ngModel)]="chosenStatus"
+            required
+            placeholder="Status"
+          >
+            <option *ngFor="let status of statusList">{{ status }}</option>
+          </select>
+        </div>
+        <button mat-raised-button type="submit">Search</button>
+      </form>
+    </div>
 
-    <form
-      #searchDateForm="ngForm"
-      class="d-flex"
-      (ngSubmit)="getInvoicesByDate()"
-      autocomplete="off"
-    >
-      <!-- Uses ngmodel to set model variables when submitted      -->
-      <input
-        class="form-control me-2 w-50 searchDate"
-        name="searchDate"
-        [(ngModel)]="model.currentDate"
-        type="text"
-        placeholder="Date"
-      />
-
-        <button class="btn btn-dark" type="submit">Search</button>
-    </form>
-    <a class="btn btn-success" (click)="routeToNewInvoiceForm()" >Add New Invoice</a>
-    <button class="btn btn-warning mx-2" (click)="routeToEditInvoiceForm()">Edit Invoice</button>
+    <div class="container flex d-flex-row">
+      <a mat-raised-button color="primary" (click)="routeToNewInvoiceForm()"
+        >Add New Invoice</a
+      >
+      <!-- <button class="btn btn-warning mx-2" (click)="routeToEditInvoiceForm()">
+        Edit Invoice
+      </button> -->
+    </div>
   </div>
 
   <div *ngFor="let invoice of invoices">

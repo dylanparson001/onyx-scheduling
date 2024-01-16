@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Invoice } from '../models/invoice';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
+import { ProcessingStatus } from '../enums/ProcessingStatus';
 
 @Injectable({
   providedIn: 'root',
@@ -26,9 +27,16 @@ export class InvoicesService {
     );
   }
 
-  getInvoicesByDate(date: string): Observable<Invoice[]> {
+  getInvoicesByDate(date: string, status: string): Observable<Invoice[]> {
     return this.http.get<Invoice[]>(
-      `${this.baseUrl}Invoices/GetInvoicesByDate?setDate=${date}`
+      `${this.baseUrl}Invoices/GetInvoicesByDate?setDate=${date}&status=${status}`
+    );
+  }
+
+
+  getProcessingStatusOptions(): Observable<ProcessingStatus[]> {
+    return this.http.get<ProcessingStatus[]>(
+      `${this.baseUrl}Invoices/GetProcessingStatuses`
     );
   }
 

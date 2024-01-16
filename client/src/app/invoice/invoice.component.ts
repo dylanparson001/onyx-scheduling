@@ -4,22 +4,39 @@ import { InvoicesService } from '../_services/invoices.service';
 import { Invoice } from '../models/invoice';
 import { InvoiceCardComponent } from './invoice-card/invoice-card.component';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive,
+  RouterOutlet,
+} from '@angular/router';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-invoice',
   standalone: true,
   templateUrl: './invoice.component.html',
   styleUrl: './invoice.component.css',
-  imports: [CommonModule, InvoiceCardComponent, FormsModule],
+  imports: [
+    CommonModule,
+    InvoiceCardComponent,
+    FormsModule,
+    MatDatepickerModule,
+    MatButtonModule
+  ],
 })
 export class InvoiceComponent implements OnInit {
   invoices: Invoice[] | undefined;
-  model: any = {
-    currentDate: '',
-  };
+  statusList: string[] | undefined;
+  chosenStatus: string = 'Open';
 
-  constructor(private invoiceService: InvoicesService,  private router: Router) {}
+  currentDate: string =  '';
+
+  constructor(
+    private invoiceService: InvoicesService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     let today = new Date();
@@ -36,9 +53,12 @@ export class InvoiceComponent implements OnInit {
     // Format the date as mm-dd-yyyy and log it
     let todayString = mm + '-' + dd + '-' + yyyy;
 
-    this.model.currentDate = todayString;
+    this.currentDate = todayString;
 
-    //this.model.currentDate = '2023-12-11' // for development
+
+    this.loadStatuses();
+
+    console.log(this.chosenStatus)
     this.getInvoicesByDate();
   }
   getInvoices() {
@@ -51,11 +71,9 @@ export class InvoiceComponent implements OnInit {
   }
 
   getInvoicesByDate() {
-    this.invoiceService.getInvoicesByDate(this.model.currentDate).subscribe({
+    this.invoiceService.getInvoicesByDate(this.currentDate, this.chosenStatus).subscribe({
       next: (response: Invoice[]) => {
         this.invoices = response;
-        console.log(response);
-
       },
     });
   }
@@ -65,5 +83,15 @@ export class InvoiceComponent implements OnInit {
   }
   routeToEditInvoiceForm() {
     this.router.navigateByUrl('/invoices/edit-invoice');
+  }
+
+  loadStatuses() {
+    this.statusList;
+    this.invoiceService.getProcessingStatusOptions().subscribe({
+      next: (response) => {
+        this.statusList = response;
+      },
+      error: (error) => console.log(error),
+    });
   }
 }

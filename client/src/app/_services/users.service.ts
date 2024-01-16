@@ -30,9 +30,14 @@ export class UsersService {
   //   return this.http.get<User>(this.baseUrl + "")
   // }
 
-  getCustomersFromInvoiceId(invoiceId: string): Observable<User> {
+  getCustomersFromInvoiceId(customerId: string): Observable<User> {
     return this.http.get<User>(
-      `${this.baseUrl}User/GetCustomerFromInvoice?customerId=${invoiceId}`
+      `${this.baseUrl}User/GetCustomerFromInvoice?customerId=${customerId}`
+    );
+  }
+  getTechniciansFromInvoiceId(technicianId: string): Observable<User> {
+    return this.http.get<User>(
+      `${this.baseUrl}User/GetTechnicianFromInvoice?technicianId=${technicianId}`
     );
   }
 
