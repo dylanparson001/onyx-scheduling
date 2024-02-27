@@ -1,9 +1,9 @@
 form {
   display: flex;
   flex-direction: column;
-  max-width: 40%;
-  margin: 5% auto;
-  border: 1px black solid;
+  max-width: 60%;
+  min-height: 50%;
+  margin: 0 auto;
   padding: 2% 5% 2% 5%;
 }
 
@@ -18,3 +18,10 @@ button {
   background-color: #353935;
 }
 
+.background-login{
+  height: 90%;
+  margin: 0;
+  background-size: cover;
+  max-width: 100%;
+  background-image: url("../../assets/home_bg_image.jpg");
+}

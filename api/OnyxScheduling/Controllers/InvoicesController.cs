@@ -8,7 +8,7 @@ namespace OnyxScheduling.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    /*    [Authorize(Roles = "Office, Field, Admin")]*/
+    [Authorize(Roles = "Office, Field, Admin")]
     public class InvoicesController : ControllerBase
     {
         private readonly IInvoiceRepository _invoiceRepository;

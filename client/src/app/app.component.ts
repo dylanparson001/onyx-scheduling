@@ -28,7 +28,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 export class AppComponent implements OnInit {
   title = 'Onyx Service Management';
 
-  constructor(private accountService: LoginServiceService) {}
+  constructor(private accountService: LoginServiceService, ) {}
 
   ngOnInit() {
     const staffString = localStorage.getItem('user');

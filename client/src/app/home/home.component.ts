@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { LoginServiceService } from '../_services/login-service.service';
 import { Router, RouterLink } from '@angular/router';
 import { User } from '../models/user';
+import {InvoiceSectionComponent} from "./invoice-section/invoice-section.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, InvoiceSectionComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

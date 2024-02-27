@@ -1,0 +1,7 @@
+<div class="container border-1 border-black">
+  <p>Today's date: {{todaysDate}}</p>
+
+  <div *ngFor="let invoice of todaysInvoices">
+    <app-invoice-card [invoice]="invoice"></app-invoice-card>
+  </div>
+</div>

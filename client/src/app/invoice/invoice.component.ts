@@ -1,5 +1,5 @@
 import { Component, OnInit, Output } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule, DatePipe} from '@angular/common';
 import { InvoicesService } from '../_services/invoices.service';
 import { Invoice } from '../models/invoice';
 import { InvoiceCardComponent } from './invoice-card/invoice-card.component';
@@ -31,29 +31,32 @@ export class InvoiceComponent implements OnInit {
   statusList: string[] | undefined;
   chosenStatus: string = 'Open';
 
-  currentDate: string =  '';
+  currentDate: string | null =  '';
 
   constructor(
     private invoiceService: InvoicesService,
-    private router: Router
+    private router: Router,
+    private datePipe: DatePipe
   ) {}
 
   ngOnInit() {
     let today = new Date();
 
     // Get the day of the month
-    let dd = today.getDate();
+    // let dd = today.getDate();
+    //
+    // // Get the month (adding 1 because months are zero-based)
+    // let mm = today.getMonth() + 1;
+    //
+    // // Get the year
+    // let yyyy = today.getFullYear();
+    //
+    // // Format the date as mm-dd-yyyy and log it
+    // let todayString = mm + '-' + dd + '-' + yyyy;
 
-    // Get the month (adding 1 because months are zero-based)
-    let mm = today.getMonth() + 1;
-
-    // Get the year
-    let yyyy = today.getFullYear();
-
-    // Format the date as mm-dd-yyyy and log it
-    let todayString = mm + '-' + dd + '-' + yyyy;
-
-    this.currentDate = todayString;
+    this.currentDate = this.datePipe.transform(today, 'MM-dd-yyy');
+    console.log(this.currentDate);
+    //this.currentDate = todayString;
 
 
     this.loadStatuses();
@@ -71,11 +74,13 @@ export class InvoiceComponent implements OnInit {
   }
 
   getInvoicesByDate() {
-    this.invoiceService.getInvoicesByDate(this.currentDate, this.chosenStatus).subscribe({
-      next: (response: Invoice[]) => {
-        this.invoices = response;
-      },
-    });
+    if (this.currentDate != null) {
+      this.invoiceService.getInvoicesByDate(this.currentDate, this.chosenStatus).subscribe({
+        next: (response: Invoice[]) => {
+          this.invoices = response;
+        },
+      });
+    }
   }
 
   routeToNewInvoiceForm() {

@@ -24,7 +24,8 @@ export class LoginFormComponent {
 
   login() {
     this.loginService.login(this.model).subscribe({
-      next: () => this.router.navigateByUrl('/home')
+      next: () => this.router.navigateByUrl('/home'),
+      error: () => console.log('Error logging in')
     });
   }
 }
