@@ -45,14 +45,14 @@ namespace OnyxScheduling.Controllers
 
         [HttpGet]
         [Route("GetInvoicesByDate")]
-        public async Task<ActionResult<List<Invoices>>> GetInvoicesByDate(string setDate, string status)
+        public async Task<ActionResult<List<Invoices>>> GetInvoicesByDate(string setDate, string status, int position, int take)
         {
             if (setDate == null || status == null)
             {
                 return BadRequest(ModelState);
             }
             var parsedDate = DateTime.Parse(setDate);
-            var result = await _invoiceRepository.GetInvoicesByDateAndStatus(parsedDate, status);
+            var result = await _invoiceRepository.GetInvoicesByDateAndStatus(parsedDate, status, position, take);
 
             if (result == null)
             {
@@ -60,6 +60,20 @@ namespace OnyxScheduling.Controllers
             }
 
             result = result.OrderBy(x => x.CreatedDateTime).ToList();
+
+            return Ok(result);
+        }
+        
+        [HttpGet]
+        [Route("GetCountOfInvoicesByDate")]
+        public async Task<ActionResult<List<Invoices>>> GetCountOfInvoicesByDate(string setDate, string status)
+        {
+            if (setDate == null || status == null)
+            {
+                return BadRequest(ModelState);
+            }
+            var parsedDate = DateTime.Parse(setDate);
+            var result = await _invoiceRepository.GetCountOfInvoicesByDateAndStatus(parsedDate, status);
 
             return Ok(result);
         }

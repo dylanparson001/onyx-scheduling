@@ -27,9 +27,15 @@ export class InvoicesService {
     );
   }
 
-  getInvoicesByDate(date: string, status: string): Observable<Invoice[]> {
+  getInvoicesByDate(date: string, status: string, position: number, take: number): Observable<Invoice[]> {
+    console.log(date)
     return this.http.get<Invoice[]>(
-      `${this.baseUrl}Invoices/GetInvoicesByDate?setDate=${date}&status=${status}`
+      `${this.baseUrl}Invoices/GetInvoicesByDate?setDate=${date}&status=${status}&position=${position}&take=${take}`
+    );
+  }
+  getCountInvoicesByDate(date: string, status: string): Observable<number> {
+    return this.http.get<number>(
+      `${this.baseUrl}Invoices/GetCountOfInvoicesByDate?setDate=${date}&status=${status}`
     );
   }
 

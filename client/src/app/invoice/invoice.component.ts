@@ -30,7 +30,11 @@ export class InvoiceComponent implements OnInit {
   invoices: Invoice[] | undefined;
   statusList: string[] | undefined;
   chosenStatus: string = 'Open';
-
+  take: number = 5;
+  position: number = 0;
+  countOfInvoices: number | undefined;
+  totalPages: number = 0;
+  currentPage: number = 1;
   currentDate: string | null =  '';
 
   constructor(
@@ -42,45 +46,44 @@ export class InvoiceComponent implements OnInit {
   ngOnInit() {
     let today = new Date();
 
-    // Get the day of the month
-    // let dd = today.getDate();
-    //
-    // // Get the month (adding 1 because months are zero-based)
-    // let mm = today.getMonth() + 1;
-    //
-    // // Get the year
-    // let yyyy = today.getFullYear();
-    //
-    // // Format the date as mm-dd-yyyy and log it
-    // let todayString = mm + '-' + dd + '-' + yyyy;
-
     this.currentDate = this.datePipe.transform(today, 'MM-dd-yyy');
-    console.log(this.currentDate);
-    //this.currentDate = todayString;
-
 
     this.loadStatuses();
 
-    console.log(this.chosenStatus)
     this.getInvoicesByDate();
-  }
-  getInvoices() {
-    this.invoiceService.getAllInvoices().subscribe({
-      next: (response: Invoice[]) => {
-        this.invoices = response;
-      },
-      error: (error) => console.log(error),
-    });
+    this.getCountInvoices();
   }
 
   getInvoicesByDate() {
     if (this.currentDate != null) {
-      this.invoiceService.getInvoicesByDate(this.currentDate, this.chosenStatus).subscribe({
+      this.invoiceService.getInvoicesByDate(this.currentDate, this.chosenStatus, this.position, this.take).subscribe({
         next: (response: Invoice[]) => {
           this.invoices = response;
+          this.getCountInvoices();
         },
       });
     }
+  }
+
+  resultCountChange() {
+    this.setOffsetToZero();
+    this.getInvoicesByDate();
+  }
+
+  getCountInvoices() {
+    if (this.currentDate!= null) {
+      this.invoiceService.getCountInvoicesByDate(this.currentDate, this.chosenStatus).subscribe({
+        next: (response: number) => {
+          this.countOfInvoices = response;
+          this.totalPages = Math.ceil(response / this.take)
+        }
+      })
+    }
+  }
+
+  setOffsetToZero() {
+    this.currentPage = 1
+    this.position = 0;
   }
 
   routeToNewInvoiceForm() {
@@ -98,5 +101,26 @@ export class InvoiceComponent implements OnInit {
       },
       error: (error) => console.log(error),
     });
+  }
+
+  nextButtonClick() {
+    if (this.countOfInvoices) {
+      if ((this.position + this.take) > this.countOfInvoices) {
+        return;
+      }
+      this.position += this.take;
+      this.getInvoicesByDate();
+      this.currentPage += 1;
+    }
+  }
+  previousButtonClick() {
+    if (this.countOfInvoices) {
+      if ((this.position- this.take) < 0) {
+        return;
+      }
+        this.position -= this.take;
+        this.getInvoicesByDate();
+        this.currentPage -= 1;
+    }
   }
 }

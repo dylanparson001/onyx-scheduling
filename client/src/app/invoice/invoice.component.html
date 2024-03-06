@@ -40,7 +40,20 @@
       </button> -->
     </div>
   </div>
+  <div>
+    <select name="showAmount" id="showAmount" (change)="resultCountChange()" [(ngModel)]="take" placeholder="5">
+      <option value="5">5</option>
+      <option value="10">10</option>
+      <option value="20">20</option>
+      <option value="50">50</option>
+    </select>
+  </div>
+  <h5>{{currentPage}} / {{totalPages}}</h5>
+  <div>
 
+    <button mat-raised-button  (click)="previousButtonClick()">Previous</button>
+    <button mat-raised-button color="primary" (click)="nextButtonClick()">Next</button>
+  </div>
   <div *ngFor="let invoice of invoices">
     <app-invoice-card [invoice]="invoice"></app-invoice-card>
   </div>

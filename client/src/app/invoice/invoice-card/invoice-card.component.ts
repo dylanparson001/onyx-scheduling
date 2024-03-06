@@ -25,7 +25,6 @@ export class InvoiceCardComponent implements OnInit {
   technician: any | undefined;
 
   ngOnInit(): void {
-    console.log(this.invoice);
     this.getCustomersFromInvoice();
     this.getTechnicianFromInvoice();
     this.getInvoiceItems();

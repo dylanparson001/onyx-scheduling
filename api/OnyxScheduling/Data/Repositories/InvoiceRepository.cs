@@ -23,7 +23,8 @@ namespace OnyxScheduling.Data.Repositories
 
         public async Task<List<Invoices>> GetInvoicesAsync()
         {
-            List<Invoices> result = await _context.Invoices.AsNoTracking().OrderBy(x => x.CreatedDateTime).ToListAsync();
+            List<Invoices> result =
+                await _context.Invoices.AsNoTracking().OrderBy(x => x.CreatedDateTime).ToListAsync();
 
             return result;
         }
@@ -37,33 +38,69 @@ namespace OnyxScheduling.Data.Repositories
             return result;
         }
 
-        public async Task<List<Invoices>> GetInvoicesByDateAndStatus(DateTime date, string status)
+        public async Task<List<Invoices>> GetInvoicesByDateAndStatus(DateTime date, string status, int position, int take)
         {
             var result = new List<Invoices>();
             switch (status)
             {
-                // If invoice hasnt been completed yet, get invoice by the scheduled start time
+                // If invoice hasn't been completed yet, get invoice by the scheduled start time
                 case "Open":
                 case "Pending":
                 case "Started":
                     result = await _context.Invoices
+                            
                         .Where(x => x.ScheduledStartDateTime.Month == date.Month &&
-                        x.ScheduledStartDateTime.Day == date.Day &&
-                        x.Processing_Status == status)
+                                    x.ScheduledStartDateTime.Day == date.Day &&
+                                    x.Processing_Status == status)
+                        .OrderBy(x => x.ScheduledStartDateTime)
+                        .Skip(position)
+                        .Take(take)
                         .ToListAsync();
                     break;
                 // If it has been completed, get the invoice by the finished date
                 case "Completed":
                     result = await _context.Invoices
                         .Where(x => x.FinishedDateTime.Value.Month == date.Month &&
-                        x.FinishedDateTime.Value.Month == date.Day &&
-                        x.Processing_Status == status)
+                                    x.FinishedDateTime.Value.Month == date.Day &&
+                                    x.Processing_Status == status)
                         .ToListAsync();
                     break;
                 // If for some reason another option was sent, return null
                 default:
-                    
                     return null;
+            }
+
+            return result;
+        }
+
+        public async Task<int> GetCountOfInvoicesByDateAndStatus(DateTime date, string status)
+        {
+            int result;
+            switch (status)
+            {
+                // If invoice hasn't been completed yet, get invoice by the scheduled start time
+                case "Open":
+                case "Pending":
+                case "Started":
+                    result = await _context.Invoices
+
+                        .Where(x => x.ScheduledStartDateTime.Month == date.Month &&
+                                    x.ScheduledStartDateTime.Day == date.Day &&
+                                    x.Processing_Status == status)
+                        .CountAsync();
+                        
+                    break;
+                // If it has been completed, get the invoice by the finished date
+                case "Completed":
+                    result = await _context.Invoices
+                        .Where(x => x.FinishedDateTime.Value.Month == date.Month &&
+                                    x.FinishedDateTime.Value.Month == date.Day &&
+                                    x.Processing_Status == status)
+                        .CountAsync();
+                    break;
+                // If for some reason another option was sent, return null
+                default:
+                    return 0;
             }
 
             return result;
@@ -86,8 +123,6 @@ namespace OnyxScheduling.Data.Repositories
             _context.Invoices.Remove(invoices);
 
             await _context.SaveChangesAsync();
-
-
         }
     }
 }

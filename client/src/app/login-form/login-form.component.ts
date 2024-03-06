@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { loginDto } from '../dtos/loginDto';
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   templateUrl: './login-form.component.html',
   styleUrl: './login-form.component.css'
 })
-export class LoginFormComponent {
+export class LoginFormComponent implements OnInit{
 
   model: loginDto = {
     userName: '',
@@ -21,6 +21,14 @@ export class LoginFormComponent {
   }
 
   constructor(private loginService: LoginServiceService, private router: Router) { }
+
+  ngOnInit(): void {
+      let userLogin = localStorage.getItem('user');
+
+    if (userLogin) {
+      this.router.navigateByUrl('/invoices');
+    }
+    }
 
   login() {
     this.loginService.login(this.model).subscribe({

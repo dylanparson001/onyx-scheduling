@@ -87,9 +87,9 @@ export class NewInvoiceFormComponent implements OnInit {
 
     this.invoice.createdDateTime = this.convertDateFormat(currentDateTime);
 
-    //console.log(this.invoice.scheduledStartDateTime)
     let scheduledStartDate = new Date(this.invoice.scheduledStartDateTime);
     let scheduledEndDate = new Date(this.invoice.scheduledStartDateTime);
+
 
     let completeStartDate = this.returnDateTime(
       scheduledStartDate,
@@ -101,8 +101,8 @@ export class NewInvoiceFormComponent implements OnInit {
       this.scheduledEndTime
     );
 
-    this.invoice.scheduledStartDateTime =
-      this.convertDateFormat(completeStartDate);
+
+    this.invoice.scheduledStartDateTime = this.convertDateFormat(completeStartDate);
     this.invoice.scheduledEndDateTime = this.convertDateFormat(completeEndDate);
 
     this.invoiceService.postInvoice(this.invoice).subscribe({
@@ -115,6 +115,14 @@ export class NewInvoiceFormComponent implements OnInit {
     let timeArray = time.split(':');
     let monthString;
     let monthInt = date.getMonth() + 1;
+    let dayInt = date.getDate();
+    let dayString;
+
+    if (dayInt < 10) {
+      dayString = `0${dayInt}`;
+    } else {
+      dayString = `${dayInt}`;
+    }
 
     if (monthInt < 10) {
       monthString = `0${monthInt}`;
@@ -122,11 +130,9 @@ export class NewInvoiceFormComponent implements OnInit {
       monthString = `${monthInt}`;
     }
 
-    let returnDate = new Date(
-      `${date.getFullYear()}-${monthString}-${date.getDate()}T${timeArray[0]}:${
-        timeArray[1]
-      }:00`
+    let returnDate = new Date(      `${date.getFullYear()}-${monthString}-${dayString}T${timeArray[0]}:${timeArray[1]}:00`
     );
+
     return returnDate;
   }
 
@@ -136,9 +142,8 @@ export class NewInvoiceFormComponent implements OnInit {
 
   // returns date formatted to send to api
   convertDateFormat(currentDateTime: Date): string {
-    return `${
-      currentDateTime.getMonth() + 1
-    }-${currentDateTime.getDate()}-${currentDateTime.getFullYear()} ${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:${currentDateTime.getSeconds()}`;
+    console.log(`${currentDateTime.getMonth() + 1}-${currentDateTime.getDate()}-${currentDateTime.getFullYear()} ${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:${currentDateTime.getSeconds()}`)
+    return `${currentDateTime.getMonth() + 1}-${currentDateTime.getDate()}-${currentDateTime.getFullYear()} ${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:${currentDateTime.getSeconds()}`;
   }
 
   // checks for am/pm and adjusts hours properly

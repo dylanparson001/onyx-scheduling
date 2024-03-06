@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {InvoicesService} from "../../_services/invoices.service";
 import {InvoiceCardComponent} from "../../invoice/invoice-card/invoice-card.component";
+import {Invoice} from "../../models/invoice";
 
 @Component({
   selector: 'app-invoice-section',
@@ -12,14 +13,13 @@ import {InvoiceCardComponent} from "../../invoice/invoice-card/invoice-card.comp
 })
 export class InvoiceSectionComponent implements OnInit{
   todaysDate: any = '';
-  todaysInvoices: any | null;
+  todaysInvoices: Invoice[] | undefined;
   ngOnInit(): void {
       let date = new Date();
       this.todaysDate = this.datePipe.transform(date, "MM-dd-yyyy");
-      this.todaysInvoices = this.invoiceService.getInvoicesByDate(this.todaysDate, 'Open').subscribe({
+      this.invoiceService.getInvoicesByDate(this.todaysDate, 'Open', 0, 5).subscribe({
         next: (result) => {
           this.todaysInvoices = result;
-          console.log(result);
     }
       });
   }
