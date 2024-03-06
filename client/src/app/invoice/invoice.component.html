@@ -31,7 +31,7 @@
       </form>
     </div>
 
-    <div class="container flex d-flex-row">
+    <div class="d-flex flex-row justify-content">
       <a mat-raised-button color="primary" (click)="routeToNewInvoiceForm()"
         >Add New Invoice</a
       >
@@ -40,20 +40,25 @@
       </button> -->
     </div>
   </div>
-  <div>
-    <select name="showAmount" id="showAmount" (change)="resultCountChange()" [(ngModel)]="take" placeholder="5">
-      <option value="5">5</option>
-      <option value="10">10</option>
-      <option value="20">20</option>
-      <option value="50">50</option>
-    </select>
-  </div>
-  <h5>{{currentPage}} / {{totalPages}}</h5>
-  <div>
 
-    <button mat-raised-button  (click)="previousButtonClick()">Previous</button>
-    <button mat-raised-button color="primary" (click)="nextButtonClick()">Next</button>
+  <div class="container flex d-flex justify-content-evenly">
+    <select name="showAmount" id="showAmount" (change)="resultCountChange()" [(ngModel)]="take">
+      <option [ngValue]="5">5</option>
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="20">20</option>
+      <option [ngValue]="50">50</option>
+    </select>
+
+    <div class="flex d-flex align-content-between w-50">
+
+      <button mat-raised-button class="mx-3"  (click)="previousButtonClick()">Previous</button>
+      <h5  class="mx-3">{{currentPage}} / {{totalPages}}</h5>
+      <button  mat-raised-button  class="mx-3" color="primary" (click)="nextButtonClick()">Next</button>
+    </div>
   </div>
+
+
+
   <div *ngFor="let invoice of invoices">
     <app-invoice-card [invoice]="invoice"></app-invoice-card>
   </div>

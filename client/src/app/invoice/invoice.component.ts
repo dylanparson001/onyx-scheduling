@@ -44,10 +44,10 @@ export class InvoiceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let today = new Date();
+    let today = new Date('03-05-2024');
 
     this.currentDate = this.datePipe.transform(today, 'MM-dd-yyy');
-
+    console.log(typeof(this.position))
     this.loadStatuses();
 
     this.getInvoicesByDate();
@@ -67,7 +67,6 @@ export class InvoiceComponent implements OnInit {
 
   resultCountChange() {
     this.setOffsetToZero();
-    this.getInvoicesByDate();
   }
 
   getCountInvoices() {
@@ -84,6 +83,8 @@ export class InvoiceComponent implements OnInit {
   setOffsetToZero() {
     this.currentPage = 1
     this.position = 0;
+    this.getInvoicesByDate();
+
   }
 
   routeToNewInvoiceForm() {
@@ -104,16 +105,18 @@ export class InvoiceComponent implements OnInit {
   }
 
   nextButtonClick() {
+    console.log(typeof(this.position))
     if (this.countOfInvoices) {
-      if ((this.position + this.take) > this.countOfInvoices) {
+      if ((this.currentPage + 1) > this.totalPages) {
         return;
       }
       this.position += this.take;
-      this.getInvoicesByDate();
       this.currentPage += 1;
+      this.getInvoicesByDate();
     }
   }
   previousButtonClick() {
+    console.log(typeof(this.position))
     if (this.countOfInvoices) {
       if ((this.position- this.take) < 0) {
         return;

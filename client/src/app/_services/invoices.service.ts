@@ -28,7 +28,6 @@ export class InvoicesService {
   }
 
   getInvoicesByDate(date: string, status: string, position: number, take: number): Observable<Invoice[]> {
-    console.log(date)
     return this.http.get<Invoice[]>(
       `${this.baseUrl}Invoices/GetInvoicesByDate?setDate=${date}&status=${status}&position=${position}&take=${take}`
     );

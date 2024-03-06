@@ -1,7 +1,9 @@
-<div class="container border-1 border-black">
+<div class="container border-1 border-black invoice-container">
   <p>Today's date: {{todaysDate}}</p>
 
-  <div *ngFor="let invoice of todaysInvoices">
-    <app-invoice-card [invoice]="invoice"></app-invoice-card>
+
+  <div  *ngFor="let invoice of invoiceCustomers">
+
+    <p *ngIf="invoice.customer != undefined ">{{invoice.customer.firstName | titlecase}} {{invoice.customer.lastName | titlecase}} {{invoice.invoice.total_Price | currency}}</p>
   </div>
 </div>
