@@ -44,9 +44,8 @@ namespace OnyxScheduling.Data.Repositories
             switch (status)
             {
                 // If invoice hasn't been completed yet, get invoice by the scheduled start time
-                case "Open":
-                case "Pending":
-                case "Started":
+                case "Paid":
+                case "Financed":
                     result = await _context.Invoices
                             
                         .Where(x => x.ScheduledStartDateTime.Month == date.Month &&
@@ -58,11 +57,14 @@ namespace OnyxScheduling.Data.Repositories
                         .ToListAsync();
                     break;
                 // If it has been completed, get the invoice by the finished date
-                case "Completed":
+                case "Unpaid":
                     result = await _context.Invoices
                         .Where(x => x.FinishedDateTime.Value.Month == date.Month &&
                                     x.FinishedDateTime.Value.Month == date.Day &&
                                     x.Processing_Status == status)
+                        .OrderBy(x => x.FinishedDateTime)
+                        .Skip(position)
+                        .Take(take)
                         .ToListAsync();
                     break;
                 // If for some reason another option was sent, return null
@@ -79,9 +81,8 @@ namespace OnyxScheduling.Data.Repositories
             switch (status)
             {
                 // If invoice hasn't been completed yet, get invoice by the scheduled start time
-                case "Open":
-                case "Pending":
-                case "Started":
+                case "Paid":
+                case "Financed":
                     result = await _context.Invoices
 
                         .Where(x => x.ScheduledStartDateTime.Month == date.Month &&
@@ -91,7 +92,7 @@ namespace OnyxScheduling.Data.Repositories
                         
                     break;
                 // If it has been completed, get the invoice by the finished date
-                case "Completed":
+                case "Unpaid":
                     result = await _context.Invoices
                         .Where(x => x.FinishedDateTime.Value.Month == date.Month &&
                                     x.FinishedDateTime.Value.Month == date.Day &&

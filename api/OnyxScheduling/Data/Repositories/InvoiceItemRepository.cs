@@ -28,6 +28,11 @@ namespace OnyxScheduling.Data.Repositories
             return await _context.Invoice_Items.Where(x => x.Category_Id == categoryId).ToListAsync();
         }
 
+        public async Task<Invoice_Items> GetItemById(int id)
+        {
+            return await _context.Invoice_Items.FirstOrDefaultAsync(x => x.Id == id);
+        }
+
         public async Task<double> GetPriceOfItem(int id)
         {
             var result =  await _context.Invoice_Items.FirstOrDefaultAsync(x => x.Id == id);

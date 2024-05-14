@@ -1,6 +1,4 @@
-<div class="container">
-  <h2>Invoices</h2>
-
+<div class="container mx-auto m-4 " >
   <div class="button-container d-flex flex-row justify-content">
     <div class="search-container">
       <form
@@ -12,10 +10,17 @@
         <input
           class="form-control w-25 searchDate"
           name="searchDate"
-          [(ngModel)]="currentDate"
           type="text"
-          placeholder="Date"
+          [(ngModel)]="currentDate"
+          [matDatepicker]="chosenDate"
+          placeholder="{{this.currentDate | date }}"
         />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="chosenDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker class="input-boxes" #chosenDate></mat-datepicker>
+
         <div class="status-selector mx-2">
           <select
             class="form-select"
@@ -41,7 +46,7 @@
     </div>
   </div>
 
-  <div class="container flex d-flex justify-content-evenly">
+  <div *ngIf="totalPages !== 0" class="container flex d-flex justify-content-evenly">
     <select name="showAmount" id="showAmount" (change)="resultCountChange()" [(ngModel)]="take">
       <option [ngValue]="5">5</option>
       <option [ngValue]="10">10</option>

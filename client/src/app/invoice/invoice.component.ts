@@ -29,13 +29,15 @@ import { MatButtonModule } from '@angular/material/button';
 export class InvoiceComponent implements OnInit {
   invoices: Invoice[] | undefined;
   statusList: string[] | undefined;
-  chosenStatus: string = 'Open';
+  chosenStatus: string = 'Paid'; // default value
   take: number = 5;
   position: number = 0;
   countOfInvoices: number | undefined;
   totalPages: number = 0;
   currentPage: number = 1;
-  currentDate: string | null =  '';
+  currentDate: any =  '';
+  today:Date = new Date();
+
 
   constructor(
     private invoiceService: InvoicesService,
@@ -44,17 +46,16 @@ export class InvoiceComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    let today = new Date('03-05-2024');
+    let today = this.today
 
     this.currentDate = this.datePipe.transform(today, 'MM-dd-yyy');
-    console.log(typeof(this.position))
     this.loadStatuses();
 
     this.getInvoicesByDate();
-    this.getCountInvoices();
   }
 
   getInvoicesByDate() {
+    this.currentDate = this.datePipe.transform(this.currentDate, 'MM-dd-yyyy HH:mm')
     if (this.currentDate != null) {
       this.invoiceService.getInvoicesByDate(this.currentDate, this.chosenStatus, this.position, this.take).subscribe({
         next: (response: Invoice[]) => {
@@ -78,6 +79,7 @@ export class InvoiceComponent implements OnInit {
         }
       })
     }
+
   }
 
   setOffsetToZero() {
@@ -95,7 +97,6 @@ export class InvoiceComponent implements OnInit {
   }
 
   loadStatuses() {
-    this.statusList;
     this.invoiceService.getProcessingStatusOptions().subscribe({
       next: (response) => {
         this.statusList = response;
@@ -116,7 +117,6 @@ export class InvoiceComponent implements OnInit {
     }
   }
   previousButtonClick() {
-    console.log(typeof(this.position))
     if (this.countOfInvoices) {
       if ((this.position- this.take) < 0) {
         return;

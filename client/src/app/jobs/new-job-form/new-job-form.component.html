@@ -1,0 +1,141 @@
+<div class="container">
+  <form #newJobForm="ngForm" autocomplete="off" class="d-flex ms-auto">
+    <h2>New Job</h2>
+
+    <!-- Choosing current customer -->
+    <div class="current-customer-info">
+      <label>Customer</label>
+      <select
+        [(ngModel)]="selectedCustomer"
+        (change)="inputSelectedCustomerInfo()"
+        class="form-select input-boxes"
+        aria-label="Default select example"
+        name="customerId"
+        required
+      >
+        <option value="" disabled selected></option>
+        <option
+          *ngFor="let customer of existingCustomers"
+          [ngValue]="customer"
+        >
+          {{ customer.firstName }} {{ customer.lastName }} {{ customer.city }},
+          {{ customer.state }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Choosing current customer -->
+    <div class="technician-select">
+      <label>Technician</label>
+      <select
+        class="form-select input-boxes"
+        aria-label="Default select example"
+        [(ngModel)]="job.assignedTechnicianId"
+        name="techId"
+        required
+      >
+        <option value="" disabled selected></option>
+        <option *ngFor="let tech of technicianList" [ngValue]="tech.id">
+          {{ tech.firstName }} {{ tech.lastName }} {{ tech.city }},
+          {{ tech.state }}
+        </option>
+      </select>
+    </div>
+
+    <label>Address</label>
+    <input
+      [(ngModel)]="job.address"
+      required
+      type="text"
+      class="input-boxes"
+      placeholder="Address"
+      name="address"
+    />
+    <label>City</label>
+    <input
+      [(ngModel)]="job.city"
+      type="text"
+      class="input-boxes"
+      placeholder="City"
+      name="city"
+      required
+    />
+
+    <label>Scheduled Start Date</label>
+    <input
+      [(ngModel)]="job.scheduledStartDateTime"
+      [matDatepicker]="startDate"
+      required
+      matInput
+      type="datetime"
+      class="datePicker"
+      name="startDate"
+      placeholder="MM/DD/YYYY"
+    />
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="startDate"
+    ></mat-datepicker-toggle>
+    <mat-datepicker class="input-boxes" #startDate></mat-datepicker>
+
+    <div class="flex">
+      <label for="startTime">Start Time: </label>
+      <input
+        type="time"
+        id="startTime"
+        name="startTime"
+        min="09:00"
+        max="18:00"
+        [(ngModel)]="scheduledStartTime"
+        required
+      />
+      <label for="endTime">End Time: </label>
+      <input
+        type="time"
+        id="endTime"
+        name="endTime"
+        min="09:00"
+        max="18:00"
+        [(ngModel)]="scheduledEndTime"
+        required
+      />
+    </div>
+    <small class="input-boxes">Office hours are 9am to 6pm</small>
+
+    <div class="technician-select">
+      <label>Status</label>
+      <select
+        [(ngModel)]="job.processingStatus"
+        class="form-select input-boxes"
+        aria-label="Default select example"
+        name="status"
+        required
+      >
+        <option value="" disabled selected></option>
+        <option *ngFor="let status of statusList">{{ status }}</option>
+      </select>
+    </div>
+
+    <!-- SUBMIT CANCEL BUTTONS -->
+    <div class="container flex-row w-100">
+      <button
+        (click)="submitForm()"
+        mat-raised-button
+        color="primary"
+        class="w-25 mx-5"
+        type="submit"
+      >
+        Submit
+      </button>
+      <button
+        mat-button
+        color="accent"
+        class="w-25 mx-5"
+        type="button"
+        (click)="cancelForm()"
+      >
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

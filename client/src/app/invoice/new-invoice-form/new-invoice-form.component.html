@@ -4,7 +4,7 @@
 
     <!-- Choosing current customer -->
     <div class="current-customer-info">
-      <label for="">Customer</label>
+      <label >Customer</label>
       <select
         class="form-select input-boxes"
         aria-label="Default select example"
@@ -27,7 +27,7 @@
 
     <!-- Choosing current customer -->
     <div class="technician-select">
-      <label for="">Technician</label>
+      <label >Technician</label>
       <select
         class="form-select input-boxes"
         aria-label="Default select example"
@@ -43,7 +43,7 @@
       </select>
     </div>
 
-    <label for="address">Address</label>
+    <label >Address</label>
     <input
       required
       type="text"
@@ -52,7 +52,7 @@
       placeholder="Address"
       name="address"
     />
-    <label for="city">City</label>
+    <label >City</label>
     <input
       type="text"
       class="input-boxes"
@@ -62,7 +62,7 @@
       required
     />
 
-    <label for="start-date">Scheduled Start Date</label>
+    <label>Scheduled Start Date</label>
     <input
       required
       matInput
@@ -83,7 +83,6 @@
       <label for="appt">Start Time: </label>
       <input
         type="time"
-        id="appt"
         name="appt"
         min="09:00"
         max="18:00"
@@ -104,7 +103,7 @@
     <small class="input-boxes">Office hours are 9am to 6pm</small>
 
     <div class="technician-select">
-      <label for="">Status</label>
+      <label>Status</label>
       <select
         class="form-select input-boxes"
         aria-label="Default select example"
@@ -116,6 +115,7 @@
         <option *ngFor="let status of statusList">{{ status }}</option>
       </select>
     </div>
+
     <div class="container flex-row w-100">
       <button
         mat-raised-button

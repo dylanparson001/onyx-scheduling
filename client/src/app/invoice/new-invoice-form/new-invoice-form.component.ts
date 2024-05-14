@@ -142,7 +142,6 @@ export class NewInvoiceFormComponent implements OnInit {
 
   // returns date formatted to send to api
   convertDateFormat(currentDateTime: Date): string {
-    console.log(`${currentDateTime.getMonth() + 1}-${currentDateTime.getDate()}-${currentDateTime.getFullYear()} ${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:${currentDateTime.getSeconds()}`)
     return `${currentDateTime.getMonth() + 1}-${currentDateTime.getDate()}-${currentDateTime.getFullYear()} ${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:${currentDateTime.getSeconds()}`;
   }
 

@@ -12,6 +12,7 @@ public class DataContext : DbContext
 /*    public DbSet<OfficeStaff> OfficeStaff { get; set; }
     public DbSet<Technicians> Technicians { get; set; }*/
     public DbSet<InvoiceInvoice_Item> InvoiceInvoice_Item { get; set; }
+    public DbSet<Jobs> Jobs { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<InvoiceInvoice_Item>()
@@ -26,6 +27,14 @@ public class DataContext : DbContext
             .HasOne(ii => ii.InvoiceItem)
             .WithMany(ii => ii.InvoiceInvoiceItems)
             .HasForeignKey(ii => ii.InvoiceItemId);
+
+        /*
+        modelBuilder.Entity<InvoiceInvoice_Item>()
+            .HasOne(ii => ii.Job)
+            .WithMany(ii => ii.InvoiceInvoice_Items)
+            .HasForeignKey(ii => ii.JobId);
+            */
+
 
 
         modelBuilder.Entity<Invoices>().HasData(

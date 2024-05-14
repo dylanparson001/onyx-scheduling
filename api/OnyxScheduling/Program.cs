@@ -54,6 +54,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IInvoiceItemRepository, InvoiceItemRepository>();
 builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IInvoiceInvoiceItemRepository, InvoiceInvoice_ItemRepository>();
+builder.Services.AddScoped<IJobsRepository, JobsRepository>();
 
 
 

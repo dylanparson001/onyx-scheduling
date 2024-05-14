@@ -92,7 +92,7 @@ namespace OnyxScheduling.Controllers
             var parsedScheduledStartDate = DateTime.Parse(invoice.ScheduledStartDateTime);
             var parsedScheduledEndDate = DateTime.Parse(invoice.ScheduledEndDateTime);
 
-            if (invoice.Processing_Status == "Completed")
+            if (invoice.Processing_Status == "Paid")
             {
                 parsedFinishedDate = DateTime.Now;
             } else
@@ -113,7 +113,8 @@ namespace OnyxScheduling.Controllers
                 Total_Price = 0.0,
                 InvoiceInvoice_Items = new List<InvoiceInvoice_Item>(),
                 Processing_Status = invoice.Processing_Status,
-                Address = invoice.Address
+                Address = invoice.Address,
+                JobId = invoice.JobId
             };
 
             if (newInvoice.InvoiceInvoice_Items.Count != 0)
@@ -146,10 +147,9 @@ namespace OnyxScheduling.Controllers
         [Route("GetProcessingStatuses")]
         public ActionResult<string[]> GetProcessingStatuses()
         {
-            string[] result = { "Open",
-                "Pending",
-                "Started",
-                "Completed"};
+            string[] result = { "Paid",
+                "Unpaid",
+                "Financed"};
 
             return Ok(result);
         }

@@ -1,0 +1,25 @@
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 60%;
+  margin: 5% auto;
+  border: 1px black solid;
+  padding: 2% 5% 2% 5%;
+}
+.input-boxes {
+  margin-bottom: 5%;
+}
+
+.datePicker {
+  margin-bottom: 0;
+}
+
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border: 3px solid red;
+}
+
+input.ng-valid.ng-touched,
+select.ng-valid.ng-touched {
+  border: 3px solid green;
+}

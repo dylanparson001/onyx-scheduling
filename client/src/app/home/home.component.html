@@ -1,7 +1,8 @@
-<h1>Onyx Solutions Dashboard</h1>
+<div class="flex flex-column w-50 mx-auto">
 
 <h3 *ngIf="(accountService.currentUser$  | async) as user">
-  Welcome {{accountService.user.userName | titlecase}}
+  Welcome, {{accountService.user.userName | titlecase}}
 </h3>
 
-  <app-invoice-section></app-invoice-section>
+<app-invoice-section></app-invoice-section>
+</div>

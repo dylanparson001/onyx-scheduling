@@ -14,6 +14,7 @@ namespace OnyxScheduling.Dtos
         public string InvoiceNumber { get; set; }
         public string Address { get; set; }
         public string Processing_Status { get; set; }
+        public int JobId { get; set; }
 
         /*
          public int Id { get; set; }

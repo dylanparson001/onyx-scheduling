@@ -6,11 +6,12 @@ import {Invoice} from "../../models/invoice";
 import {User} from "../../models/user";
 import {UsersService} from "../../_services/users.service";
 import {invoiceCustomer} from "../../models/invoice-customer";
+import {HomeInvoiceCardsComponent} from "./home-invoice-cards/home-invoice-cards.component";
 
 @Component({
   selector: 'app-invoice-section',
   standalone: true,
-  imports: [CommonModule, InvoiceCardComponent],
+  imports: [CommonModule, InvoiceCardComponent, HomeInvoiceCardsComponent],
   templateUrl: './invoice-section.component.html',
   styleUrl: './invoice-section.component.css'
 })
@@ -24,39 +25,17 @@ export class InvoiceSectionComponent implements OnInit {
     let date = new Date();
     this.todaysDate = this.datePipe.transform(date, "MM-dd-yyyy");
 
-    this.invoiceService.getInvoicesByDate(this.todaysDate, 'Open', 0, 5).subscribe({
+    this.invoiceService.getInvoicesByDate(this.todaysDate, 'Paid', 0, 5).subscribe({
       next: (result) => {
         this.todaysInvoices = result;
-        this.todaysInvoices.forEach(invoice => this.getCustomersFromInvoice(invoice.assigned_Customer_Id));
-
-        result.forEach(x => {
-          const result: invoiceCustomer = {
-            invoice: x,
-            customer: this.getCustomersFromInvoice(x.assigned_Customer_Id)
-          }
-          console.log(result)
-        })
-
       }
     });
-    console.log(this.invoiceCustomers)
   }
 
   constructor(private datePipe: DatePipe, private invoiceService: InvoicesService, private userService: UsersService) {
   }
 
-  getCustomersFromInvoice(customerId: string) {
-    let result: any
-    this.userService
-      .getCustomersFromInvoiceId(customerId)
-      .subscribe({
-        next: (response) => {
-          result = response;
-          console.log(response)
-        }
-      });
-  return result;
-  }
+
 
 }
 

@@ -1,0 +1,72 @@
+<div class="container mx-auto m-4 " >
+  <div class="button-container d-flex flex-row justify-content">
+    <div class="search-container">
+      <form
+        #searchDateForm="ngForm"
+        class="invoice-search-form d-flex"
+        autocomplete="off"
+      >
+        <input
+          class="form-control w-25 searchDate"
+          name="searchDate"
+          type="text"
+          [(ngModel)]="currentDate"
+          [matDatepicker]="chosenDate"
+          placeholder="{{this.currentDate | date }}"
+        />
+        <mat-datepicker-toggle
+          matIconSuffix
+          [for]="chosenDate"
+        ></mat-datepicker-toggle>
+        <mat-datepicker class="input-boxes" #chosenDate></mat-datepicker>
+
+        <div class="status-selector mx-2">
+          <select
+            class="form-select"
+            name="status"
+            [(ngModel)]="chosenStatus"
+            required
+            placeholder="Status"
+          >
+            <option *ngFor="let status of statusList">{{ status }}</option>
+          </select>
+        </div>
+        <button mat-raised-button type="submit">Search</button>
+      </form>
+    </div>
+
+    <div class="d-flex flex-row justify-content">
+      <a mat-raised-button color="primary"
+         routerLink="/jobs/new-job" routerLinkActive="active"
+      >Add New Job</a
+      >
+    </div>
+  </div>
+<!--  (change)="resultCountChange()"-->
+  <div *ngIf="totalPages !== 0" class="container flex d-flex justify-content-evenly">
+    <select name="showAmount" id="showAmount"  [(ngModel)]="take">
+      <option [ngValue]="5">5</option>
+      <option [ngValue]="10">10</option>
+      <option [ngValue]="20">20</option>
+      <option [ngValue]="50">50</option>
+    </select>
+
+    <div class="flex d-flex align-content-between w-50">
+      (click)="previousButtonClick()"
+      <button mat-raised-button class="mx-3"  >Previous</button>
+      <h5  class="mx-3">{{currentPage}} / {{totalPages}}</h5>
+      (click)="nextButtonClick()"
+      <button  mat-raised-button  class="mx-3" color="primary" >Next</button>
+    </div>
+  </div>
+
+
+
+  <div *ngFor="let invoice of invoices">
+    <app-invoice-card [invoice]="invoice"></app-invoice-card>
+  </div>
+</div>
+
+
+
+

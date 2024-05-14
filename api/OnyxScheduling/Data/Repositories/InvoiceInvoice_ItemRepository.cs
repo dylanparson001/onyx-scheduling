@@ -13,6 +13,22 @@ namespace OnyxScheduling.Data.Repositories
             _context = context;
         }
 
+        public async Task AddInvoiceInvoiceItems(int invoiceId, int itemId)
+        {
+            var invoice = await _context.Invoices.FindAsync(invoiceId);
+            var invoiceItem = await _context.Invoice_Items.FindAsync(itemId);
+
+            var newItem = new InvoiceInvoice_Item()
+            {
+                InvoiceId = invoiceId,
+                Invoice = invoice,
+                InvoiceItemId = itemId,
+                InvoiceItem = invoiceItem,
+            };
+            await _context.InvoiceInvoice_Item.AddAsync(newItem);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Invoice_Items>> GetInvoiceItemsOfInvoice(int invoiceId)
         {
             var invoiceInvoiceItems = await _context.InvoiceInvoice_Item.Where(x => x.InvoiceId == invoiceId).ToListAsync();
