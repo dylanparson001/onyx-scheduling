@@ -5,5 +5,6 @@ namespace OnyxScheduling.Interfaces;
 public interface IJobInvoiceItemRepository
 {
     public Task<List<Invoice_Items>> GetItemsOfJob(int JobId);
-    public Task AddItemsToJob(int jobId, int itemId, int quantity); 
+    public Task AddItemsToJob(int jobId, int itemId, int quantity);
+    public Task RemoveItemsFromJob(int jobId, int itemId);
 }

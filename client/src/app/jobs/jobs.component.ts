@@ -61,7 +61,7 @@ export class JobsComponent implements OnInit {
     })
   }
   reloadJobs() {
-    // this.jobCard.getJobs();
+    this.jobCard.getJobs();
   }
   routeToNewJobForm() {
     this.router.navigateByUrl('jobs/new-job')

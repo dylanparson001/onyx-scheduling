@@ -137,5 +137,14 @@ namespace OnyxScheduling.Controllers
             }).ToList();
             return Ok(itemDtos);
         }
+
+        [HttpDelete]
+        [Route("RemoveItemsFromJob")]
+        public async Task<ActionResult> RemoveItemsFromJob(int jobId, int itemToDelete)
+        {
+            await _jobInvoiceItemRepository.RemoveItemsFromJob(jobId, itemToDelete);
+            return Ok();
+        }
     }
+    
 }

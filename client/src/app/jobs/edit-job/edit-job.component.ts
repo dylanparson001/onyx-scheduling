@@ -36,9 +36,9 @@ export class EditJobComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadItemsFromJob()
     this.loadJobAndCustomer()
     this.loadItems()
+    this.loadItemsFromJob()
   }
 
   loadItems() {
@@ -49,14 +49,11 @@ export class EditJobComponent implements OnInit {
   }
 
   loadItemsFromJob() {
-    if (this.job?.id) {
+    if (this.job)
       this.jobService.getItemsFromJob(this.job?.id).subscribe({
-        next: value => {
-          this.chosenItems = value
-        }
+        next: (response) => this.chosenItems = response
       })
     }
-  }
 
   updateItems() {
     if (this.selectedItem) {
@@ -88,5 +85,14 @@ export class EditJobComponent implements OnInit {
 
   updateItemQuantity(chosenItem: Item) {
     console.log(chosenItem.quantity)
+  }
+
+  removeItem(chosenItem: Item) {
+    if(this.job)
+    this.jobService.removeItemsFromJob(this.job?.id, chosenItem.id).subscribe({
+    });
+
+
+    this.chosenItems = this.chosenItems.filter(x => x.id != chosenItem.id);
   }
 }

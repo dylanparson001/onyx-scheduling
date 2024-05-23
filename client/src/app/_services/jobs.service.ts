@@ -51,5 +51,10 @@ export class JobsService {
       `${this.baseUrl}Jobs/GetItemsFromJob?jobId=${jobId}`
     )
   }
+  removeItemsFromJob(jobId: number, itemToDelete:number) {
+    return this.http.delete(
+      `${this.baseUrl}Jobs/RemoveItemsFromJob?jobId=${jobId}&itemToDelete=${itemToDelete}`
+    )
+  }
 
 }

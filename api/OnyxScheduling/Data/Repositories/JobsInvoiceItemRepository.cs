@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using OnyxScheduling.Interfaces;
 using OnyxScheduling.Models;
 
@@ -51,6 +52,20 @@ public class JobsInvoiceItemRepository: IJobInvoiceItemRepository
         };
 
         await _context.JobInvoice_Item.AddAsync(newJobInvoiceItem);
+        await _context.SaveChangesAsync();
+    }
+
+    public async Task RemoveItemsFromJob(int jobId, int itemId)
+    {
+        var existingItem =
+            await _context.JobInvoice_Item.FirstOrDefaultAsync(x => x.JobId == jobId && x.InvoiceItemId == itemId);
+
+        if (existingItem == null)
+        {
+            return;
+        }
+
+        _context.JobInvoice_Item.Remove(existingItem);
         await _context.SaveChangesAsync();
     }
 }

@@ -2,12 +2,14 @@
 
   <div>
     {{job?.scheduledStartDateTime | date: 'hh:mm a'}}
+    <p>Customer: {{customer?.firstName}} {{customer?.lastName}}</p>
     {{technician?.lastName}}, {{technician?.firstName}}
   </div>
 
   <div>
     <p>Current Items:</p>
     <p *ngFor="let chosenItem of chosenItems">
+      <button mat-raised-button color="red" (click)="removeItem(chosenItem)"><i class="fa fa-times" aria-hidden="true"></i></button>
       {{chosenItem.item_Name}} {{chosenItem.price | currency:'USD'}}
     <input type="number" min="1" max="100" (change)="updateItemQuantity(chosenItem)" [(ngModel)]="chosenItem.quantity">
     </p>
@@ -34,18 +36,20 @@
   <div class="d-flex flex-row submit-cancel-buttons">
 
   <button
+    class="mx-2 h-25"
     mat-raised-button
     color="primary"
     (click)="submitChanges()"
   >
-    Submit
+    Add Items
   </button>
   <button
+
     mat-button
     color="red"
     (click)="closeOverlay()"
   >
-    Cancel
+    Close
   </button>
   </div>
 </div>
