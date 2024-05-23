@@ -129,5 +129,15 @@ namespace OnyxScheduling.Controllers
 
             return Ok(techDto);
         }
+
+        [HttpGet]
+        [Route("GetCustomerFromJob")]
+        public async Task<ActionResult<User>> GetCustomersFromJob(string customerId)
+        {
+            var result = await _accountRepository.GetCustomersFromCustomerId(customerId);
+
+            return Ok(result);
+        }
     }
+    
 }

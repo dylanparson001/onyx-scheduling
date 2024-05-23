@@ -23,18 +23,10 @@ namespace OnyxScheduling.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddItemsToJob(int jobId, List<int> invoiceItemIds)
+        public async Task AddItemsToJob(int jobId, int invoiceItemId)
         { 
-            var itemsToAdd = new List<Invoice_Items>();
-            Jobs job = await _context.Jobs.FirstOrDefaultAsync(x => x.Id == jobId);
             
-            foreach(var itemId in invoiceItemIds)
-            {
-                var itemResult = await _invoiceItemRepository.GetItemById(itemId);
-                await _invoiceInvoiceItemRepository.AddInvoiceInvoiceItems(job.InvoiceNumber, itemId);
-            }
 
-            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Jobs>> GetJobsByDateAndStatusAsync(DateTime date, string status, int position, int take)
@@ -71,15 +63,13 @@ namespace OnyxScheduling.Data.Repositories
             return result;
         }
 
-        public async Task<List<Jobs>> GetJobsByTechnicianAsync(DateTime date, string technicianId, int position, int take)
+        public async Task<List<Jobs>> GetJobsByTechnicianAsync(DateTime date, string technicianId)
         {
             var result = await _context.Jobs
                 .Where(x => x.Assigned_Technician_Id == technicianId &&
                             x.ScheduledStartDateTime.Month == date.Month &&
                             x.ScheduledStartDateTime.Day == date.Day)
-                .OrderBy(x => x.FinishedDateTime)
-                .Skip(position)
-                .Take(take)
+                .OrderBy(x => x.ScheduledStartDateTime)
                 .ToListAsync();
 
             return result;

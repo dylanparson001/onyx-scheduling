@@ -7,9 +7,7 @@ namespace OnyxScheduling.Models
         public int InvoiceId { get; set; }
         [JsonIgnore]
         public Invoices Invoice { get; set; }
-        /*public int JobId { get; set; }
-        [JsonIgnore]
-        public Jobs Job { get; set; }*/
+
         public int InvoiceItemId { get; set; }
         [JsonIgnore]
         public Invoice_Items InvoiceItem { get; set; }

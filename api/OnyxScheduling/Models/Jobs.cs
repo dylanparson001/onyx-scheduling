@@ -22,12 +22,7 @@ namespace OnyxScheduling.Models
         public string Assigned_Customer_Id { get; set; }
         public double Total_Price { get; set; }
         public int InvoiceNumber { get; set; }
-        public List<InvoiceInvoice_Item> InvoiceInvoice_Items { get; set; }
+        public List<JobInvoice_Item> JobInvoiceItems { get; set; }
         public int InvoiceId { get; internal set; }
     }
 }
-
-/*
-createdDateTime
-    : 
-"5-14-2024 14:28:43"*/

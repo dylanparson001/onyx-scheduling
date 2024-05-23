@@ -14,10 +14,12 @@ namespace OnyxScheduling.Controllers
     public class JobsController : ControllerBase
     {
         private readonly IJobsRepository _jobsRepository;
+        private readonly IJobInvoiceItemRepository _jobInvoiceItemRepository;
 
-        public JobsController(IJobsRepository jobsRepository)
+        public JobsController(IJobsRepository jobsRepository, IJobInvoiceItemRepository jobInvoiceItemRepository)
         {
             _jobsRepository = jobsRepository;
+            _jobInvoiceItemRepository = jobInvoiceItemRepository;
         }
 
         [HttpGet]
@@ -59,13 +61,13 @@ namespace OnyxScheduling.Controllers
                 Id = jobDto.Id,
                 Address = jobDto.Address,
                 //City = jobDto.City,
-                Processing_Status = jobDto.Processing_Status,
+                Processing_Status = jobDto.processing_Status,
                 CreatedDateTime = parsedCreatedDate,
                 ScheduledStartDateTime = parsedScheduledStartDate,
                 ScheduledEndDateTime = parsedScheduledEndDate,
                 FinishedDateTime = parsedFinishedDateTime,
                 Assigned_Technician_Id = jobDto.Assigned_Technician_Id,
-                Assigned_Customer_Id = jobDto.Assigned_Customer_id,
+                Assigned_Customer_Id = jobDto.Assigned_Customer_Id,
                 Total_Price = 0.0,
                 InvoiceNumber = jobDto.InvoiceNumber,
                 InvoiceId = jobDto.InvoiceId
@@ -88,6 +90,52 @@ namespace OnyxScheduling.Controllers
                 "Closed"
             };
             return statuses;
+        }
+
+        [HttpGet]
+        [Route("GetJobsByTechnician")]
+        public async Task<ActionResult<List<Jobs>>> GetTechnicianJobsByDate(string date, string technicianId)
+        {
+            var requestedDate = DateTime.Parse(date);
+            
+            
+            var result = await _jobsRepository.GetJobsByTechnicianAsync(requestedDate, technicianId);
+
+            if (result == null)
+            {
+                return BadRequest();
+            }
+
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("AddItemsToJob")]
+        public async Task<ActionResult> AddItemsToJob(int jobId,  List<Invoice_Items> invoiceItems)
+        {
+            foreach (var item in invoiceItems)
+            {
+                await _jobInvoiceItemRepository.AddItemsToJob(jobId, item.Id, item.Quantity);
+            }
+
+            return Ok();
+        }
+
+        [HttpGet]
+        [Route("GetItemsFromJob")]
+        public async Task<ActionResult<List<InvoiceItemDto>>> GetItemsFromJob(int jobId)
+        {
+            var result = await _jobInvoiceItemRepository.GetItemsOfJob(jobId);
+
+            var itemDtos = result.Select(item => new InvoiceItemDto()
+            {
+                Id = item.Id,
+                Category_Id = item.Category_Id,
+                Item_Name = item.Item_Name,
+                Price = item.Price,
+                Quantity = item.Quantity
+            }).ToList();
+            return Ok(itemDtos);
         }
     }
 }

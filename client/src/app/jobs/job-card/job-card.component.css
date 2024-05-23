@@ -1,0 +1,45 @@
+.container {
+}
+
+.job-section {
+}
+
+.card-title {
+  font-size: 1.8rem;
+}
+.card-subtitle{
+  font-size: 1.3rem;
+}
+
+.card{
+  margin-bottom: 1%;
+  padding: 1%;
+  max-width: 50%;
+}
+
+.edit-button{
+  width: 20%;
+  height: 40%;
+
+}
+
+.card-open {
+  background-color: #00ffcf;
+}
+
+.card-pending {
+  background-color: #ff9203;
+}
+
+.card-started {
+  background-color: #e4ff00;
+}
+
+.card-finished {
+  background-color: #11ff00;
+}
+
+.card-finished {
+  background-color: #ff0000;
+}
+

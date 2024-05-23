@@ -4,6 +4,7 @@ import {environment} from "../environments/environment";
 import {Observable} from "rxjs";
 import {Jobs} from "../models/jobs";
 import {Invoice} from "../models/invoice";
+import {Item} from "../models/item";
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,25 @@ export class JobsService {
       `${this.baseUrl}Jobs/AddJob`,
       newJob
     );
+  }
+
+  postItems(itemIds: Item[], jobId: number) {
+    return this.http.post(
+      `${this.baseUrl}Jobs/AddItemsToJob?jobId=${jobId}`,
+      itemIds
+    )
+  }
+
+  getJobsByTechAndDate(date: string, techId: string) {
+    return this.http.get<Jobs[]>(
+      `${this.baseUrl}Jobs/GetJobsByTechnician?date=${date}&technicianId=${techId}`
+    )
+  }
+
+  getItemsFromJob(jobId: number) {
+    return this.http.get<Item[]>(
+      `${this.baseUrl}Jobs/GetItemsFromJob?jobId=${jobId}`
+    )
   }
 
 }

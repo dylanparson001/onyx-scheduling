@@ -15,6 +15,7 @@ import {Jobs} from "../../models/jobs";
 import {InvoiceItems} from "../../models/invoice-items";
 import {ItemsService} from "../../_services/items.service";
 import {Item} from "../../models/item";
+import {DateServiceService} from "../../_services/date-service.service";
 
 @Component({
   selector: 'app-new-job-form',
@@ -44,13 +45,13 @@ export class NewJobFormComponent implements OnInit{
     id: 0,
     address: '',
     city: '',
-    processingStatus: '',
+    processing_Status: '',
     createdDateTime: '',
     finishedDateTime: '',
     scheduledStartDateTime: '',
     scheduledEndDateTime: '',
-    assignedTechnicianId: '',
-    assignedCustomerId: '',
+    assigned_Technician_Id: '',
+    assigned_Customer_Id: '',
     totalPrice: 0,
     invoiceNumber: 0,
     invoiceId: 0,
@@ -67,7 +68,8 @@ export class NewJobFormComponent implements OnInit{
     private invoiceService: InvoicesService,
     private jobService: JobsService,
     private itemService: ItemsService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private dateService: DateServiceService
   ) {}
 
   ngOnInit(): void {
@@ -84,7 +86,7 @@ export class NewJobFormComponent implements OnInit{
     }
   inputSelectedCustomerInfo() {
     if (this.selectedCustomer) {
-      this.job.assignedCustomerId = this.selectedCustomer.id;
+      this.job.assigned_Customer_Id = this.selectedCustomer.id;
       this.job.address = this.selectedCustomer.address;
       this.job.city = this.selectedCustomer.city;
     }
@@ -122,12 +124,12 @@ export class NewJobFormComponent implements OnInit{
     let scheduledEndDate = new Date(this.job.scheduledStartDateTime);
 
 
-    let completeStartDate = this.returnDateTime(
+    let completeStartDate = this.dateService.returnDateTime(
       scheduledStartDate,
       this.scheduledStartTime
     );
 
-    let completeEndDate = this.returnDateTime(
+    let completeEndDate = this.dateService.returnDateTime(
       scheduledEndDate,
       this.scheduledEndTime
     );
@@ -138,36 +140,13 @@ export class NewJobFormComponent implements OnInit{
 
     console.log(this.job)
     this.jobService.postJob(this.job).subscribe({
-      next: value => this.router.navigateByUrl('jobs/')
+      next: value => this.router.navigateByUrl('/jobs')
     })
   }
   convertDateFormat(currentDateTime: Date): string {
     return `${currentDateTime.getMonth() + 1}-${currentDateTime.getDate()}-${currentDateTime.getFullYear()} ${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:${currentDateTime.getSeconds()}`;
   }
-  returnDateTime(date: Date, time: string) {
-    let timeArray = time.split(':');
-    let monthString;
-    let monthInt = date.getMonth() + 1;
-    let dayInt = date.getDate();
-    let dayString;
 
-    if (dayInt < 10) {
-      dayString = `0${dayInt}`;
-    } else {
-      dayString = `${dayInt}`;
-    }
-
-    if (monthInt < 10) {
-      monthString = `0${monthInt}`;
-    } else {
-      monthString = `${monthInt}`;
-    }
-
-    let returnDate = new Date(`${date.getFullYear()}-${monthString}-${dayString}T${timeArray[0]}:${timeArray[1]}:00`
-    );
-
-    return returnDate;
-  }
 
   cancelForm() {
     this.router.navigateByUrl('/jobs');

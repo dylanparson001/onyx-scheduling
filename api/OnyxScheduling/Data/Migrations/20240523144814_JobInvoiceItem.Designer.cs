@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OnyxScheduling.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240523144814_JobInvoiceItem")]
+    partial class JobInvoiceItem
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -83,9 +86,6 @@ namespace OnyxScheduling.Data.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("Quantity")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.ToTable("Invoice_Items");
@@ -96,16 +96,14 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 123,
                             Category_Id = 0,
                             Item_Name = "234 Spring Red",
-                            Price = 210.0,
-                            Quantity = 0
+                            Price = 210.0
                         },
                         new
                         {
                             Id = 234,
                             Category_Id = 0,
                             Item_Name = "4' Nylon Rollers",
-                            Price = 15.0,
-                            Quantity = 0
+                            Price = 15.0
                         });
                 });
 
@@ -161,8 +159,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 1,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2024, 5, 23, 14, 9, 35, 822, DateTimeKind.Local).AddTicks(2443),
-                            FinishedDateTime = new DateTime(2024, 5, 23, 14, 9, 35, 822, DateTimeKind.Local).AddTicks(2487),
+                            CreatedDateTime = new DateTime(2024, 5, 23, 10, 48, 13, 969, DateTimeKind.Local).AddTicks(8665),
+                            FinishedDateTime = new DateTime(2024, 5, 23, 10, 48, 13, 969, DateTimeKind.Local).AddTicks(8710),
                             InvoiceId = 0,
                             InvoiceNumber = "INV001",
                             JobId = 0,
@@ -175,8 +173,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 2,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2024, 5, 23, 14, 9, 35, 822, DateTimeKind.Local).AddTicks(2492),
-                            FinishedDateTime = new DateTime(2024, 5, 23, 14, 9, 35, 822, DateTimeKind.Local).AddTicks(2493),
+                            CreatedDateTime = new DateTime(2024, 5, 23, 10, 48, 13, 969, DateTimeKind.Local).AddTicks(8715),
+                            FinishedDateTime = new DateTime(2024, 5, 23, 10, 48, 13, 969, DateTimeKind.Local).AddTicks(8716),
                             InvoiceId = 0,
                             InvoiceNumber = "INV002",
                             JobId = 0,
@@ -198,8 +196,6 @@ namespace OnyxScheduling.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.HasKey("JobId", "InvoiceItemId");
-
-                    b.HasIndex("InvoiceItemId");
 
                     b.ToTable("JobInvoice_Item");
                 });
@@ -271,7 +267,7 @@ namespace OnyxScheduling.Data.Migrations
                 {
                     b.HasOne("OnyxScheduling.Models.Invoice_Items", "InvoiceItems")
                         .WithMany("JobInvoiceItems")
-                        .HasForeignKey("InvoiceItemId")
+                        .HasForeignKey("JobId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -60,8 +60,9 @@ namespace OnyxScheduling.Data.Repositories
                 case "Unpaid":
                     result = await _context.Invoices
                         .Where(x => x.FinishedDateTime.Value.Month == date.Month &&
-                                    x.FinishedDateTime.Value.Month == date.Day &&
+                                    x.FinishedDateTime.Value.Day == date.Day &&
                                     x.Processing_Status == status)
+                        
                         .OrderBy(x => x.FinishedDateTime)
                         .Skip(position)
                         .Take(take)

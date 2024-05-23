@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Output, ViewChild} from '@angular/core';
 import {CommonModule, DatePipe} from '@angular/common';
 import {JobsService} from "../_services/jobs.service";
 import {HomeInvoiceCardsComponent} from "../home/invoice-section/home-invoice-cards/home-invoice-cards.component";
@@ -9,11 +9,15 @@ import {InvoiceCardComponent} from "../invoice/invoice-card/invoice-card.compone
 import {MatDatepickerModule} from "@angular/material/datepicker";
 import {Invoice} from "../models/invoice";
 import {InvoicesService} from "../_services/invoices.service";
+import {User} from "../models/user";
+import {JobCardComponent} from "./job-card/job-card.component";
+import {UsersService} from "../_services/users.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-jobs.ts',
   standalone: true,
-  imports: [CommonModule, HomeInvoiceCardsComponent, MatButtonModule, RouterLink, RouterLinkActive, FormsModule, InvoiceCardComponent, MatDatepickerModule, ReactiveFormsModule],
+  imports: [CommonModule, HomeInvoiceCardsComponent, MatButtonModule, RouterLink, RouterLinkActive, FormsModule, InvoiceCardComponent, MatDatepickerModule, ReactiveFormsModule, JobCardComponent],
   templateUrl: './jobs.component.html',
   styleUrl: './jobs.component.css'
 })
@@ -27,11 +31,16 @@ export class JobsComponent implements OnInit {
   countOfInvoices: number | undefined;
   totalPages: number = 0;
   currentPage: number = 1;
-  currentDate: any = '';
+  @Output() currentDate: any = '';
+  @Output() technician: any;
+  techList: any[] = [];
   today: Date = new Date();
+  @ViewChild(JobCardComponent) jobCard!: JobCardComponent
 
   ngOnInit(): void {
     let today = this.today
+
+    this.getAllTechnicians();
 
     this.currentDate = this.datePipe.transform(today, 'MM-dd-yyy');
     this.loadStatuses();
@@ -40,9 +49,20 @@ export class JobsComponent implements OnInit {
   constructor(private jobService: JobsService,
               private invoiceService: InvoicesService,
               private router: Router,
-              private datePipe: DatePipe) {
+              private datePipe: DatePipe,
+              private userService: UsersService) {
   }
 
+  getAllTechnicians() {
+    this.userService.getAllTechnicians().subscribe({
+      next: (response) => {
+        this.techList = response;
+      }
+    })
+  }
+  reloadJobs() {
+    // this.jobCard.getJobs();
+  }
   routeToNewJobForm() {
     this.router.navigateByUrl('jobs/new-job')
   }

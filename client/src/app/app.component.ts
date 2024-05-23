@@ -6,6 +6,7 @@ import { FormsModule, NgModelGroup } from '@angular/forms';
 import { LoginServiceService } from './_services/login-service.service';
 import { User } from './models/user';
 import { MatNativeDateModule } from '@angular/material/core';
+import {OverlayModule} from "@angular/cdk/overlay";
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     RouterLinkActive,
     NavbarComponent,
     FormsModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    OverlayModule
   ],
   providers: [
     DatePipe

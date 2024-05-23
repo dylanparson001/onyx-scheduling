@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {Jobs} from "../../models/jobs";
+import {User} from "../../models/user";
 
 @Component({
   selector: 'app-edit-invoice-form',
@@ -9,5 +11,8 @@ import { CommonModule } from '@angular/common';
   styleUrl: './edit-invoice-form.component.css'
 })
 export class EditInvoiceFormComponent {
+
+
+
 
 }

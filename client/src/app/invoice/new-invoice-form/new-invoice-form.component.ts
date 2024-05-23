@@ -10,6 +10,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { DatePipe } from '@angular/common';
 import { ProcessingStatus } from '../../enums/ProcessingStatus';
+import {DateServiceService} from "../../_services/date-service.service";
 
 @Component({
   selector: 'app-new-invoice-form',
@@ -48,7 +49,8 @@ export class NewInvoiceFormComponent implements OnInit {
     private userService: UsersService,
     private router: Router,
     private invoiceService: InvoicesService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private dateService: DateServiceService
   ) {}
 
   ngOnInit() {
@@ -91,12 +93,12 @@ export class NewInvoiceFormComponent implements OnInit {
     let scheduledEndDate = new Date(this.invoice.scheduledStartDateTime);
 
 
-    let completeStartDate = this.returnDateTime(
+    let completeStartDate = this.dateService.returnDateTime(
       scheduledStartDate,
       this.scheduledStartTime
     );
 
-    let completeEndDate = this.returnDateTime(
+    let completeEndDate = this.dateService.returnDateTime(
       scheduledEndDate,
       this.scheduledEndTime
     );
@@ -110,31 +112,6 @@ export class NewInvoiceFormComponent implements OnInit {
     });
   }
 
-  // returns a date given date and month
-  returnDateTime(date: Date, time: string) {
-    let timeArray = time.split(':');
-    let monthString;
-    let monthInt = date.getMonth() + 1;
-    let dayInt = date.getDate();
-    let dayString;
-
-    if (dayInt < 10) {
-      dayString = `0${dayInt}`;
-    } else {
-      dayString = `${dayInt}`;
-    }
-
-    if (monthInt < 10) {
-      monthString = `0${monthInt}`;
-    } else {
-      monthString = `${monthInt}`;
-    }
-
-    let returnDate = new Date(      `${date.getFullYear()}-${monthString}-${dayString}T${timeArray[0]}:${timeArray[1]}:00`
-    );
-
-    return returnDate;
-  }
 
   cancelForm() {
     this.router.navigateByUrl('/invoices');

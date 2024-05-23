@@ -7,6 +7,7 @@ import { NewInvoiceFormComponent } from './invoice/new-invoice-form/new-invoice-
 import { EditInvoiceFormComponent } from './invoice/edit-invoice-form/edit-invoice-form.component';
 import {JobsComponent} from "./jobs/jobs.component";
 import {NewJobFormComponent} from "./jobs/new-job-form/new-job-form.component";
+import {EditJobComponent} from "./jobs/edit-job/edit-job.component";
 
 export const routes: Routes = [
   { path: 'login', component: LoginFormComponent },
@@ -16,6 +17,7 @@ export const routes: Routes = [
   { path: 'invoices/edit-invoice', component: EditInvoiceFormComponent, canActivate: [authGuard] },
   { path: 'jobs', component: JobsComponent, canActivate: [authGuard] },
   { path: 'jobs/new-job', component: NewJobFormComponent, canActivate: [authGuard] },
+  { path: 'jobs/edit-job', component: EditJobComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/login' }, // Default route
   { path: '', redirectTo: '/home', pathMatch: 'full' }
 

@@ -20,18 +20,18 @@
         ></mat-datepicker-toggle>
         <mat-datepicker class="input-boxes" #chosenDate></mat-datepicker>
 
-        <div class="status-selector mx-2">
-          <select
-            class="form-select"
-            name="status"
-            [(ngModel)]="chosenStatus"
-            required
-            placeholder="Status"
-          >
-            <option *ngFor="let status of statusList">{{ status }}</option>
-          </select>
-        </div>
-        <button mat-raised-button type="submit">Search</button>
+<!--        <div class="status-selector mx-2">-->
+<!--          <select-->
+<!--            class="form-select"-->
+<!--            name="status"-->
+<!--            [(ngModel)]="chosenStatus"-->
+<!--            required-->
+<!--            placeholder="Status"-->
+<!--          >-->
+<!--            <option *ngFor="let status of statusList">{{ status }}</option>-->
+<!--          </select>-->
+<!--        </div>-->
+        <button mat-raised-button (click)="reloadJobs()">Reload</button>
       </form>
     </div>
 
@@ -60,11 +60,10 @@
     </div>
   </div>
 
-
-
-  <div *ngFor="let invoice of invoices">
-    <app-invoice-card [invoice]="invoice"></app-invoice-card>
+  <div *ngFor="let tech of techList">
+    <app-job-card [currentDate]="currentDate" [tech]="tech"></app-job-card>
   </div>
+
 </div>
 
 

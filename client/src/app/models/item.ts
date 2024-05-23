@@ -1,6 +1,7 @@
 export interface Item {
   id: number,
   category_id: number,
-  name: string,
+  item_Name: string,
   price: number
+  quantity: number
 }
