@@ -22,11 +22,13 @@ namespace OnyxScheduling.Data.Repositories
             await _context.Jobs.AddAsync(job);
             await _context.SaveChangesAsync();
         }
+        
+        public async Task ChangeProcessingStatus(int jobId, string processingStatus)
+        {
+            var result = await _context.Jobs.FirstOrDefaultAsync(x => x.Id == jobId);
 
-        public async Task AddItemsToJob(int jobId, int invoiceItemId)
-        { 
-            
-
+            result.Processing_Status = processingStatus;
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Jobs>> GetJobsByDateAndStatusAsync(DateTime date, string status, int position, int take)
@@ -74,5 +76,6 @@ namespace OnyxScheduling.Data.Repositories
 
             return result;
         }
+        
     }
 }

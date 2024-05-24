@@ -57,4 +57,12 @@ export class JobsService {
     )
   }
 
+  changeProcessingStatus(jobId: number, newStatus: string) {
+    console.log(newStatus)
+    return this.http.put(
+      `${this.baseUrl}Jobs/UpdateJobStatus?jobId=${jobId}&newStatus=${newStatus}`,
+      newStatus
+    )
+  }
+
 }

@@ -145,6 +145,18 @@ namespace OnyxScheduling.Controllers
             await _jobInvoiceItemRepository.RemoveItemsFromJob(jobId, itemToDelete);
             return Ok();
         }
+
+        [HttpPut]
+        [Route("UpdateJobStatus")]
+        public async Task<ActionResult> UpdateStatus(int jobId, string newStatus)
+        {
+            if (newStatus != null)
+            {
+                await _jobsRepository.ChangeProcessingStatus(jobId, newStatus);
+            }
+
+            return NoContent();
+        }
     }
     
 }

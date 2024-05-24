@@ -78,6 +78,7 @@ export class JobCardComponent implements OnChanges {
         this.jobService.getItemsFromJob(x.id).subscribe({
           next: response => {
             x.invoiceItems = response
+            console.log(response)
           }
 
         })

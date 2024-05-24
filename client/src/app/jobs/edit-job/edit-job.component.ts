@@ -27,6 +27,10 @@ export class EditJobComponent implements OnInit {
   chosenItemIds: number[] = []
   selectedItem: Item | undefined;
   totalPrice: number = 0.0;
+  removingItems: boolean = false;
+  editingItems: boolean = false;
+  jobStatuses: string[] = [];
+  newStatus: string = '';
 
   constructor(private overlayRef: OverlayRef,
               @Inject(JOB_DATA) public data: any,
@@ -39,12 +43,20 @@ export class EditJobComponent implements OnInit {
     this.loadJobAndCustomer()
     this.loadItems()
     this.loadItemsFromJob()
+    this.loadJobStatuses()
+  }
+
+  loadJobStatuses() {
+    this.jobService.getJobStatusList().subscribe({
+      next: (response) => {
+        this.jobStatuses = response
+      }
+    })
   }
 
   loadItems() {
     this.itemService.getItems().subscribe({
       next: (response) => this.items = response
-
     })
   }
 
@@ -65,7 +77,7 @@ export class EditJobComponent implements OnInit {
   updateJobItems() {
     if (this.job?.id)
       this.jobService.postItems(this.chosenItems, this.job?.id).subscribe({
-        next: () => console.log('successfully added items')
+        next: () => console.log(this.chosenItems)
       });
   }
 
@@ -95,4 +107,14 @@ export class EditJobComponent implements OnInit {
 
     this.chosenItems = this.chosenItems.filter(x => x.id != chosenItem.id);
   }
+
+  updateJobStatus() {
+    if(this.job) {
+      this.jobService.changeProcessingStatus(this.job.id, this.newStatus).subscribe({
+
+      })
+      console.log(this.newStatus)
+    }
+  }
+  
 }

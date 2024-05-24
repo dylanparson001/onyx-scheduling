@@ -7,7 +7,7 @@ namespace OnyxScheduling.Interfaces
         public Task<List<Jobs>> GetJobsByDateAndStatusAsync(DateTime date, string status, int position, int take);
         public Task<List<Jobs>> GetJobsByTechnicianAsync(DateTime date, string technicianId );
         public Task AddJobs(Jobs job);
-        public Task AddItemsToJob(int jobId, int invoiceItemId);
-        
+        public Task ChangeProcessingStatus(int jobId, string processingStatus);
+
     }
 }

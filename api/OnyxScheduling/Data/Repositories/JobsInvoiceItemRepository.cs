@@ -21,9 +21,12 @@ public class JobsInvoiceItemRepository: IJobInvoiceItemRepository
         foreach (var jobInvoiceItem in jobInvoiceItemResult)
         {
             var itemResult = await _context.Invoice_Items.FirstOrDefaultAsync(x => x.Id == jobInvoiceItem.InvoiceItemId);
-
+            
             if (itemResult != null)
             {
+                // need to apply quantity from job invoice item table
+                var itemToGetQuantity = jobInvoiceItemResult.FirstOrDefault(x => x.InvoiceItemId == itemResult.Id);
+                if (itemToGetQuantity != null) itemResult.Quantity = itemToGetQuantity.Quantity;
                 invoiceItemResult.Add(itemResult);
             }
         }

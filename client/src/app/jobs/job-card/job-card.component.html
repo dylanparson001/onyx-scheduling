@@ -28,7 +28,7 @@
 
         <div>
           <p *ngFor="let item of job.invoiceItems">
-            {{item.item_Name}} - {{item.price | currency:'USD'}}
+            {{item.price | currency:'USD'}} {{item.item_Name}}  <span class="mx-4">x{{item.quantity}}</span>
           </p>
         </div>
       </div>
