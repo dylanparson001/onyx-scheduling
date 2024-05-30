@@ -4,6 +4,7 @@ import { Invoice } from '../models/invoice';
 import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { ProcessingStatus } from '../enums/ProcessingStatus';
+import {Item} from "../models/item";
 
 @Injectable({
   providedIn: 'root',
@@ -21,8 +22,8 @@ export class InvoicesService {
     return result;
   }
 
-  getInvoiceItems(invoiceId: number) {
-    return this.http.get(
+  getInvoiceItems(invoiceId: number): Observable<Item[]> {
+    return this.http.get<Item[]>(
       `${this.baseUrl}InvoiceItem/GetInvoiceItemsFromInvoice/${invoiceId}`
     );
   }

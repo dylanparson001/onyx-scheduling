@@ -10,11 +10,15 @@ using System.Text.Json.Serialization;
 using Newtonsoft.Json;
 using OnyxScheduling.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using OnyxScheduling.Controllers;
+using QuestPDF.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
 
 // Add services to the container.
+// Quest PDF License
+QuestPDF.Settings.License = LicenseType.Community;
 
 // For Entity Framework
 builder.Services.AddDbContext<AuthDataContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
@@ -56,8 +60,7 @@ builder.Services.AddScoped<IAccountRepository, AccountRepository>();
 builder.Services.AddScoped<IInvoiceInvoiceItemRepository, InvoiceInvoice_ItemRepository>();
 builder.Services.AddScoped<IJobsRepository, JobsRepository>();
 builder.Services.AddScoped<IJobInvoiceItemRepository, JobsInvoiceItemRepository>();
-
-
+builder.Services.AddScoped<PdfService>();
 
 builder.Services.AddControllers();
    /* .AddJsonOptions(options =>

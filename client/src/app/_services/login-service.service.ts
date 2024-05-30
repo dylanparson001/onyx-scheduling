@@ -39,6 +39,7 @@ export class LoginServiceService {
           // puts staff into local storage
           localStorage.setItem("user", JSON.stringify(user.token));
           localStorage.setItem('role', JSON.stringify(user.role))
+          localStorage.setItem('userName', user.userName)
           // sets current staff member
           this.currentUserSource.next(user);
           this.user = user;

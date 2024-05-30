@@ -5,7 +5,7 @@
 
   <div class="row">
     <div *ngFor="let job of jobs" [ngClass]="getJobCardClass(job.processing_Status)" class="job-section card col-md-3 m-2">
-      <button mat-button
+      <button *ngIf="job.processing_Status!= 'Closed' " mat-button
               color="primary"
               class="edit-button"
               (click)="showEditJob(job, getCustomerForJob(job))"

@@ -16,6 +16,7 @@ import {InvoiceItems} from "../../models/invoice-items";
 import {ItemsService} from "../../_services/items.service";
 import {Item} from "../../models/item";
 import {DateServiceService} from "../../_services/date-service.service";
+import {ToastrModule, ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-new-job-form',
@@ -53,8 +54,8 @@ export class NewJobFormComponent implements OnInit{
     assigned_Technician_Id: '',
     assigned_Customer_Id: '',
     totalPrice: 0,
-    invoiceNumber: 0,
-    invoiceId: 0,
+    invoiceNumber: '0',
+    invoiceId: '0',
     invoiceItems: []
   }
   categories: any
@@ -69,7 +70,8 @@ export class NewJobFormComponent implements OnInit{
     private jobService: JobsService,
     private itemService: ItemsService,
     private datePipe: DatePipe,
-    private dateService: DateServiceService
+    private dateService: DateServiceService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -138,9 +140,14 @@ export class NewJobFormComponent implements OnInit{
     this.job.scheduledStartDateTime = this.convertDateFormat(completeStartDate);
     this.job.scheduledEndDateTime = this.convertDateFormat(completeEndDate);
 
-    console.log(this.job)
     this.jobService.postJob(this.job).subscribe({
-      next: value => this.router.navigateByUrl('/jobs')
+      next: value => {
+        this.router.navigateByUrl('/jobs')
+        this.toastr.success('Job Added Successfully')
+      },
+      error: err => {
+
+      }
     })
   }
   convertDateFormat(currentDateTime: Date): string {
@@ -167,4 +174,25 @@ export class NewJobFormComponent implements OnInit{
   //     }
   //   })
   // }
+  onTimeChange(event: string, type: string): void {
+    const time = this.roundToNearest15Minutes(event);
+    if (type === 'startTime') {
+      this.scheduledStartTime = time;
+    } else if (type === 'endTime') {
+      this.scheduledEndTime = time;
+    }
+  }
+
+  roundToNearest15Minutes(time: string): string {
+    const [hours, minutes] = time.split(':').map(Number);
+    const totalMinutes = hours * 60 + minutes;
+    const roundedMinutes = Math.round(totalMinutes / 15) * 15;
+    const roundedHours = Math.floor(roundedMinutes / 60);
+    const remainderMinutes = roundedMinutes % 60;
+
+    const paddedHours = String(roundedHours).padStart(2, '0');
+    const paddedMinutes = String(remainderMinutes).padStart(2, '0');
+
+    return `${paddedHours}:${paddedMinutes}`;
+  }
 }

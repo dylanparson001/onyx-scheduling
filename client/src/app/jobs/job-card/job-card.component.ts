@@ -133,8 +133,10 @@ export class JobCardComponent implements OnChanges {
         return 'card-pending';
       case 'Started':
         return 'card-started';
+      case 'Cancelled':
+        return 'card-cancelled'
       case 'Closed':
-        return 'card-finished';
+        return 'card-closed';
       default:
         return '';
     }

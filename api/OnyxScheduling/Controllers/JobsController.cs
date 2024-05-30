@@ -15,11 +15,28 @@ namespace OnyxScheduling.Controllers
     {
         private readonly IJobsRepository _jobsRepository;
         private readonly IJobInvoiceItemRepository _jobInvoiceItemRepository;
+        private readonly IAccountRepository _accountRepository;
+        private readonly PdfService _pdfService;
+        private readonly IInvoiceItemRepository _invoiceItemRepository;
+        private readonly IInvoiceRepository _invoiceRepository;
+        private readonly IInvoiceInvoiceItemRepository _invoiceInvoiceItemRepository;
 
-        public JobsController(IJobsRepository jobsRepository, IJobInvoiceItemRepository jobInvoiceItemRepository)
+        public JobsController(IJobsRepository jobsRepository,
+            IJobInvoiceItemRepository jobInvoiceItemRepository,
+            IAccountRepository accountRepository,
+            PdfService pdfService,
+            IInvoiceItemRepository invoiceItemRepository,
+            IInvoiceRepository invoiceRepository,
+            IInvoiceInvoiceItemRepository invoiceInvoiceItemRepository
+            )
         {
             _jobsRepository = jobsRepository;
             _jobInvoiceItemRepository = jobInvoiceItemRepository;
+            _accountRepository = accountRepository;
+            _pdfService = pdfService;
+            _invoiceItemRepository = invoiceItemRepository;
+            _invoiceRepository = invoiceRepository;
+            _invoiceInvoiceItemRepository = invoiceInvoiceItemRepository;
         }
 
         [HttpGet]
@@ -69,13 +86,70 @@ namespace OnyxScheduling.Controllers
                 Assigned_Technician_Id = jobDto.Assigned_Technician_Id,
                 Assigned_Customer_Id = jobDto.Assigned_Customer_Id,
                 Total_Price = 0.0,
-                InvoiceNumber = jobDto.InvoiceNumber,
                 InvoiceId = jobDto.InvoiceId
             };
             
             await _jobsRepository.AddJobs(newJob);
 
             return Ok(newJob);
+        }
+
+        [HttpPost]
+        [Route("GenerateInvoiceFromJob")]
+        public async Task<ActionResult> GenerateInvoiceFromJob(int jobId)
+        {
+            var jobResult = await _jobsRepository.GetJobById(jobId);
+            
+            if (jobResult == null) return BadRequest();
+            if (jobResult.Processing_Status != "Closed")
+            {
+                await _jobsRepository.ChangeProcessingStatus(jobId, "Closed");
+            };
+            
+            await GenerateInvoicePdfFromJob(jobResult);
+            return NoContent();
+        }
+        
+        
+        public async Task GenerateInvoicePdfFromJob(Jobs job)
+        {
+            if (job == null)
+            {
+                return;
+            }
+            
+            var customer = await  _accountRepository.GetCustomersFromCustomerId(job.Assigned_Customer_Id);
+            var technician = await _accountRepository.GetTechnciainsFromTechId(job.Assigned_Technician_Id);
+            var itemsFromJob = await _jobInvoiceItemRepository.GetItemsOfJob(job.Id);
+            double tempPrice = 0.0;
+            
+            foreach (var jobItem in itemsFromJob)
+            {
+                var itemPrice = await _invoiceItemRepository.GetPriceOfItem(jobItem.Id);
+
+                tempPrice += (itemPrice * jobItem.Quantity);
+            }
+            
+
+            var newInvoice = new Invoices()
+            {
+                CreatedDateTime = job.CreatedDateTime,
+                FinishedDateTime = job.FinishedDateTime,
+                ScheduledStartDateTime = job.ScheduledStartDateTime,
+                ScheduledEndDateTime = job.ScheduledEndDateTime,
+                Assigned_Customer_Id = job.Assigned_Customer_Id,
+                Assigned_Technician_Id = job.Assigned_Technician_Id,
+                Processing_Status = "Paid",
+                InvoiceNumber = job.InvoiceNumber,
+                Total_Price = tempPrice,
+                Address = job.Address,
+                JobId = job.Id
+            };
+            
+            
+            _pdfService.GeneratePdf(newInvoice, customer, technician, itemsFromJob);
+            
+            await _invoiceRepository.AddInvoice(newInvoice, itemsFromJob);
         }
 
         [HttpGet]
@@ -87,7 +161,7 @@ namespace OnyxScheduling.Controllers
                 "Open",
                 "Pending",
                 "Started",
-                "Closed"
+                "Cancelled"
             };
             return statuses;
         }
@@ -157,6 +231,30 @@ namespace OnyxScheduling.Controllers
 
             return NoContent();
         }
-    }
     
+    [HttpGet]
+    [Route("GetJobById")]
+    public async Task<ActionResult<Jobs>> GetJobById(int jobId)
+    {
+        var result = _jobsRepository.GetJobById(jobId);
+        if (result == null)
+        {
+            return BadRequest();
+        }
+        return Ok(result);
+    }
+
+    [HttpPut]
+    [Route("UpdateJobTimes")]
+    public async Task<ActionResult> UpdateJobTimes(int jobId, string newStartTime, string newEndTime)
+    {
+        var newDateTimeStart = DateTime.Parse(newStartTime);
+        var newDateTimeEnd = DateTime.Parse(newEndTime);
+
+        await _jobsRepository.UpdateJobSchedule(jobId, newDateTimeStart, newDateTimeEnd);
+
+        return Ok();
+    }
+
+    }
 }

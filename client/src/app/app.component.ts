@@ -7,6 +7,8 @@ import { LoginServiceService } from './_services/login-service.service';
 import { User } from './models/user';
 import { MatNativeDateModule } from '@angular/material/core';
 import {OverlayModule} from "@angular/cdk/overlay";
+import {provideToastr, ToastrModule} from "ngx-toastr";
+import {BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations";
 
 @Component({
   selector: 'app-root',
@@ -24,7 +26,8 @@ import {OverlayModule} from "@angular/cdk/overlay";
     OverlayModule
   ],
   providers: [
-    DatePipe
+    DatePipe,
+
   ]
 })
 export class AppComponent implements OnInit {

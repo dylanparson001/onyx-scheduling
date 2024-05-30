@@ -13,11 +13,17 @@ namespace OnyxScheduling.Controllers
     {
         private readonly IInvoiceRepository _invoiceRepository;
         private readonly IInvoiceItemRepository _invoiceItemRepository;
+        private readonly PdfService _pdfService;
+        private readonly IAccountRepository _accountRepository;
+        private readonly UserController _userController;
 
-        public InvoicesController(IInvoiceRepository invoiceRepository, IInvoiceItemRepository invoiceItemRepository)
+
+        public InvoicesController(IInvoiceRepository invoiceRepository, IInvoiceItemRepository invoiceItemRepository, PdfService pdfService, IAccountRepository accountRepository)
         {
             _invoiceRepository = invoiceRepository;
             _invoiceItemRepository = invoiceItemRepository;
+            _pdfService = pdfService;
+            _accountRepository = accountRepository;
         }
 
         [HttpGet]
@@ -77,7 +83,6 @@ namespace OnyxScheduling.Controllers
 
             return Ok(result);
         }
-
         [HttpPost]
         [Route("AddInvoice")]
         public async Task<ActionResult> AddInvoice(InvoiceDto invoice)
@@ -111,27 +116,17 @@ namespace OnyxScheduling.Controllers
                 Assigned_Technician_Id = invoice.Assigned_Technician_Id,
                 InvoiceNumber = invoice.InvoiceNumber,
                 Total_Price = 0.0,
-                InvoiceInvoice_Items = new List<InvoiceInvoice_Item>(),
                 Processing_Status = invoice.Processing_Status,
                 Address = invoice.Address,
                 JobId = invoice.JobId
             };
 
-            if (newInvoice.InvoiceInvoice_Items.Count != 0)
-            {
-
-                foreach (var item in newInvoice.InvoiceInvoice_Items)
-                {
-                    var price = await _invoiceItemRepository.GetPriceOfItem(item.InvoiceItemId);
-                    newInvoice.Total_Price += price * item.Quantity;
-                }
-
-            }
-
-            await _invoiceRepository.AddInvoice(newInvoice);
 
             return NoContent();
         }
+        
+        // 
+       
 
         [HttpDelete]
         [Route("RemoveInvoice")]

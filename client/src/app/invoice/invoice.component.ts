@@ -66,6 +66,7 @@ export class InvoiceComponent implements OnInit {
     }
   }
 
+
   resultCountChange() {
     this.setOffsetToZero();
   }

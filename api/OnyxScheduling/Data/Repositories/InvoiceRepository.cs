@@ -9,16 +9,22 @@ namespace OnyxScheduling.Data.Repositories
     public class InvoiceRepository : IInvoiceRepository
     {
         private readonly DataContext _context;
+        private readonly IInvoiceInvoiceItemRepository _invoiceInvoiceItemRepository;
 
-        public InvoiceRepository(DataContext context)
+        public InvoiceRepository(DataContext context, IInvoiceInvoiceItemRepository invoiceInvoiceItemRepository)
         {
             _context = context;
+            _invoiceInvoiceItemRepository = invoiceInvoiceItemRepository;
         }
 
-        public async Task AddInvoice(Invoices invoice)
+        public async Task AddInvoice(Invoices invoice, List<Invoice_Items> invoiceItemsList)
         {
             await _context.Invoices.AddAsync(invoice);
             await _context.SaveChangesAsync();
+            foreach (var item in invoiceItemsList)
+            {
+                await _invoiceInvoiceItemRepository.AddInvoiceInvoiceItems(invoice.Id, item.Id);
+            }
         }
 
         public async Task<List<Invoices>> GetInvoicesAsync()
@@ -106,6 +112,11 @@ namespace OnyxScheduling.Data.Repositories
             }
 
             return result;
+        }
+
+        public async Task<Invoices> GetInvoiceFromJobId(int jobId)
+        {
+            return await _context.Invoices.FirstOrDefaultAsync(x => x.JobId == jobId);
         }
 
         public async Task<List<Invoices>> GetInvoicesByTechnician(string technician_id)

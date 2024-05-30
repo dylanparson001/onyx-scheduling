@@ -9,7 +9,7 @@ public class JobsDto
     public string ScheduledEndDateTime { get; set; }
     public string Assigned_Technician_Id { get; set; }
     public string Assigned_Customer_Id { get; set; }
-    public int InvoiceNumber { get; set; }
+    public string InvoiceNumber { get; set; }
     public string Address { get; set; }
     public string City { get; set; }
     public string processing_Status { get; set; }

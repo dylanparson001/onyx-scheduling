@@ -19,7 +19,7 @@
 
 .edit-button{
   width: 20%;
-  height: 40%;
+  max-height: 2em;
 
 }
 
@@ -34,12 +34,14 @@
 .card-started {
   background-color: #e4ff00;
 }
-
+.card-cancelled{
+  background-color: #ee0c0c;
+}
 .card-finished {
   background-color: #11ff00;
 }
 
-.card-finished {
-  background-color: #ff0000;
+.card-closed {
+  background-color: rgba(9, 114, 234, 0.26);
 }
 

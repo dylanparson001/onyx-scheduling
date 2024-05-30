@@ -90,8 +90,10 @@ namespace OnyxScheduling.Controllers
         [Route("GetCustomerFromInvoice")]
         public async Task<ActionResult<CustomerDto>> GetCustomerFromInvoice(string customerId)
         {
-            var customer = await _accountRepository.GetCustomersFromCustomerId(customerId);
+            var customer = await GetCustomerFromCustomerId(customerId);
 
+            if (customer == null) return BadRequest();
+            
             var customerDto = new CustomerDto()
             {
                 Id = customer.Id,
@@ -104,6 +106,11 @@ namespace OnyxScheduling.Controllers
 
 
             return Ok(customerDto);
+        }
+
+        public async Task<User> GetCustomerFromCustomerId(string customerId)
+        {
+             return await _accountRepository.GetCustomersFromCustomerId(customerId);
         }
 
         [HttpGet]
@@ -128,6 +135,11 @@ namespace OnyxScheduling.Controllers
             };
 
             return Ok(techDto);
+        }
+
+        public async Task<User> GetTechFromId(string techId)
+        {
+            return await _accountRepository.GetTechnciainsFromTechId(techId);
         }
 
         [HttpGet]

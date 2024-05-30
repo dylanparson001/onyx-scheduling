@@ -23,3 +23,6 @@ input.ng-valid.ng-touched,
 select.ng-valid.ng-touched {
   border: 3px solid green;
 }
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+}

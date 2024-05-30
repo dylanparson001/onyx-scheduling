@@ -1,31 +1,37 @@
 <button mat-button class="close-overlay-button" (click)="closeOverlay()">
   <i class="fa-solid fa-times-circle" aria-hidden="true"></i>
 </button>
+<button mat-button (click)="editingItems = !editingItems"><i
+  class="edit-job-button fa-solid fa-pencil"></i></button>
 
-<div class="d-flex flex-row align-items-center">
+<div class="d-flex flex-row align-items-start">
   <!--  Adding/ removing items section-->
   <div class="container d-flex flex-column align-items-left">
     <div>
-      <p>Current Items <span><button mat-button (click)="editingItems = !editingItems"><i class="fa-solid fa-pencil"></i></button></span></p>
+      <p>Current Items <span></span></p>
 
       <div class="mt-2 h-25" *ngFor="let chosenItem of chosenItems">
 
-        <button class="remove-item-button" *ngIf="removingItems" mat-raised-button color="red" (click)="removeItem(chosenItem)">
+        <button class="remove-item-button" *ngIf="removingItems  && editingItems" mat-raised-button color="red"
+                (click)="removeItem(chosenItem)">
           <i class="fa fa-times" aria-hidden="true"></i>
         </button>
 
         {{ chosenItem.item_Name }} {{ chosenItem.price | currency:'USD' }}
         <span class="align-self-end">
 
-        <span class="mx-4" *ngIf="!editingItems">x{{chosenItem.quantity}}</span>
-        <input class="quantity-section mx-4"  *ngIf="editingItems" type="number" min="1" max="100" (change)="updateItemQuantity(chosenItem)"
+        <span class="mx-4" *ngIf="!editingItems">x{{ chosenItem.quantity }}</span>
+        <input class="quantity-section mx-4" *ngIf="editingItems" type="number" min="1" max="100"
+               (change)="updateItemQuantity(chosenItem)"
                [(ngModel)]="chosenItem.quantity">
         </span>
       </div>
-      <button class="edit-item-buttons" *ngIf="!removingItems && editingItems" (click)="removingItems = true" mat-raised-button>
-          Delete
+      <button class="edit-item-buttons" *ngIf="!removingItems && editingItems" (click)="removingItems = true"
+              mat-raised-button>
+        Delete
       </button>
-      <button class="edit-item-buttons" *ngIf="removingItems && editingItems" (click)="removingItems = false" mat-raised-button>
+      <button class="edit-item-buttons" *ngIf="removingItems && editingItems" (click)="removingItems = false"
+              mat-raised-button>
         Stop
       </button>
     </div>
@@ -60,35 +66,72 @@
       >
         Add Items
       </button>
-      <button
-        mat-button
-        color="red"
-        class="cancel-remove-item-button"
-        (click)="editingItems = false; removingItems = false"
-      >
-        Cancel Edit
-      </button>
+      <!--      <button-->
+      <!--        mat-button-->
+      <!--        color="red"-->
+      <!--        class="cancel-remove-item-button"-->
+      <!--        (click)="editingItems = false; removingItems = false"-->
+      <!--      >-->
+      <!--        Cancel Edit-->
+      <!--      </button>-->
     </div>
   </div>
-<!--Customer / technician info-->
+  <!--Customer / technician info-->
   <div class="container d-flex flex-column align-items-left">
     <div>
-      {{ job?.scheduledStartDateTime | date: 'hh:mm a' }}
       <p>Customer: {{ customer?.firstName }} {{ customer?.lastName }}</p>
-       {{ technician?.firstName }} {{ technician?.lastName }}
+      <p>
+        Schedule:
+        {{ job?.scheduledStartDateTime | date: 'hh:mm a' }} - {{ job?.scheduledEndDateTime | date: 'hh:mm a' }}
+      </p>
+
+
+      <div *ngIf="editingItems" class="flex">
+        <label for="startTime">Start Time: </label>
+        <input
+          type="time"
+          id="startTime"
+          name="startTime"
+          [ngModel]="newScheduledStartTime"
+          (ngModelChange)="onTimeChange($event, 'startTime')"
+          step="900"
+          required
+        />
+        <label for="endTime">End Time: </label>
+        <input
+          type="time"
+          id="endTime"
+          name="endTime"
+          [ngModel]="newScheduledEndTime"
+          (ngModelChange)="onTimeChange($event, 'endTime')"
+          step="900"
+          required
+        />
+        <button (click)="updateJobTime()" class="mt-1" mat-raised-button >Update Time</button>
+      </div>
+      <p>
+        Technician: {{ technician?.firstName }} {{ technician?.lastName }}
+      </p>
     </div>
-<!--    processing statuses-->
-    <div>
-      <p>{{job?.processing_Status}}</p>
+
+  </div>
+  <!--    processing statuses-->
+  <div class="container d-flex flex-column align-items-left">
+    <p>Status: {{ job?.processing_Status }}</p>
+    <span *ngIf="editingItems">
+
       <select [(ngModel)]="newStatus">
         <option></option>
         <option *ngFor="let status of jobStatuses">
-          {{status}}
+          {{ status }}
         </option>
       </select>
-      <button (click)="updateJobStatus()">Change Status</button>
-    </div>
-
+        <br>
+      <button class="mt-1" mat-raised-button color="primary" (click)="updateJobStatus()">Change Status</button>
+      </span>
   </div>
+</div>
 
+<div class="complete-button" *ngIf="!editingItems">
+  <button mat-raised-button color="primary" (click)="completeJob()">Complete Job</button>
 </div>

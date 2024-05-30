@@ -12,7 +12,7 @@
     <div class="col-md-8">
       <div class="card-body">
         <h6 class="card-title">Items</h6>
-        <div class="" data-bs-spy="scroll">
+        <div class=""   data-bs-spy="scroll">
 
             <table class="table table-striped">
               <thead>
@@ -22,10 +22,10 @@
                   <th scope="col">Price</th>
                 </tr>
               </thead>
-              <tbody>
-                <tr  *ngFor="let item of items">
-                  <td scope="row">{{item.invoiceInvoiceItems[0].quantity}}</td>
-                  <td scope="row">{{item.item_Name}} </td>
+              <tbody  *ngIf="items">
+                <tr *ngFor="let item of items">
+                  <td >{{item.quantity}}</td>
+                  <td >{{item.item_Name}} </td>
                   <td>{{item.price | currency   }}</td>
                 </tr>
               </tbody>

@@ -31,6 +31,23 @@ namespace OnyxScheduling.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<Jobs> GetJobById(int jobId)
+        {
+            var result = await _context.Jobs.FirstOrDefaultAsync(x => x.Id == jobId);
+
+            return result;
+        }
+
+        public async Task UpdateJobSchedule(int jobId, DateTime startTime, DateTime endTime)
+        {
+            var jobResult = await _context.Jobs.FirstOrDefaultAsync(x => x.Id == jobId);
+
+            jobResult.ScheduledStartDateTime = startTime;
+            jobResult.ScheduledEndDateTime = endTime;
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Jobs>> GetJobsByDateAndStatusAsync(DateTime date, string status, int position, int take)
         {
             var result = new List<Jobs>();

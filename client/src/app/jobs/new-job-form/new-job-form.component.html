@@ -77,16 +77,15 @@
       [for]="startDate"
     ></mat-datepicker-toggle>
     <mat-datepicker class="input-boxes" #startDate></mat-datepicker>
-
     <div class="flex">
       <label for="startTime">Start Time: </label>
       <input
         type="time"
         id="startTime"
         name="startTime"
-        min="09:00"
-        max="18:00"
-        [(ngModel)]="scheduledStartTime"
+        [ngModel]="scheduledStartTime"
+        (ngModelChange)="onTimeChange($event, 'startTime')"
+        step="900"
         required
       />
       <label for="endTime">End Time: </label>
@@ -94,12 +93,13 @@
         type="time"
         id="endTime"
         name="endTime"
-        min="09:00"
-        max="18:00"
-        [(ngModel)]="scheduledEndTime"
+        [ngModel]="scheduledEndTime"
+        (ngModelChange)="onTimeChange($event, 'endTime')"
+        step="900"
         required
       />
     </div>
+
     <small class="input-boxes">Office hours are 9am to 6pm</small>
 
     <div class="technician-select">

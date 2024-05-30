@@ -16,12 +16,13 @@ public class DataContext : DbContext
     public DbSet<JobInvoice_Item> JobInvoice_Item { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        
         modelBuilder.Entity<InvoiceInvoice_Item>()
            .HasKey(ii => new { ii.InvoiceId, ii.InvoiceItemId });
 
         modelBuilder.Entity<InvoiceInvoice_Item>()
             .HasOne(ii => ii.Invoice)
-            .WithMany(i => i.InvoiceInvoice_Items)
+            .WithMany(i => i.Invoice_Items)
             .HasForeignKey(ii => ii.InvoiceId);
 
         modelBuilder.Entity<InvoiceInvoice_Item>()
@@ -43,13 +44,6 @@ public class DataContext : DbContext
             .WithMany(ii => ii.JobInvoiceItems)
             .HasForeignKey(ii => ii.InvoiceItemId);
         
-        /*
-        modelBuilder.Entity<InvoiceInvoice_Item>()
-            .HasOne(ii => ii.Job)
-            .WithMany(ii => ii.InvoiceInvoice_Items)
-            .HasForeignKey(ii => ii.JobId);
-            */
-
 
 
         modelBuilder.Entity<Invoices>().HasData(
@@ -70,6 +64,7 @@ public class DataContext : DbContext
             }
         );
 
+        /*
         modelBuilder.Entity<Invoice_Items>().HasData(
             new Invoice_Items { Id = 123, Item_Name= "234 Spring Red", Price = 210.00 },
             new Invoice_Items { Id = 234, Item_Name = "4' Nylon Rollers", Price= 15.00 }
@@ -79,6 +74,6 @@ public class DataContext : DbContext
             new InvoiceInvoice_Item { InvoiceId = 1, InvoiceItemId = 123, Quantity = 2 },
             new InvoiceInvoice_Item { InvoiceId = 2, InvoiceItemId = 234 },
             new InvoiceInvoice_Item { InvoiceId = 2, InvoiceItemId = 123, Quantity = 10 }
-        );
+        );*/
     }
 }

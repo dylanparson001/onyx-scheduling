@@ -13,7 +13,7 @@ export interface Jobs {
   assigned_Technician_Id: string;
   assigned_Customer_Id: string;
   totalPrice: number;
-  invoiceNumber: number;
+  invoiceNumber: string;
   invoiceItems: Item[];
-  invoiceId: number;
+  invoiceId: string;
 }

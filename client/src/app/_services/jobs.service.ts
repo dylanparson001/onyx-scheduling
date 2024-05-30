@@ -20,6 +20,12 @@ export class JobsService {
     )
   }
 
+  getJobByJobId(jobId: number) {
+    return this.http.get<Jobs>(
+      `${this.baseUrl}Jobs/GetJobById?jobId${jobId}`
+    )
+  }
+
   getJobStatusList() {
     return this.http.get<string[]>(
       `${this.baseUrl}Jobs/GetJobStatusList`
@@ -58,10 +64,23 @@ export class JobsService {
   }
 
   changeProcessingStatus(jobId: number, newStatus: string) {
-    console.log(newStatus)
     return this.http.put(
       `${this.baseUrl}Jobs/UpdateJobStatus?jobId=${jobId}&newStatus=${newStatus}`,
-      newStatus
+      null
+    )
+  }
+
+  closeJob(jobId: number) {
+    return this.http.post(
+      `${this.baseUrl}Jobs/GenerateInvoiceFromJob?jobId=${jobId}`,
+      null
+    )
+  }
+
+  updateJobTime(jobId: number, newStartTime: string, newEndTime: string) {
+    return this.http.put(
+      `${this.baseUrl}Jobs/UpdateJobTimes?jobId=${jobId}&newStartTime=${newStartTime}&newEndTime=${newEndTime}`,
+      null
     )
   }
 

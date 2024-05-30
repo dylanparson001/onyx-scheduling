@@ -22,8 +22,9 @@ namespace OnyxScheduling.Models
         public string Assigned_Customer_Id { get; set; }
         public double Total_Price { get; set; }
         public string InvoiceNumber { get; set; }
-        public List<InvoiceInvoice_Item> InvoiceInvoice_Items{ get; set; }
+        public List<InvoiceInvoice_Item> Invoice_Items{ get; set; }
         public int JobId { get;  set; }
         public int InvoiceId { get; set; } = 0;
+        // public string FilePath { get; set; }
     }
 }

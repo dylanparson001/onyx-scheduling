@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
+﻿using System.Runtime.Loader;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using OnyxScheduling.Auth;
 using OnyxScheduling.Dtos;
@@ -42,6 +43,20 @@ namespace OnyxScheduling.Data.Repositories
         public async Task<User> GetTechnciainsFromTechId(string techniciainId)
         {
             return await _authDataContext.Users.FirstOrDefaultAsync(x => x.Id == techniciainId);
+        }
+
+        public async Task UpdateUserInfo(User newUser)
+        {
+            var currentUser = await _authDataContext.Users.FirstOrDefaultAsync(x => x.Id == newUser.Id);
+            
+            currentUser.Address = newUser.Address;
+            currentUser.Role = newUser.Role;
+            currentUser.Phone = newUser.Phone;
+            currentUser.Email = newUser.Email;
+            
+            currentUser.FirstName = newUser.FirstName;
+            currentUser.LastName = newUser.LastName;
+
         }
     }
 }

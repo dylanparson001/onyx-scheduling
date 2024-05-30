@@ -34,6 +34,10 @@ namespace OnyxScheduling.Data.Repositories
             var invoiceInvoiceItems = await _context.InvoiceInvoice_Item.Where(x => x.InvoiceId == invoiceId).ToListAsync();
 
             List<Invoice_Items> result = new List<Invoice_Items>();
+            if (invoiceInvoiceItems.Count == 0)
+            {
+                return result;
+            }
 
             foreach (var item in invoiceInvoiceItems)
             {

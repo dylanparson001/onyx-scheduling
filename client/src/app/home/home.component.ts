@@ -13,6 +13,7 @@ import {InvoiceSectionComponent} from "./invoice-section/invoice-section.compone
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit {
+  currentUser: string | null = ''
   constructor(public accountService: LoginServiceService, private router: Router) {}
 
   ngOnInit(): void {
@@ -25,6 +26,10 @@ export class HomeComponent implements OnInit {
     const employee: User = JSON.parse(staffString);
 
     this.accountService.setCurrentUser(employee);
+
+    if (this.currentUser === '' || this.currentUser === null) {
+      this.currentUser = localStorage.getItem('userName')
+    }
   }
 
 

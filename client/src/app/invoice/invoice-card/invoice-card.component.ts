@@ -5,6 +5,7 @@ import { Invoice } from '../../models/invoice';
 import { User } from '../../models/user';
 import { UsersService } from '../../_services/users.service';
 import { ProcessingStatus } from '../../enums/ProcessingStatus';
+import {Item} from "../../models/item";
 
 @Component({
   selector: 'app-invoice-card',
@@ -16,7 +17,7 @@ import { ProcessingStatus } from '../../enums/ProcessingStatus';
 export class InvoiceCardComponent implements OnInit {
   @Input() invoice: Invoice | undefined;
 
-  items: any;
+  items: Item[] = [];
   constructor(
     private invoiceService: InvoicesService,
     private userService: UsersService
@@ -57,11 +58,12 @@ export class InvoiceCardComponent implements OnInit {
 
   getInvoiceItems() {
     if (this.invoice) {
+
       this.invoiceService.getInvoiceItems(this.invoice.id).subscribe({
         next: (response) => {
           this.items = response;
-        },
+        }
       });
+      }
     }
-  }
 }

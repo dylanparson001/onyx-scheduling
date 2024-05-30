@@ -46,26 +46,6 @@ namespace OnyxScheduling.Data.Migrations
                     b.HasIndex("InvoiceItemId");
 
                     b.ToTable("InvoiceInvoice_Item");
-
-                    b.HasData(
-                        new
-                        {
-                            InvoiceId = 1,
-                            InvoiceItemId = 123,
-                            Quantity = 2
-                        },
-                        new
-                        {
-                            InvoiceId = 2,
-                            InvoiceItemId = 234,
-                            Quantity = 0
-                        },
-                        new
-                        {
-                            InvoiceId = 2,
-                            InvoiceItemId = 123,
-                            Quantity = 10
-                        });
                 });
 
             modelBuilder.Entity("OnyxScheduling.Models.Invoice_Items", b =>
@@ -75,6 +55,9 @@ namespace OnyxScheduling.Data.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("Category_Id")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("DefaultQuantity")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Item_Name")
@@ -89,24 +72,6 @@ namespace OnyxScheduling.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Invoice_Items");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 123,
-                            Category_Id = 0,
-                            Item_Name = "234 Spring Red",
-                            Price = 210.0,
-                            Quantity = 0
-                        },
-                        new
-                        {
-                            Id = 234,
-                            Category_Id = 0,
-                            Item_Name = "4' Nylon Rollers",
-                            Price = 15.0,
-                            Quantity = 0
-                        });
                 });
 
             modelBuilder.Entity("OnyxScheduling.Models.Invoices", b =>
@@ -161,8 +126,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 1,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2024, 5, 23, 14, 9, 35, 822, DateTimeKind.Local).AddTicks(2443),
-                            FinishedDateTime = new DateTime(2024, 5, 23, 14, 9, 35, 822, DateTimeKind.Local).AddTicks(2487),
+                            CreatedDateTime = new DateTime(2024, 5, 30, 15, 54, 44, 569, DateTimeKind.Local).AddTicks(2051),
+                            FinishedDateTime = new DateTime(2024, 5, 30, 15, 54, 44, 569, DateTimeKind.Local).AddTicks(2093),
                             InvoiceId = 0,
                             InvoiceNumber = "INV001",
                             JobId = 0,
@@ -175,8 +140,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 2,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2024, 5, 23, 14, 9, 35, 822, DateTimeKind.Local).AddTicks(2492),
-                            FinishedDateTime = new DateTime(2024, 5, 23, 14, 9, 35, 822, DateTimeKind.Local).AddTicks(2493),
+                            CreatedDateTime = new DateTime(2024, 5, 30, 15, 54, 44, 569, DateTimeKind.Local).AddTicks(2098),
+                            FinishedDateTime = new DateTime(2024, 5, 30, 15, 54, 44, 569, DateTimeKind.Local).AddTicks(2099),
                             InvoiceId = 0,
                             InvoiceNumber = "INV002",
                             JobId = 0,
@@ -228,8 +193,8 @@ namespace OnyxScheduling.Data.Migrations
                     b.Property<int>("InvoiceId")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("InvoiceNumber")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("InvoiceNumber")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Processing_Status")
                         .HasColumnType("TEXT");
@@ -251,7 +216,7 @@ namespace OnyxScheduling.Data.Migrations
             modelBuilder.Entity("OnyxScheduling.Models.InvoiceInvoice_Item", b =>
                 {
                     b.HasOne("OnyxScheduling.Models.Invoices", "Invoice")
-                        .WithMany("InvoiceInvoice_Items")
+                        .WithMany("Invoice_Items")
                         .HasForeignKey("InvoiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -295,7 +260,7 @@ namespace OnyxScheduling.Data.Migrations
 
             modelBuilder.Entity("OnyxScheduling.Models.Invoices", b =>
                 {
-                    b.Navigation("InvoiceInvoice_Items");
+                    b.Navigation("Invoice_Items");
                 });
 
             modelBuilder.Entity("OnyxScheduling.Models.Jobs", b =>

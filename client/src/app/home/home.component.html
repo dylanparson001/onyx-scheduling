@@ -1,8 +1,10 @@
-<div class="flex flex-column w-50 mx-auto">
+<div class="flex flex-column w-75 mx-auto">
 
 <h3 *ngIf="(accountService.currentUser$  | async) as user">
-  Welcome, {{accountService.user.userName | titlecase}}
+  Welcome, {{currentUser | titlecase}}
 </h3>
+<div class="d-flex flex-row">
+  <app-invoice-section></app-invoice-section>
 
-<app-invoice-section></app-invoice-section>
+</div>
 </div>
