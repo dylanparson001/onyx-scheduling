@@ -63,24 +63,6 @@ builder.Services.AddScoped<IJobInvoiceItemRepository, JobsInvoiceItemRepository>
 builder.Services.AddScoped<PdfService>();
 
 builder.Services.AddControllers();
-   /* .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
-        options.JsonSerializerOptions.WriteIndented = true;
-        options.JsonSerializerOptions.PropertyNamingPolicy = null; // To keep the property names as-is
-        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
-        options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingDefault;
-        options.JsonSerializerOptions.Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping;
-        options.JsonSerializerOptions.DictionaryKeyPolicy = null;
-
-        options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-
-
-        options.JsonSerializerOptions.Converters.Add(new MyCustomDateTimeConverter()); // Add your custom date converter
-
-    });*/
-
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 

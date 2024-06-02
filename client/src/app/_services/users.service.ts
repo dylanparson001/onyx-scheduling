@@ -11,7 +11,7 @@ export class UsersService {
   baseUrl: string = environment.apiUrl;
 
   public user: User = {
-    id: '',
+    Id: '',
     userName: '',
     firstName: '',
     lastName: '',
@@ -36,6 +36,7 @@ export class UsersService {
     );
   }
   getTechniciansFromInvoiceId(technicianId: string): Observable<User> {
+    console.log(technicianId)
     return this.http.get<User>(
       `${this.baseUrl}User/GetTechnicianFromInvoice?technicianId=${technicianId}`
     );
@@ -49,4 +50,11 @@ export class UsersService {
   getAllTechnicians(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}User/GetAllTechnicians`);
   }
+
+  updateUserInfo(userId: string, user: User) {
+    return this.http.put(
+      `${this.baseUrl}User/UpdateUserInfo?userId=${userId}`,
+      user
+    )
+}
 }

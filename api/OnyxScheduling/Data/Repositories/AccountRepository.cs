@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Loader;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using OnyxScheduling.Auth;
@@ -45,18 +46,25 @@ namespace OnyxScheduling.Data.Repositories
             return await _authDataContext.Users.FirstOrDefaultAsync(x => x.Id == techniciainId);
         }
 
-        public async Task UpdateUserInfo(User newUser)
+        public async Task UpdateUserInfo(string userId, UserDto newUser)
         {
-            var currentUser = await _authDataContext.Users.FirstOrDefaultAsync(x => x.Id == newUser.Id);
-            
-            currentUser.Address = newUser.Address;
-            currentUser.Role = newUser.Role;
-            currentUser.Phone = newUser.Phone;
-            currentUser.Email = newUser.Email;
-            
+            var currentUser = await _authDataContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+
+            currentUser.UserName = newUser.UserName;
+            currentUser.NormalizedUserName = newUser.UserName.ToUpper();
             currentUser.FirstName = newUser.FirstName;
             currentUser.LastName = newUser.LastName;
+            await _authDataContext.SaveChangesAsync();
+        }
 
+        public async Task<User> GetUserInfo(string userId)
+        {
+            return await _authDataContext.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        }
+
+        public Task<User> GetUserRole(string userId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

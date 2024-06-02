@@ -62,7 +62,7 @@ export class NewInvoiceFormComponent implements OnInit {
 
   inputSelectedCustomerInfo() {
     if (this.selectedCustomer) {
-      this.invoice.assigned_Customer_Id = this.selectedCustomer.id;
+      this.invoice.assigned_Customer_Id = this.selectedCustomer.Id;
       this.invoice.address = this.selectedCustomer.address;
       this.invoice.city = this.selectedCustomer.city;
     }

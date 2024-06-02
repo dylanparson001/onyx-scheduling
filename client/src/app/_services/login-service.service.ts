@@ -14,7 +14,7 @@ export class LoginServiceService {
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
   public user: User = {
-    id: '',
+    Id: '',
     userName: '',
     firstName: '',
     lastName: '',
@@ -31,15 +31,16 @@ export class LoginServiceService {
 
   login(model: loginDto){
     // http request to login api endpoint
-    return this.http.post<User>(this.baseUrl + "Authenticate/login", model).pipe(
+    return this.http.post<any>(this.baseUrl + "Authenticate/login", model).pipe(
       map((response) => {
         const user = response;
         if (user){
-
           // puts staff into local storage
           localStorage.setItem("user", JSON.stringify(user.token));
           localStorage.setItem('role', JSON.stringify(user.role))
           localStorage.setItem('userName', user.userName)
+          localStorage.setItem('userId', user.userId)
+
           // sets current staff member
           this.currentUserSource.next(user);
           this.user = user;
@@ -63,6 +64,8 @@ export class LoginServiceService {
   logout(){
     localStorage.removeItem("user");
     localStorage.removeItem("role");
+    localStorage.removeItem('userName')
+    localStorage.removeItem('userId')
     this.currentUserSource.next(null);
   }
 
@@ -73,4 +76,10 @@ export class LoginServiceService {
   getRole() {
       return localStorage.getItem('role');
   }
+
+  getUserFromId( userId: string) {
+    return this.http.get<User>(
+      `${this.baseUrl}Authenticate/GetUserFromId?userId=${userId}`
+  )
+}
 }

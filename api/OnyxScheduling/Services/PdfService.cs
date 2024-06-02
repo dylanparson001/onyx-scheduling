@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using OnyxScheduling.Data.Repositories;
 using OnyxScheduling.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
@@ -8,8 +9,12 @@ namespace OnyxScheduling.Controllers;
 
 public class PdfService
 {
+
+    public PdfService()
+    {
+    }
     private string pdfFolderPath = "./Invoices/";
-    public void GeneratePdf(Invoices invoice, User customer, User technician, List<Invoice_Items> itemsFromJob)
+    public  void GeneratePdf(Invoices invoice, User customer, User technician, List<Invoice_Items> itemsFromJob)
     {
         string fileName =
             $"./Invoices/{customer.FirstName} {customer.LastName} {invoice.ScheduledEndDateTime.ToLongDateString()}.pdf";

@@ -1,5 +1,6 @@
 ﻿using OnyxScheduling.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OnyxScheduling.Dtos
 {
@@ -16,6 +17,7 @@ namespace OnyxScheduling.Dtos
         [Required(ErrorMessage = "State is required")]
         public string State { get; set; }
         public List<Invoices> Invoices { get; set; }
+        [JsonPropertyName("Id")]
         public string Id { get; internal set; }
     }
 }

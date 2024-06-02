@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   Router,
@@ -9,7 +9,7 @@ import {
 import { LoginServiceService } from '../_services/login-service.service';
 import { FooterComponent } from '../footer/footer.component';
 import { MatButtonModule } from '@angular/material/button';
-
+import {User} from "../models/user";
 @Component({
   selector: 'app-navbar',
   standalone: true,
@@ -24,14 +24,19 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
   ],
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit{
+  currentUser: User | null | undefined
   constructor(
     public authService: LoginServiceService,
     private router: Router
   ) {}
 
+  ngOnInit(): void {
+  }
   logout() {
     this.authService.logout();
     this.router.navigateByUrl('/login');
   }
+
+
 }

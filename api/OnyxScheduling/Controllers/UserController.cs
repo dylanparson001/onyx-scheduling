@@ -87,6 +87,13 @@ namespace OnyxScheduling.Controllers
         }
 
         [HttpGet]
+        [Route("GetRoleOfUser")]
+        public async Task<ActionResult<string>> GetRoleOfUser(string userId)
+        {
+            return Ok("test");
+        }
+
+        [HttpGet]
         [Route("GetCustomerFromInvoice")]
         public async Task<ActionResult<CustomerDto>> GetCustomerFromInvoice(string customerId)
         {
@@ -149,6 +156,15 @@ namespace OnyxScheduling.Controllers
             var result = await _accountRepository.GetCustomersFromCustomerId(customerId);
 
             return Ok(result);
+        }
+
+        [HttpPut]
+        [Route("UpdateUserInfo")]
+        public async Task<ActionResult> UpdateUserInfo(string userId, [FromBody] UserDto userDto)
+        {
+            
+            await _accountRepository.UpdateUserInfo(userId, userDto);
+            return Ok();
         }
     }
     

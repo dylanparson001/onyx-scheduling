@@ -9,6 +9,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {OverlayModule} from "@angular/cdk/overlay";
 import {provideToastr, ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations";
+import {PhoneNumberPipe} from "./phone-number.pipe";
 
 @Component({
   selector: 'app-root',

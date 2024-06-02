@@ -6,6 +6,7 @@ import {HttpClientModule, provideHttpClient, withInterceptors} from '@angular/co
 import { provideAnimations } from '@angular/platform-browser/animations';
 import {jwtInterceptor} from "./_interceptors/jwt.interceptor";
 import {provideToastr, ToastrModule} from "ngx-toastr";
+import {PhoneNumberPipe} from "./phone-number.pipe";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +20,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([
       jwtInterceptor
     ])),
-    provideAnimations()
+    provideAnimations(),
 ]
 };

@@ -78,7 +78,6 @@ export class JobCardComponent implements OnChanges {
         this.jobService.getItemsFromJob(x.id).subscribe({
           next: response => {
             x.invoiceItems = response
-            console.log(response)
           }
 
         })
@@ -90,11 +89,12 @@ export class JobCardComponent implements OnChanges {
     if (this.jobs) {
       this.jobs.length = 0;
     }
+    if (this.tech)
+      console.log(this.tech)
 
     this.chosenDate = this.datePipe.transform(this.currentDate, 'MM-dd-yyyy HH:mm')
-
     if (this.chosenDate != null && this.tech != null) {
-      this.jobService.getJobsByTechAndDate(this.chosenDate, this.tech.id).subscribe({
+      this.jobService.getJobsByTechAndDate(this.chosenDate, this.tech.Id).subscribe({
         next: (response) => {
           this.jobs = response
           // Sort jobs by startDate (assuming startDate is a string in the format 'yyyy-MM-dd' or similar)

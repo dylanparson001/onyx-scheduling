@@ -78,7 +78,7 @@
   </div>
   <!--Customer / technician info-->
   <div class="container d-flex flex-column align-items-left">
-    <div>
+    <div class="d-flex flex-column w-50 justify-content-evenly">
       <p>Customer: {{ customer?.firstName }} {{ customer?.lastName }}</p>
       <p>
         Schedule:
@@ -86,7 +86,7 @@
       </p>
 
 
-      <div *ngIf="editingItems" class="flex">
+      <div *ngIf="editingItems" class="d-flex flex-column">
         <label for="startTime">Start Time: </label>
         <input
           type="time"
@@ -107,11 +107,22 @@
           step="900"
           required
         />
-        <button (click)="updateJobTime()" class="mt-1" mat-raised-button >Update Time</button>
+        <button (click)="updateJobTime()" class="mt-1" mat-raised-button>Update Time</button>
       </div>
-      <p>
-        Technician: {{ technician?.firstName }} {{ technician?.lastName }}
-      </p>
+      <div class="pt-5">
+        <p >Technician: {{ technician?.firstName }} {{ technician?.lastName }}</p>
+        <select *ngIf="editingItems" name="" id="">
+
+          <option value="" disabled selected></option>
+          <option
+            *ngFor="let tech of technicianList"
+            [ngValue]="tech"
+          >
+            {{ tech.firstName }} {{ tech.lastName }}
+          </option>
+        </select>
+
+      </div>
     </div>
 
   </div>

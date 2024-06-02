@@ -57,6 +57,7 @@ export class JobsComponent implements OnInit {
     this.userService.getAllTechnicians().subscribe({
       next: (response) => {
         this.techList = response;
+        console.log(response)
       }
     })
   }

@@ -41,7 +41,7 @@ namespace OnyxScheduling.Controllers
         {
             var user = await _userManager.FindByNameAsync(model.Username);
             var validUserRole = await _userManager.GetRolesAsync(user);
-            if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
+            if (await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
 
@@ -70,7 +70,8 @@ namespace OnyxScheduling.Controllers
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     expiration = token.ValidTo,
                     role = validUserRole[0],
-                    userName = user.UserName
+                    userName = user.UserName,
+                    userId = user.Id
                 });
             }
             return Unauthorized();
@@ -135,6 +136,28 @@ namespace OnyxScheduling.Controllers
 
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
+
+        [HttpGet]
+        [Route("GetUserFromId")]
+        public async Task<ActionResult<UserDto>> LoadUser(string userId)
+        {
+            var resultUser = await _accountRepository.GetTechnciainsFromTechId(userId);
+
+            var userDto = new UserDto()
+            {
+                Id = resultUser.Id, 
+                UserName = resultUser.UserName,
+                FirstName = resultUser.FirstName,
+                LastName = resultUser.LastName,
+                City = resultUser.City,
+                Address = resultUser.Address,
+                State = resultUser.State,
+                Phone = resultUser.Phone
+            };
+
+            return Ok(userDto);
+        }
+
 
 
 

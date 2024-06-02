@@ -119,6 +119,14 @@ namespace OnyxScheduling.Data.Repositories
             return await _context.Invoices.FirstOrDefaultAsync(x => x.JobId == jobId);
         }
 
+        public async Task UpdateInvoiceFilePath(int invoiceId, string filePath)
+        {
+            var result = await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceId);
+
+            result.FilePath = filePath;
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Invoices>> GetInvoicesByTechnician(string technician_id)
         {
             List<Invoices> result = await _context.Invoices

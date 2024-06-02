@@ -4,4 +4,5 @@ export interface Item {
   item_Name: string,
   price: number
   quantity: number
+  defaultQuantity: number
 }

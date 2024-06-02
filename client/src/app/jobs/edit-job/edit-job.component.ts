@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {JobsService} from "../../_services/jobs.service";
 import {ToastrService} from "ngx-toastr";
 import {DateServiceService} from "../../_services/date-service.service";
+import {UsersService} from "../../_services/users.service";
 
 @Component({
   selector: 'app-edit-job',
@@ -23,6 +24,7 @@ export class EditJobComponent implements OnInit {
   job: Jobs | undefined;
   customer: User | undefined;
   technician: User | undefined;
+  technicianList: User[] = []
   items: Item[] = [];
   editedJob: Jobs | undefined;
   chosenItems: Item[] = [];
@@ -41,7 +43,8 @@ export class EditJobComponent implements OnInit {
               private itemService: ItemsService,
               private jobService: JobsService,
               private toastr: ToastrService,
-              private dateService: DateServiceService
+              private dateService: DateServiceService,
+              private userService: UsersService
   ) {
   }
 
@@ -50,6 +53,14 @@ export class EditJobComponent implements OnInit {
     this.loadItems()
     this.loadItemsFromJob()
     this.loadJobStatuses()
+    this.loadAllTechs()
+  }
+  loadAllTechs() {
+    this.userService.getAllTechnicians().subscribe({
+      next: (response) => {
+        this.technicianList = response
+      }
+    })
   }
 
   loadJobStatuses() {
@@ -62,7 +73,10 @@ export class EditJobComponent implements OnInit {
 
   loadItems() {
     this.itemService.getItems().subscribe({
-      next: (response) => this.items = response
+      next: (response) => {
+        this.items = response
+        this.items.forEach(x => x.quantity = x.defaultQuantity)
+      }
     })
   }
 

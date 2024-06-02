@@ -88,7 +88,7 @@ export class NewJobFormComponent implements OnInit{
     }
   inputSelectedCustomerInfo() {
     if (this.selectedCustomer) {
-      this.job.assigned_Customer_Id = this.selectedCustomer.id;
+      this.job.assigned_Customer_Id = this.selectedCustomer.Id;
       this.job.address = this.selectedCustomer.address;
       this.job.city = this.selectedCustomer.city;
     }
@@ -98,6 +98,7 @@ export class NewJobFormComponent implements OnInit{
     this.userService.getAllCustomers().subscribe({
       next: (response: User[]) => {
         this.existingCustomers = response;
+        console.log(response)
       },
     });
   }
@@ -139,7 +140,7 @@ export class NewJobFormComponent implements OnInit{
 
     this.job.scheduledStartDateTime = this.convertDateFormat(completeStartDate);
     this.job.scheduledEndDateTime = this.convertDateFormat(completeEndDate);
-
+    console.log(this.job);
     this.jobService.postJob(this.job).subscribe({
       next: value => {
         this.router.navigateByUrl('/jobs')

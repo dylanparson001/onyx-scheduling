@@ -1,39 +1,8 @@
-<!-- <nav>
-  <ul>
-    <li class="navLinks"><img src="../../favicon.ico" alt="Onyx Logo"></li>
-
-    <div class = "navLinks"
-    *ngIf="!(this.authService.currentUser$ | async)"
-    >
-    <li class="navLinks"><a routerLink="/login" routerLinkActive="active" ariaCurrentWhenActive="page">Login</a></li>
-  </div>
-
-  <div class = "navLinks"
-  *ngIf="(this.authService.currentUser$ | async)"
-  >
-    <li class="navLinks"><a routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">Home</a></li>
-  </div>
-
-  <div class = "navLinks"
-  *ngIf="(this.authService.currentUser$ | async)"
-  >
-    <li class="navLinks"><a routerLink="/invoices" routerLinkActive="active" ariaCurrentWhenActive="page">Invoices</a></li>
-  </div>
-
-  <div class = "navLinks logout"
-  (click)="logout()"
-  *ngIf="(this.authService.currentUser$ | async)"
-  >
-    <li class=""><a ariaCurrentWhenActive="page" >Logout</a></li>
-  </div>
-  </ul>
-</nav> -->
-
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
-    <li class="navbar-brand" href="#">
+    <a class="navbar-brand" href="#">
       <img routerLink="/home" src="../../favicon.ico" alt="Onyx Logo" />
-    </li>
+    </a>
     <button
       class="navbar-toggler"
       type="button"
@@ -47,42 +16,47 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item me-4" *ngIf="this.authService.currentUser$ | async">
-          <p
-            class="nav-link active"
-            routerLink="/home"
-            routerLinkActive="active"
-            aria-current="page"
-          >
+        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)">
+          <a class="nav-link active" routerLink="/home" routerLinkActive="active" aria-current="page">
             Home
-          </p>
+          </a>
         </li>
-        <li class="nav-item me-4" *ngIf="this.authService.currentUser$ | async">
-          <p class="nav-link" routerLink="/jobs" routerLinkActive="active">
+        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)">
+          <a class="nav-link" routerLink="/jobs" routerLinkActive="active">
             Jobs
-          </p>
+          </a>
         </li>
-        <li class="nav-item me-4" *ngIf="this.authService.currentUser$ | async">
-          <p class="nav-link" routerLink="/invoices" routerLinkActive="active">
+        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)">
+          <a class="nav-link" routerLink="/invoices" routerLinkActive="active">
             Invoices
-          </p>
+          </a>
+        </li>
+        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)">
+          <a class="nav-link" routerLink="/items" routerLinkActive="active">
+            Items
+          </a>
         </li>
       </ul>
-      <a
-        class="navbar-brand"
-        routerLink="login"
-        *ngIf="!(this.authService.currentUser$ | async)"
-      >
+
+      <div class="dropdown" *ngIf="(authService.currentUser$ | async)">
+        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-user"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+          <li>
+            <a class="dropdown-item" routerLink="account">Account</a>
+          </li>
+          <li>
+            <a class="dropdown-item" routerLink="account" >Account</a>
+          </li>
+          <li>
+            <button class="dropdown-item" (click)="logout()">Logout</button>
+          </li>
+        </ul>
+      </div>
+      <a class="navbar-brand" routerLink="login" *ngIf="!(authService.currentUser$ | async)">
         <button class="btn btn-outline-light">Login</button>
       </a>
-      <button
-      (click)="logout()"
-      *ngIf="this.authService.currentUser$ | async"
-      class="btn btn-outline-light"
-      >
-        Logout
-      </button>
     </div>
   </div>
 </nav>
-

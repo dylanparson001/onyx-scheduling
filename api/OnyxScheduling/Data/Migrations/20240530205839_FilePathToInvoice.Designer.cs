@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace OnyxScheduling.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20240530205839_FilePathToInvoice")]
+    partial class FilePathToInvoice
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.12");
@@ -129,8 +132,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 1,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2024, 5, 31, 14, 18, 29, 102, DateTimeKind.Local).AddTicks(1834),
-                            FinishedDateTime = new DateTime(2024, 5, 31, 14, 18, 29, 102, DateTimeKind.Local).AddTicks(1879),
+                            CreatedDateTime = new DateTime(2024, 5, 30, 16, 58, 39, 375, DateTimeKind.Local).AddTicks(2523),
+                            FinishedDateTime = new DateTime(2024, 5, 30, 16, 58, 39, 375, DateTimeKind.Local).AddTicks(2566),
                             InvoiceId = 0,
                             InvoiceNumber = "INV001",
                             JobId = 0,
@@ -143,8 +146,8 @@ namespace OnyxScheduling.Data.Migrations
                             Id = 2,
                             Assigned_Customer_Id = "01c84c0a-84f1-4504-94ba-ce28a4c99245",
                             Assigned_Technician_Id = "2",
-                            CreatedDateTime = new DateTime(2024, 5, 31, 14, 18, 29, 102, DateTimeKind.Local).AddTicks(1884),
-                            FinishedDateTime = new DateTime(2024, 5, 31, 14, 18, 29, 102, DateTimeKind.Local).AddTicks(1885),
+                            CreatedDateTime = new DateTime(2024, 5, 30, 16, 58, 39, 375, DateTimeKind.Local).AddTicks(2571),
+                            FinishedDateTime = new DateTime(2024, 5, 30, 16, 58, 39, 375, DateTimeKind.Local).AddTicks(2572),
                             InvoiceId = 0,
                             InvoiceNumber = "INV002",
                             JobId = 0,

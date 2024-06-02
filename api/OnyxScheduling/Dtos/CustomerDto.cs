@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using OnyxScheduling.Models;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace OnyxScheduling.Dtos
 {
     public class CustomerDto
     {
+        [JsonPropertyName("Id")]
         public string Id { get; set; }
         [Required(ErrorMessage = "Username is required")]
         public string UserName { get; set; }

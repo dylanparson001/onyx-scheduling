@@ -7,7 +7,7 @@ import { map } from 'rxjs';
 export const authGuard: CanActivateFn = (route, state) => {
   const authService: LoginServiceService = inject (LoginServiceService)
 
-  const currentUser = localStorage.getItem('user');
+  const currentUser = authService.currentUser$
 
   if (currentUser) {
     return true;

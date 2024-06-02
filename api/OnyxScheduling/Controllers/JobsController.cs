@@ -117,7 +117,8 @@ namespace OnyxScheduling.Controllers
             {
                 return;
             }
-            
+
+            var completedTimeNow = DateTime.Now;
             var customer = await  _accountRepository.GetCustomersFromCustomerId(job.Assigned_Customer_Id);
             var technician = await _accountRepository.GetTechnciainsFromTechId(job.Assigned_Technician_Id);
             var itemsFromJob = await _jobInvoiceItemRepository.GetItemsOfJob(job.Id);
@@ -134,7 +135,7 @@ namespace OnyxScheduling.Controllers
             var newInvoice = new Invoices()
             {
                 CreatedDateTime = job.CreatedDateTime,
-                FinishedDateTime = job.FinishedDateTime,
+                FinishedDateTime = completedTimeNow,
                 ScheduledStartDateTime = job.ScheduledStartDateTime,
                 ScheduledEndDateTime = job.ScheduledEndDateTime,
                 Assigned_Customer_Id = job.Assigned_Customer_Id,

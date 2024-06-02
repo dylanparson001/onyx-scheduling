@@ -36,7 +36,7 @@
         required
       >
         <option selected></option>
-        <option *ngFor="let tech of technicianList" [ngValue]="tech.id">
+        <option *ngFor="let tech of technicianList" [ngValue]="tech.Id">
           {{ tech.firstName }} {{ tech.lastName }} {{ tech.city }},
           {{ tech.state }}
         </option>
