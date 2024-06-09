@@ -265,3 +265,5 @@ paket-files/
 .vscode/
 appsettings.json
 appsettings.Development.json
+
+./api/OnyxScheduling/Invoices

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   Router,
@@ -25,13 +25,41 @@ import {User} from "../models/user";
   ],
 })
 export class NavbarComponent implements OnInit{
-  currentUser: User | null | undefined
+  @Input() currentUser: User | null | undefined
+  isAdmin: boolean = false;
+
+  isOffice: boolean = false;
+
+
   constructor(
     public authService: LoginServiceService,
     private router: Router
   ) {}
-
   ngOnInit(): void {
+    let userId = localStorage.getItem('userId')
+    if(userId)
+    this.authService.getUserFromId(userId).subscribe({
+      next: response => {
+        this.currentUser = response
+        switch (this.currentUser.role) {
+          case 'Admin':
+            this.isAdmin = true;
+            this.isOffice = false;
+            break;
+
+          case 'Office':
+            this.isOffice = true;
+            this.isAdmin = false;
+
+            break;
+
+          default:
+            this.isAdmin = false;
+            this.isOffice = false;
+            break;
+        }
+      }
+    })
   }
   logout() {
     this.authService.logout();

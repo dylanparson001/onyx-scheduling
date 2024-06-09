@@ -1,4 +1,8 @@
-<app-navbar></app-navbar>
+<span *ngIf="accountService.currentUser$ | async">
+
+  <app-navbar></app-navbar>
+</span>
 
 <router-outlet></router-outlet>
 
+<app-footer></app-footer>

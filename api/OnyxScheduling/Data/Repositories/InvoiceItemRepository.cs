@@ -54,5 +54,12 @@ namespace OnyxScheduling.Data.Repositories
             }
             return true;
         }
+
+        public async Task<List<Category>> GetCategories()
+        {
+            var result = await _context.Category.ToListAsync();
+
+            return result;
+        }
     }
 }

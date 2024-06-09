@@ -38,7 +38,8 @@ export class EditJobComponent implements OnInit {
   newScheduledStartTime: string = '';
   newScheduledEndTime: string = '';
 
-  constructor(private overlayRef: OverlayRef,
+  constructor(
+              private overlayRef: OverlayRef,
               @Inject(JOB_DATA) public data: any,
               private itemService: ItemsService,
               private jobService: JobsService,

@@ -25,7 +25,7 @@ namespace OnyxScheduling.Data.Repositories
 
         public async Task<List<Category>> GetAllCategories()
         {
-            return await _context.Category.AsNoTracking().ToListAsync();
+            return await _context.Category.ToListAsync();
             
         }
 

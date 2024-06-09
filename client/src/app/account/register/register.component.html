@@ -1,0 +1,90 @@
+<div class="container" >
+  <form #registerForm="ngForm"  autocomplete="off" >
+    <h4>Username</h4>
+    <input type="text"
+           [(ngModel)]="model.username"
+           placeholder="Username"
+           name="username"
+    />
+    <h4>First Name</h4>
+    <input type="text"
+           [(ngModel)]="model.firstName"
+           placeholder="First Name"
+           name="firstName"
+    />
+    <h4>Last Name</h4>
+    <input type="text"
+           [(ngModel)]="model.lastName"
+           placeholder="Last Name"
+           name="lastName"
+    />
+    <h4>Address</h4>
+    <input type="text"
+           [(ngModel)]="model.address"
+           placeholder="Address"
+           name="address"
+    />
+    <h4>City</h4>
+    <input type="text"
+           [(ngModel)]="model.city"
+           placeholder="City"
+           name="city"
+    />
+    <h4>State</h4>
+    <input type="text"
+           [(ngModel)]="model.state"
+           placeholder="State"
+           name="state"
+    />
+    <h4>Role</h4>
+    <select
+           [(ngModel)]="model.role"
+           placeholder="Last Name"
+           name="role"
+           (change)="changeOption()"
+    >
+      <option></option>
+      <option >Office</option>
+      <option >Admin</option>
+      <option >Field</option>
+      <option >Customer</option>
+    </select>
+
+
+    <h4>Email</h4>
+    <input type="text"
+           [(ngModel)]="model.email"
+           placeholder="Email"
+           name="email"
+    />
+    <h4>Phone</h4>
+    <input type="text"
+           [(ngModel)]="model.phone"
+           placeholder="Phone"
+           name="phone"
+    />
+
+    <span class="password-error" *ngIf="!passwordsMatch">Passwords do not match</span>
+    <h4>Password</h4>
+    <input type="password"
+           [(ngModel)]="model.password"
+           placeholder="Password"
+           name="password"
+    />
+
+    <span class="password-error" *ngIf="!passwordsMatch">Passwords need to match</span>
+    <h4>Confirm Password</h4>
+    <input type="password"
+           [(ngModel)]="passwordConfirmation"
+           (ngModelChange)="checkPasswords()"
+           placeholder="Password"
+           name="password"
+    />
+
+    <div class="d-flex flex-row justify-content-evenly">
+
+    <button class="mt-5 btn btn-primary" (click)="createAccount()">Create Account</button>
+    <button class="mt-5 btn btn-outline-primary" routerLink="/account/manage-accounts">Back </button>
+    </div>
+  </form>
+</div>

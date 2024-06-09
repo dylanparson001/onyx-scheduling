@@ -9,4 +9,5 @@ export interface User {
   phone: string;
   role: string;
   token: string;
+  email: string;
 }

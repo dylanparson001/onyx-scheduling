@@ -32,7 +32,8 @@ namespace OnyxScheduling.Controllers
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     City = user.City,
-                    State = user.State
+                    State = user.State,
+                    Email = user.Email
                 });
             }
             return officeStaffDtos;
@@ -62,6 +63,40 @@ namespace OnyxScheduling.Controllers
             customerDtoResut = customerDtoResut.OrderBy(x => x.LastName).ToList(); 
 
             return customerDtoResut;
+        }
+
+        [HttpGet]
+        [Route("GetUsers")]
+        public async Task<ActionResult<List<UserDto>>> GetUsers(int position, int take)
+        {
+            var result = await _accountRepository.GetUsers(position, take);
+            List<UserDto> listOfUserDtos = new List<UserDto>();
+            foreach (var user in result)
+            {
+                var userDto = new UserDto()
+                {
+                    Id = user.Id,
+                    UserName = user.UserName,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Role = user.Role,
+                    Address = user.Address,
+                    City = user.City,
+                    Phone = user.Phone,
+                    State = user.State,
+                    Email = user.Email
+                };
+                
+                listOfUserDtos.Add(userDto);
+            }
+            return Ok(listOfUserDtos);
+        }
+
+        [HttpGet]
+        [Route("GetCountOfUsers")]
+        public async Task<ActionResult<int>> GetCountOfUsers()
+        {
+            return await _accountRepository.GetCountUsers();
         }
 
         [HttpGet]
@@ -108,7 +143,7 @@ namespace OnyxScheduling.Controllers
                 FirstName = customer.FirstName,
                 LastName = customer.LastName,
                 City = customer.City,
-                State = customer.State
+                State = customer.State,
             };
 
 
@@ -165,6 +200,58 @@ namespace OnyxScheduling.Controllers
             
             await _accountRepository.UpdateUserInfo(userId, userDto);
             return Ok();
+        }
+
+        [HttpGet]
+        [Route("GetUserFromUsername")]
+        public async Task<ActionResult<UserDto>> GetUserFromUsername(string username)
+        {
+            var result =  await _accountRepository.GetUserFromUsername(username);
+
+            var userDto = new UserDto()
+            {
+                Id = result.Id,
+                UserName = result.UserName,
+                FirstName = result.FirstName,
+                LastName = result.LastName,
+                Role = result.Role,
+                Email = result.Email
+            };
+
+            return userDto;
+        }
+
+        [HttpGet]
+        [Route("SearchUsers")]
+        public async Task<ActionResult<List<UserDto>>> SearchUsername(string username)
+        {
+            var result = await _accountRepository.SearchUsernames(username);
+            List<UserDto> userDtoResult = new List<UserDto>();
+            if (result.Count > 0)
+            {
+                foreach (var user in result)
+                {
+                    var userDto = new UserDto()
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        FirstName = user.FirstName,
+                        LastName = user.LastName,
+                        Address = user.Address,
+                        City = user.City,
+                        State = user.State,
+                        Email = user.Email,
+                        Phone = user.Phone,
+                        Role = user.Role
+                    };
+                    userDtoResult.Add(userDto);
+                }
+
+                return Ok(userDtoResult);
+            }
+
+            return Ok(userDtoResult);
+
         }
     }
     

@@ -1,0 +1,11 @@
+<form class="d-flex flex-column m-auto"#newItemForm=ngForm>
+  <h4>Item Name</h4>
+  <input type="text">
+  <h4>Item Category</h4>
+  <select [(ngModel)]="chosenCategoryId" name="category" (change)="loadItemsByCategory()">
+    <option [ngValue]="0">All</option>
+    <option *ngFor="let category of categories" [ngValue]="category.id">
+      {{ category.name }}
+    </option>
+  </select>
+</form>

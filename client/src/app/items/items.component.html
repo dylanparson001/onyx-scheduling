@@ -1,1 +1,22 @@
-<p>items works!</p>
+<div class="container d-flex flex-column m-auto">
+  <div class="mt-5 mb-5 d-flex flex-row align-content-center">
+  <form #categoryForm=ngForm >
+    <h4>Categories</h4>
+    <select [(ngModel)]="chosenCategoryId" name="category" (change)="loadItemsByCategory()">
+      <option [ngValue]="0">All</option>
+      <option *ngFor="let category of categories" [ngValue]="category.id">
+        {{ category.name }}
+      </option>
+    </select>
+  </form>
+    <button class="btn btn-primary h-25" routerLink="items/new-item">Add Items</button>
+    <button class="btn btn-outline-danger h-25">Remove Items</button>
+  </div>
+
+  <div class="d-flex flex-column">
+    <h4>Items </h4>
+    <div *ngFor="let item of items">
+      <app-item-card [item]="item"></app-item-card>
+    </div>
+  </div>
+</div>

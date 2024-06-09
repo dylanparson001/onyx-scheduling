@@ -1,0 +1,11 @@
+.edit-button{
+  width: 10%;
+  max-height: 2em;
+
+}
+
+.container{
+  border: solid black 1px;
+  border-radius: 5px;
+  margin-top: 2%;
+}

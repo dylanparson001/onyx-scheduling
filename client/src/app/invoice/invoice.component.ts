@@ -107,7 +107,6 @@ export class InvoiceComponent implements OnInit {
   }
 
   nextButtonClick() {
-    console.log(typeof(this.position))
     if (this.countOfInvoices) {
       if ((this.currentPage + 1) > this.totalPages) {
         return;

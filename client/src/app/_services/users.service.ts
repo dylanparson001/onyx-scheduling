@@ -10,45 +10,41 @@ import { Observable } from 'rxjs';
 export class UsersService {
   baseUrl: string = environment.apiUrl;
 
-  public user: User = {
-    Id: '',
-    userName: '',
-    firstName: '',
-    lastName: '',
-    address: '',
-    city: '',
-    state: '',
-    phone: '',
-    role: '',
-    token: '',
-  };
-  roleAs: string = '';
-
   constructor(private http: HttpClient) {}
 
-  // getAllUsers(): Observable<User> {
-  //   return this.http.get<User>(this.baseUrl + "")
-  // }
-
+  searchUsersByUsername(username: string): Observable<User[]> {
+    return this.http.get<User[]>(
+      `${this.baseUrl}User/SearchUsers?username=${username}`
+    )
+  }
   getCustomersFromInvoiceId(customerId: string): Observable<User> {
     return this.http.get<User>(
       `${this.baseUrl}User/GetCustomerFromInvoice?customerId=${customerId}`
     );
   }
   getTechniciansFromInvoiceId(technicianId: string): Observable<User> {
-    console.log(technicianId)
     return this.http.get<User>(
       `${this.baseUrl}User/GetTechnicianFromInvoice?technicianId=${technicianId}`
     );
   }
 
   getAllCustomers(): Observable<User[]> {
-    let result = this.http.get<User[]>(`${this.baseUrl}User/GetAllCustomers`);
-    return result;
+     return this.http.get<User[]>(`${this.baseUrl}User/GetAllCustomers`);
   }
 
   getAllTechnicians(): Observable<User[]> {
     return this.http.get<User[]>(`${this.baseUrl}User/GetAllTechnicians`);
+  }
+
+  getUsers( position: number, take: number): Observable<User[]> {
+    return this.http.get<User[]>(
+      `${this.baseUrl}User/GetUsers?position=${position}&take=${take}`
+    )
+  }
+  getCountUsers() {
+    return this.http.get<number>(
+      `${this.baseUrl}User/GetCountOfUsers`
+    )
   }
 
   updateUserInfo(userId: string, user: User) {
@@ -56,5 +52,11 @@ export class UsersService {
       `${this.baseUrl}User/UpdateUserInfo?userId=${userId}`,
       user
     )
-}
+  }
+
+  getUserFromUsername(username: string): Observable<User> {
+    return this.http.get<User>(
+      `${this.baseUrl}User/GetUserFromUsername?username=${username}`
+    )
+  }
 }

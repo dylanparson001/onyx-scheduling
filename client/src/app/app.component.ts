@@ -10,6 +10,7 @@ import {OverlayModule} from "@angular/cdk/overlay";
 import {provideToastr, ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations";
 import {PhoneNumberPipe} from "./phone-number.pipe";
+import {FooterComponent} from "./footer/footer.component";
 
 @Component({
   selector: 'app-root',
@@ -24,17 +25,19 @@ import {PhoneNumberPipe} from "./phone-number.pipe";
     NavbarComponent,
     FormsModule,
     MatNativeDateModule,
-    OverlayModule
+    OverlayModule,
+    FooterComponent
   ],
   providers: [
-    DatePipe,
+    DatePipe
 
   ]
 })
 export class AppComponent implements OnInit {
   title = 'Onyx Service Management';
 
-  constructor(private accountService: LoginServiceService, ) {}
+  constructor(protected accountService: LoginServiceService, ) {}
+
 
   ngOnInit() {
     const staffString = localStorage.getItem('user');

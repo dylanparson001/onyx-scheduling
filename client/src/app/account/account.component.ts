@@ -6,6 +6,7 @@ import {MatButton} from "@angular/material/button";
 import {FormsModule} from "@angular/forms";
 import {UsersService} from "../_services/users.service";
 import {ToastrService} from "ngx-toastr";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-account',
@@ -22,10 +23,14 @@ import {ToastrService} from "ngx-toastr";
 export class AccountComponent implements OnInit{
   currentUser: User | undefined
   editUser: boolean = false;
+  resetPassword: boolean = false;
+  currentPassword: string  = ''
+  newPassword: string = ''
   constructor(
     private loginService: LoginServiceService,
     private userService: UsersService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private router: Router
     ) {
   }
     ngOnInit(): void {
@@ -38,21 +43,40 @@ export class AccountComponent implements OnInit{
     this.loginService.getUserFromId(userId).subscribe({
       next: (response) => {
         this.currentUser = response
-        this.currentUser.phone
+
       }
     })
   }
 
   updateInfo() {
     if (this.currentUser){
-      console.log(this.currentUser)
       this.userService.updateUserInfo(this.currentUser.Id, this.currentUser).subscribe({
         next: (response) => {
-          this.toastr.info('Settings Changes')
+          this.toastr.info('User Info Changed')
+          this.editUser = false;
         },
-        error: err => this.toastr.error(err.error)
+        error: err => {
+          this.toastr.error('Error changing info')
+        }
       })
     }
+  }
+
+  changePassword() {
+    if (this.currentUser && this.currentPassword != '' && this.newPassword != '') {
+      this.loginService.resetPassword(this.currentUser.Id, this.currentPassword, this.newPassword).subscribe({
+        next: (response) => {
+          this.toastr.info('Password has been changed')
+          this.resetPassword = false;
+        },
+        error: err => {
+          this.toastr.error('Error changing password')
+        }
+      })
+
+    }
+    this.newPassword = ''
+    this.currentPassword = ''
   }
 
 }

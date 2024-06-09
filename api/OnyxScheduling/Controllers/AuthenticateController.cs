@@ -10,6 +10,7 @@ using OnyxScheduling.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using SQLitePCL;
 
 namespace OnyxScheduling.Controllers
 {
@@ -61,10 +62,8 @@ namespace OnyxScheduling.Controllers
                 UserDto returnUser = new UserDto()
                 {
                     UserName = user.UserName,
-                    Role = validUserRole[0],
-
+                    Role = validUserRole[0]
                 };
-
                 return Ok(new 
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
@@ -152,14 +151,13 @@ namespace OnyxScheduling.Controllers
                 City = resultUser.City,
                 Address = resultUser.Address,
                 State = resultUser.State,
-                Phone = resultUser.Phone
+                Phone = resultUser.Phone,
+                Email = resultUser.Email,
+                Role = resultUser.Role
             };
 
             return Ok(userDto);
         }
-
-
-
 
         private JwtSecurityToken GetToken(List<Claim> authClaims)
         {
@@ -174,6 +172,36 @@ namespace OnyxScheduling.Controllers
                 );
 
             return token;
+        }
+
+        [HttpPut]
+        [Route("ResetPassword")]
+        public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {
+            var user = await _accountRepository.GetTechnciainsFromTechId(resetPasswordDto.UserId);
+            
+            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            
+            
+            if (!await _userManager.CheckPasswordAsync(user, resetPasswordDto.CurrentPassword))
+            {
+                return BadRequest("Password does not match current");
+
+            }
+            await _userManager.ResetPasswordAsync(user, resetToken, resetPasswordDto.NewPassword);
+            return NoContent();
+        }
+
+        [HttpPut]
+        [Route("ForgotPassword")]
+        public async Task<ActionResult> ForgotPassword([FromBody] ResetPasswordDto resetPasswordDto)
+        {            
+            var user = await _accountRepository.GetTechnciainsFromTechId(resetPasswordDto.UserId);
+
+            string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            
+            await _userManager.ResetPasswordAsync(user, resetToken, resetPasswordDto.NewPassword);
+            return NoContent();
         }
     }
 }

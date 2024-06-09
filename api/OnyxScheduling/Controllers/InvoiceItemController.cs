@@ -24,7 +24,10 @@ namespace OnyxScheduling.Controllers
         [Route("GetInvoiceItemsByCategory")]
         public async Task<ActionResult<List<Invoice_Items>>> GetInvoiceItemsByCategory(int categoryId)
         {
-            if (await _invoiceItemRepository.InvoiceItemCategoryExists(categoryId)) return BadRequest();
+            if (!await _invoiceItemRepository.InvoiceItemCategoryExists(categoryId))
+            {
+                return NoContent();
+            }
 
             return await _invoiceItemRepository.GetAllInvoiceItemsByCateogry(categoryId);
         }

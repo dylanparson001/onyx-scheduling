@@ -1,0 +1,32 @@
+<div class="background-login">
+
+  <form
+    #loginForm="ngForm"
+    class="d-flex ms-auto"
+    (ngSubmit)="login()"
+    autocomplete="off"
+  >
+    <h2>Onyx Solutions</h2>
+    <!-- Uses ngmodel to set model variables when submitted      -->
+    <input
+      class="form-control me-2"
+      name="username"
+      [(ngModel)]="model.userName"
+      type="text"
+      placeholder="Username"
+    />
+    <input
+      name="password"
+      [(ngModel)]="model.password"
+      class="form-control me-2"
+      type="password"
+      placeholder="Password"
+    />
+    <div class="d-flex flex-row justify-content-between login-buttons">
+    <button class="btn btn-success" type="submit">Login</button>
+    <button class="btn btn-info" (click)="routeToSignup()">Sign Up</button>
+    </div>
+    <button class="btn forgot-button" (click)="resetPassword()">Forgot Password?</button>
+  </form>
+
+</div>

@@ -1,0 +1,87 @@
+<div class="container d-flex flex-column align-content-center" *ngIf="user">
+
+  <form #editUserForm="ngForm" class="account-edit-form" autocomplete="off">
+  <span class="d-flex flex-row align-content-lg-between w-100">
+    <h4>{{ user.firstName }} {{ user.lastName }}</h4>
+    <button mat-button class="close-overlay-button" (click)="closeOverlay()">
+      <i class="fa-solid fa-times-circle" aria-hidden="true"></i>
+    </button>
+  </span>
+
+    <h4>First Name</h4>
+    <input type="text"
+           [(ngModel)]="user.firstName"
+           [placeholder]="user.firstName"
+           name="firstName"
+    />
+
+    <h4>Last Name</h4>
+    <input type="text"
+           [(ngModel)]="user.lastName"
+           [placeholder]="user.lastName"
+           name="lastName"
+    />
+    <h4>Username</h4>
+    <input type="text"
+           [(ngModel)]="user.userName"
+           [placeholder]="user.userName"
+           name="userName"
+
+    />
+
+    <h4>Phone</h4>
+    <input type="text"
+           [(ngModel)]="user.phone"
+           [placeholder]="user.phone"
+           name="phone"
+    />
+    <h4>Email</h4>
+    <input type="text"
+           [(ngModel)]="user.email"
+           [placeholder]="user.email"
+           name="email"
+    />
+
+      <!--  Changing password-->
+      <div *ngIf="changePassword">
+        <form #newPasswordForm="ngForm" autocomplete="off" >
+
+          <h4>New Password:</h4>
+          <input type="password"
+                 [(ngModel)]="newPassword"
+                 (ngModelChange)="checkPasswords()"
+                 name="newPassword"
+          />
+
+          <h4>Confirm Password:</h4>
+          <input type="password"
+                 [(ngModel)]="confirmPassword"
+                 (ngModelChange)="checkPasswords()"
+                 name="confirmPassword"
+          />
+        </form>
+      </div>
+
+
+    <!--  <div *ngIf="!editUser && !resetPassword">-->
+    <!--    <h4>Your name</h4>-->
+    <!--    <p>{{ currentUser.firstName | titlecase }} {{ currentUser.lastName  | titlecase }}</p>-->
+    <!--    <h4>Username</h4>-->
+    <!--    <p>{{ currentUser.userName | titlecase }}</p>-->
+    <!--    <h4>Phone Number</h4>-->
+    <!--    <p>{{ currentUser.phone }}</p>-->
+    <!--    <h4>Email</h4>-->
+    <!--    <p>{{currentUser.email}}</p>-->
+    <!--  </div>-->
+    <!--  Default-->
+    <div class="d-flex flex-row justify-content-evenly account-buttons" *ngIf="!changePassword">
+      <button mat-raised-button (click)="updateInfo()">Change Info</button>
+      <button mat-raised-button color="primary" (click)="changePassword = true">Reset Password</button>
+    </div>
+    <div class="d-flex flex-row justify-content-evenly account-buttons" *ngIf="changePassword">
+      <button mat-raised-button (click)="resetPassword()">Reset Password</button>
+      <button mat-raised-button color="primary" (click)="changePassword= false">Cancel</button>
+    </div>
+
+  </form>
+</div>

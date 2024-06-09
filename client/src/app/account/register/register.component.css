@@ -1,0 +1,22 @@
+
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 45%;
+  min-height: 50%;
+  margin: 7% auto;
+  padding: 2% 5% 2% 5%;
+  background-color: rgba(205, 241, 255, 0.8);
+  border-radius: 5px;
+}
+
+input {
+  margin: 0 0 2em 0;
+}
+select {
+  margin: 0 0 2em 0;
+  width: 50%;
+}
+.password-error{
+  color: red;
+}

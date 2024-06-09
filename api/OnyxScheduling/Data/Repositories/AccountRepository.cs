@@ -66,5 +66,41 @@ namespace OnyxScheduling.Data.Repositories
         {
             throw new NotImplementedException();
         }
+
+        public async Task<User> GetUserFromUsername(string username)
+        {
+            return await _authDataContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
+        }
+        
+        public async Task<List<User>> GetUsers(int position, int take)
+        {
+            var result = await _authDataContext.Users.Where(x => true)
+                .OrderBy(x => x.NormalizedUserName)
+                .Skip(position)
+                .Take(take)
+                .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<int> GetCountUsers()
+        {
+            var result = await _authDataContext.Users.Where(x => true).CountAsync();
+
+            return result;
+        }
+
+        public async Task<List<User>> SearchUsernames(string username)
+        {
+            var result = await _authDataContext.Users
+                .Where(x => x.NormalizedUserName.Contains(username.ToUpper()) || 
+                            x.FirstName.ToUpper().Contains(username.ToUpper()) ||
+                            x.LastName.ToUpper().Contains(username.ToUpper())
+                            )
+                .OrderBy(x => x.NormalizedUserName)
+                .ToListAsync();
+
+            return result;
+        }
     }
 }

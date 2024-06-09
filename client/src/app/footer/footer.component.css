@@ -1,5 +1,30 @@
-.wrapper {
-  min-height: 100%;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
+.footer {
+  margin-top: 5%;
+  width: 100%;
+  background-color: rgba(2, 93, 110, 0.9);
+  color: white;
+  font-size: 1rem;
+}
+
+.links {
+  border-radius: 5px;
+  color: #ffffff;
+}
+
+.icons {
+  font-size: 1.2rem;
+}
+
+a {
+  text-decoration: none;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  min-height: 65vh; /* ensures that the footer is pushed to the bottom if content is less */
+  margin-bottom: 60px; /* ensure there's space to scroll */
 }

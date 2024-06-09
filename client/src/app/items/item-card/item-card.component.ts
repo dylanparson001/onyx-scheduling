@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {Item} from "../../models/item";
 
 @Component({
   selector: 'app-item-card',
@@ -8,6 +9,12 @@ import { CommonModule } from '@angular/common';
   templateUrl: './item-card.component.html',
   styleUrl: './item-card.component.css'
 })
-export class ItemCardComponent {
+export class ItemCardComponent implements OnInit{
+
+  @Input() item: Item | undefined
+
+  ngOnInit() {
+
+  }
 
 }

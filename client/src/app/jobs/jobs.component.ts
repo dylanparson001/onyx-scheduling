@@ -57,12 +57,13 @@ export class JobsComponent implements OnInit {
     this.userService.getAllTechnicians().subscribe({
       next: (response) => {
         this.techList = response;
-        console.log(response)
       }
     })
   }
   reloadJobs() {
-    this.jobCard.getJobs();
+    // this.jobCard.getJobs();
+    this.getAllTechnicians()
+    this.loadStatuses()
   }
   routeToNewJobForm() {
     this.router.navigateByUrl('jobs/new-job')

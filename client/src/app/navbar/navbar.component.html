@@ -16,22 +16,25 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<!--        <li class="nav-item me-4" *ngFor="let item of navItems">-->
+<!--          <a class="nav-link" [routerLink]="item.link" routerLinkActive="active">{{ item.label }}</a>-->
+<!--        </li>-->
         <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)">
           <a class="nav-link active" routerLink="/home" routerLinkActive="active" aria-current="page">
             Home
           </a>
         </li>
-        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)">
+        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)  && isAdmin || isOffice">
           <a class="nav-link" routerLink="/jobs" routerLinkActive="active">
             Jobs
           </a>
         </li>
-        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)">
+        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async) && isAdmin || isOffice">
           <a class="nav-link" routerLink="/invoices" routerLinkActive="active">
             Invoices
           </a>
         </li>
-        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)">
+        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async) && isAdmin || isOffice">
           <a class="nav-link" routerLink="/items" routerLinkActive="active">
             Items
           </a>
@@ -43,11 +46,11 @@
           <i class="fa-solid fa-user"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-          <li>
-            <a class="dropdown-item" routerLink="account">Account</a>
+          <li >
+            <a class="dropdown-item" routerLink="account">My Account</a>
           </li>
-          <li>
-            <a class="dropdown-item" routerLink="account" >Account</a>
+          <li *ngIf="isAdmin || isOffice">
+            <button class="dropdown-item" routerLink="account/manage-accounts">Manage Accounts</button>
           </li>
           <li>
             <button class="dropdown-item" (click)="logout()">Logout</button>
