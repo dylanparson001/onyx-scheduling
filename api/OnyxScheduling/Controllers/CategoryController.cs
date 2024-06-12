@@ -22,7 +22,7 @@ namespace OnyxScheduling.Controllers
         {
             if (category == null)
             {
-                return BadRequest();
+                return BadRequest("A response was not sent");
             }
 
             if (await _categoryRepository.CategoryExists(category.Name))
@@ -32,7 +32,7 @@ namespace OnyxScheduling.Controllers
 
             await _categoryRepository.AddCategory(category);
 
-            return Ok("Category Added");
+            return Ok("Category created");
             
         }
 
@@ -41,6 +41,17 @@ namespace OnyxScheduling.Controllers
         public async Task<ActionResult<List<Category>>> GetAllCategories()
         {
             return await _categoryRepository.GetAllCategories();
-        } 
+        }
+
+        [HttpDelete]
+        [Route("DeleteCategory")]
+        public async Task<ActionResult> DeleteCategory(int categoryId)
+        {
+            var category = await _categoryRepository.GetCategoryById(categoryId);
+
+            await _categoryRepository.DeleteCategory(category);
+
+            return NoContent();
+        }
     }
 }

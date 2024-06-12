@@ -1,11 +1,20 @@
-<form class="d-flex flex-column m-auto"#newItemForm=ngForm>
+<form class="d-flex flex-column mx-auto mt-5 w-50 " #newItemForm=ngForm *ngIf="newItem"
+      xmlns:placeholder="http://www.w3.org/1999/xhtml">
+  <h2>New Item</h2>
   <h4>Item Name</h4>
-  <input type="text">
+  <input [(ngModel)]="newItem.item_Name" name="name" type="text">
   <h4>Item Category</h4>
-  <select [(ngModel)]="chosenCategoryId" name="category" (change)="loadItemsByCategory()">
-    <option [ngValue]="0">All</option>
+  <select [(ngModel)]="newItem.category_id" name="category">
     <option *ngFor="let category of categories" [ngValue]="category.id">
       {{ category.name }}
     </option>
   </select>
+  <label>Price: </label>
+  <input type="text"  [(ngModel)]="newItem.price" name="price" [placeholder]="0.00 | currency:'USD'">
+  <label>Default Quantity: </label>
+  <input type="text"  [(ngModel)]="newItem.defaultQuantity" name="defautQuantity" [placeholder]="newItem.defaultQuantity" >
+  <div class="d-flex flex-row justify-content-evenly mt-5">
+    <button class="btn btn-success" (click)="addItem()">Add Item</button>
+    <button class="btn btn-outline-danger" routerLink="/items">Cancel</button>
+  </div>
 </form>

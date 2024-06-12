@@ -1,0 +1,11 @@
+<form class="d-flex flex-column mx-auto mt-5 w-50" #newItemForm=ngForm
+      xmlns:placeholder="http://www.w3.org/1999/xhtml">
+  <h2>New Category</h2>
+  <h4>Name</h4>
+  <input [(ngModel)]="newCategory.name" name="name" type="text">
+  <div class="d-flex flex-row mt-5 justify-content-evenly">
+
+    <button class="btn btn-success" (click)="addCategory()">Add Category</button>
+    <button class="btn btn-outline-danger" routerLink="/items">Cancel</button>
+  </div>
+</form>

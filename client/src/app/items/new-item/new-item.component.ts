@@ -1,62 +1,80 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {NgForOf} from "@angular/common";
+import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
 import {Item} from "../../models/item";
 import {Category} from "../../models/category";
 import {ItemsService} from "../../_services/items.service";
+import {Router, RouterLink} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-new-item',
   standalone: true,
   imports: [
     FormsModule,
-    NgForOf
+    NgForOf,
+    RouterLink,
+    NgIf,
+    CurrencyPipe
   ],
   templateUrl: './new-item.component.html',
   styleUrl: './new-item.component.css'
 })
 export class NewItemComponent {
-  items: Item[] = []
+  newItem: Item = {
+    id: 0,
+    item_Name: "",
+    category_id: 0,
+    defaultQuantity: 0,
+    price: 0,
+    quantity: 0
+  }
   categories: Category[] = [];
-  chosenCategoryId: number = 0;
 
   constructor(
-    private itemService: ItemsService
+    private itemService: ItemsService,
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
 
   ngOnInit(): void {
-    this.loadItemsByCategory()
     this.loadCategories()
   }
+  amount: number = 0;
 
-  loadItems() {
-    this.itemService.getItems().subscribe({
-      next: (response) => {
-        this.items = response
-      }
-    })
-  }
-
-  loadItemsByCategory() {
-    if (this.chosenCategoryId === 0) {
-      this.loadItems()
-      return
-    }
-    this.itemService.getItemsByCategory(this.chosenCategoryId).subscribe({
-      next: (response) => {
-        this.items = response
-        console.log(response)
-      }
-    })
-  }
-
+  // onInputChange(event: any): void {
+  //   const input = event.target.value;
+  //   // Remove all non-numeric characters (except for the decimal point)
+  //   const cleanInput = input.replace(/[^0-9.]/g, '');
+  //
+  //   // Convert the cleaned input to a number
+  //   this.newItem.price = parseFloat(cleanInput) || 0;
+  //
+  // }
   loadCategories() {
     this.itemService.getCategories().subscribe({
       next: (response) => {
         this.categories = response
-        console.log(response)
       }
     })
+  }
+
+  addItem() {
+    if (this.newItem.item_Name === '' ||
+      this.newItem.category_id === 0 ||
+      this.newItem.defaultQuantity <= 0) {
+      this.toastr.error('Please fill all fields')
+      return;
+    }
+
+    if (this.newItem){
+    this.itemService.addItem(this.newItem).subscribe({
+      next:() => {
+        this.router.navigateByUrl('/items')
+        this.toastr.info('Item added')
+    }
+    })
+    }
   }
 }

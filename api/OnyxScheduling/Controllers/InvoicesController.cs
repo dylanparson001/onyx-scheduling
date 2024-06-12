@@ -124,8 +124,25 @@ namespace OnyxScheduling.Controllers
 
             return NoContent();
         }
+
+        [HttpGet]
+        [Route("GetPdfFromInvoice")]
+        public async Task<ActionResult> GetInvoicePdf(int invoiceId)
+        {
+            var pdfPath =await  _invoiceRepository.GetPdfFilePath(invoiceId);
+            
+            if (string.IsNullOrEmpty(pdfPath) || !System.IO.File.Exists(pdfPath))
+            {
+                return NotFound();
+            }
+            byte[] pdfBytes = await System.IO.File.ReadAllBytesAsync(pdfPath);
+            var pdfStream = new MemoryStream(pdfBytes);
         
-        // 
+            return new FileStreamResult(pdfStream, "application/pdf")
+            {
+                FileDownloadName = $"Invoice_{invoiceId}.pdf"
+            };
+        }
        
 
         [HttpDelete]

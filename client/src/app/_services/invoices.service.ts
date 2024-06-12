@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 import { Observable } from 'rxjs';
 import { ProcessingStatus } from '../enums/ProcessingStatus';
 import {Item} from "../models/item";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,22 @@ export class InvoicesService {
 
   constructor(private http: HttpClient) {}
 
+  downloadPDF(invoiceId: number): Observable<void> {
+    return this.http.get(
+      `${this.baseUrl}Invoices/GetPdfFromInvoice?invoiceId=${invoiceId}`,
+      { responseType: 'blob' }).pipe(
+      map((blob: Blob) => {
+        const downloadUrl = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = `Invoice_${invoiceId}.pdf`; // You can set the file name here
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(downloadUrl);
+      })
+    );
+  }
   getAllInvoices(): Observable<Invoice[]> {
     let result = this.http.get<Invoice[]>(
       `${this.baseUrl}Invoices/GetAllInvoices`

@@ -16,6 +16,8 @@ import {RegisterComponent} from "./account/register/register.component";
 import {ManageAccountsComponent} from "./account/manage-accounts/manage-accounts.component";
 import {ManageUsersComponent} from "./account/manage-accounts/manage-users/manage-users.component";
 import {NewItemComponent} from "./items/new-item/new-item.component";
+import {NewCategoryComponent} from "./items/new-category/new-category.component";
+import {TechScheduleComponent} from "./jobs/tech-schedule/tech-schedule.component";
 
 export const routes: Routes = [
   { path: 'login', component: LoginFormComponent },
@@ -31,7 +33,9 @@ export const routes: Routes = [
   { path: 'jobs', component: JobsComponent, canActivate: [authGuard], data: { roles: ['Office', 'Admin'] } },
   { path: 'jobs/new-job', component: NewJobFormComponent, canActivate: [authGuard], data: { roles: ['Office', 'Admin'] } },
   { path: 'jobs/edit-job', component: EditJobComponent, canActivate: [authGuard], data: { roles: ['Office', 'Admin'] } },
+  { path: 'jobs/tech-schedule', component: TechScheduleComponent, canActivate: [authGuard], data: { roles: ['Field'] } },
   { path: 'items', component: ItemsComponent, canActivate: [authGuard], data: { roles: ['Office', 'Admin'] } },
+  { path: 'items/new-category', component: NewCategoryComponent, canActivate: [authGuard], data: { roles: ['Office', 'Admin'] } },
   { path: 'items/new-item', component: NewItemComponent, canActivate: [authGuard], data: { roles: ['Office', 'Admin'] } },
   { path: '**', redirectTo: '/login' }, // Default route
   { path: '', redirectTo: '/home', pathMatch: 'full' }

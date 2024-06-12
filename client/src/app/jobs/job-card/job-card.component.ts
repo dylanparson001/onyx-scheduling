@@ -90,7 +90,6 @@ export class JobCardComponent implements OnChanges {
       this.jobs.length = 0;
     }
     if (this.tech)
-      console.log(this.tech)
 
     this.chosenDate = this.datePipe.transform(this.currentDate, 'MM-dd-yyyy HH:mm')
     if (this.chosenDate != null && this.tech != null) {

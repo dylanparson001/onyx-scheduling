@@ -20,12 +20,12 @@ namespace OnyxScheduling.Data.Repositories
 
         public async Task<List<Invoice_Items>> GetAllInvoiceItems()
         {
-            return await _context.Invoice_Items.ToListAsync();
+            return await _context.Invoice_Items.OrderBy(x => x.Item_Name).ToListAsync();
         }
 
         public async Task<List<Invoice_Items>> GetAllInvoiceItemsByCateogry(int categoryId)
         {
-            return await _context.Invoice_Items.Where(x => x.Category_Id == categoryId).ToListAsync();
+            return await _context.Invoice_Items.Where(x => x.Category_Id == categoryId).OrderBy(x => x.Item_Name).ToListAsync();
         }
 
         public async Task<Invoice_Items> GetItemById(int id)
@@ -57,9 +57,25 @@ namespace OnyxScheduling.Data.Repositories
 
         public async Task<List<Category>> GetCategories()
         {
-            var result = await _context.Category.ToListAsync();
+            var result = await _context.Category.OrderBy(x => x.Name).ToListAsync();
 
             return result;
+        }
+
+        public async Task DeleteItem(Invoice_Items item)
+        {
+             _context.Invoice_Items.Remove(item);
+             await _context.SaveChangesAsync();
+        }
+
+        public Task<int> GetCountOfItemsByCategory(int categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Invoice_Items>> GetItemsTakeAndPosition(int categoryId, int take, int position)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -131,7 +131,24 @@ namespace OnyxScheduling.Controllers
                 tempPrice += (itemPrice * jobItem.Quantity);
             }
             
+            string fileName =
+                $"./Invoices/{customer.FirstName} {customer.LastName} {job.ScheduledEndDateTime.ToLongDateString()}.pdf";
+            if (!Directory.Exists("Invoices"))
+            {
+                Directory.CreateDirectory("./Invoices");
+            }
 
+        
+            if (CheckFileExists(fileName))
+            {
+                string safeFirstName = customer.FirstName.Replace(":", "-").Replace("/", "-").Replace("\\", "-");
+                string safeLastName = customer.LastName.Replace(":", "-").Replace("/", "-").Replace("\\", "-");
+                string safeDate = job.ScheduledEndDateTime.ToLongDateString().Replace(":", "-").Replace("/", "-").Replace("\\", "-");
+                string safeTime = job.ScheduledEndDateTime.ToShortTimeString().Replace(":", "-").Replace("/", "-").Replace("\\", "-");
+
+                fileName = $"./Invoices/{safeFirstName} {safeLastName} {safeDate} {safeTime}.pdf";
+            }
+        
             var newInvoice = new Invoices()
             {
                 CreatedDateTime = job.CreatedDateTime,
@@ -144,13 +161,24 @@ namespace OnyxScheduling.Controllers
                 InvoiceNumber = job.InvoiceNumber,
                 Total_Price = tempPrice,
                 Address = job.Address,
-                JobId = job.Id
+                JobId = job.Id,
+                FilePath = fileName
             };
             
             
-            _pdfService.GeneratePdf(newInvoice, customer, technician, itemsFromJob);
+            _pdfService.GeneratePdf(newInvoice, customer, technician, itemsFromJob, fileName);
             
             await _invoiceRepository.AddInvoice(newInvoice, itemsFromJob);
+        }
+        
+        private bool CheckFileExists(string fileName)
+        {
+            if (System.IO.File.Exists(fileName))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         [HttpGet]

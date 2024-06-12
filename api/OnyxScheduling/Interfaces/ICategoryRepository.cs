@@ -9,5 +9,6 @@ namespace OnyxScheduling.Interfaces
         public Task AddCategory(Category category);
         public Task<Category> GetCategoryByName(string name);
         public Task<bool> CategoryExists(string name);
+        public Task DeleteCategory(Category category);
     }
 }

@@ -57,5 +57,20 @@ namespace OnyxScheduling.Controllers
 
             return Ok(result);
         }
+
+        [HttpDelete]
+        [Route("DeleteInvoiceItem")]
+        public async Task<ActionResult> DeleteItem(int itemId)
+        {
+            var item = await _invoiceItemRepository.GetItemById(itemId);
+
+            if (item == null)
+            {
+                return BadRequest();
+            }
+
+            await _invoiceItemRepository.DeleteItem(item);
+            return NoContent();
+        }
     }
 }

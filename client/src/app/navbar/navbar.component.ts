@@ -29,6 +29,7 @@ export class NavbarComponent implements OnInit{
   isAdmin: boolean = false;
 
   isOffice: boolean = false;
+  isField: boolean = false;
 
 
   constructor(
@@ -45,17 +46,22 @@ export class NavbarComponent implements OnInit{
           case 'Admin':
             this.isAdmin = true;
             this.isOffice = false;
+            this.isField = false
             break;
-
           case 'Office':
             this.isOffice = true;
             this.isAdmin = false;
-
+            this.isField = false
             break;
-
+          case 'Field':
+            this.isOffice = false;
+            this.isAdmin = false;
+            this.isField = true;
+            break;
           default:
             this.isAdmin = false;
             this.isOffice = false;
+            this.isField = false
             break;
         }
       }

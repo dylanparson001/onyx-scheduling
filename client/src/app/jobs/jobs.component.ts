@@ -13,11 +13,12 @@ import {User} from "../models/user";
 import {JobCardComponent} from "./job-card/job-card.component";
 import {UsersService} from "../_services/users.service";
 import {Observable} from "rxjs";
+import {ItemCardComponent} from "../items/item-card/item-card.component";
 
 @Component({
   selector: 'app-jobs.ts',
   standalone: true,
-  imports: [CommonModule, HomeInvoiceCardsComponent, MatButtonModule, RouterLink, RouterLinkActive, FormsModule, InvoiceCardComponent, MatDatepickerModule, ReactiveFormsModule, JobCardComponent],
+  imports: [CommonModule, HomeInvoiceCardsComponent, MatButtonModule, RouterLink, RouterLinkActive, FormsModule, InvoiceCardComponent, MatDatepickerModule, ReactiveFormsModule, JobCardComponent, ItemCardComponent],
   templateUrl: './jobs.component.html',
   styleUrl: './jobs.component.css'
 })

@@ -8,6 +8,7 @@
       <p>Total Price: ${{invoice.total_Price}}</p>
       <p>Status: {{invoice.processing_Status}}</p>
       <p>Completed: {{invoice.finishedDateTime}}</p>
+      <button (click)="getPdfFromInvoice()" class="btn"><i class="fa-solid fa-file-pdf"></i></button>
     </div>
     <div class="col-md-8">
       <div class="card-body">
@@ -32,8 +33,7 @@
             </table>
 
         </div>
-        <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p> -->
+
       </div>
     </div>
   </div>

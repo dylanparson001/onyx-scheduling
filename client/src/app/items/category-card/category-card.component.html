@@ -1,0 +1,7 @@
+<div class="container category-card d-flex flex-row" *ngIf="category">
+  <button class="btn btn-danger delete-button" *ngIf="removingCategories" (click)="deleteCategory()"><i class="fa-solid fa-x"></i></button>
+  <p>
+    {{category.name}}
+  </p>
+
+</div>

@@ -1,4 +1,7 @@
-<div class="container d-flex flex-column align-content-center w-50 p-4" *ngIf="currentUser">
+<div  class="d-flex flex-column align-content-center w-50 p-4 m-auto">
+
+<h4 class="p-4 mx-auto">Edit your account</h4>
+<div class="container " *ngIf="currentUser">
 
   <div *ngIf="editUser">
     <form #editUserForm="ngForm" autocomplete="off" >
@@ -83,4 +86,5 @@
     <button mat-raised-button (click)="updateInfo()">Submit Changes</button>
     <button mat-raised-button color="primary" (click)="editUser = false">Cancel</button>
   </div>
+</div>
 </div>

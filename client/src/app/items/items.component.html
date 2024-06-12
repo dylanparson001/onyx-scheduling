@@ -1,22 +1,50 @@
 <div class="container d-flex flex-column m-auto">
-  <div class="mt-5 mb-5 d-flex flex-row align-content-center">
-  <form #categoryForm=ngForm >
-    <h4>Categories</h4>
-    <select [(ngModel)]="chosenCategoryId" name="category" (change)="loadItemsByCategory()">
-      <option [ngValue]="0">All</option>
-      <option *ngFor="let category of categories" [ngValue]="category.id">
-        {{ category.name }}
-      </option>
-    </select>
-  </form>
-    <button class="btn btn-primary h-25" routerLink="items/new-item">Add Items</button>
-    <button class="btn btn-outline-danger h-25">Remove Items</button>
+  <div class="w-75 mt-5 mb-5 d-flex flex-column align-items-start justify-content-evenly">
+    <!--    Default-->
+    <div *ngIf="!removingCategories" class="h-25 d-flex flex-row justify-content-around">
+      <h4>Categories</h4>
+      <button *ngIf="removingCategories" class="btn btn-outline-danger" (click)="removingItems = false">Cancel
+      </button>
+
+      <button class="btn btn-primary" routerLink="/items/new-category">Add Category</button>
+      <button class="btn btn-outline-danger" (click)="removingCategories = true">Remove Category</button>
+    </div>
+
+    <div *ngIf="removingCategories" class="d-flex flex-row justify-content-around">
+      <h4>Categories</h4>
+      <button *ngIf="removingCategories" class="btn btn-outline-danger" (click)="removingCategories = false">Cancel
+      </button>
+    </div>
+
+    <div *ngFor="let category of categories">
+      <app-category-card (categoryRemoved)="onCategoryRemoved($event)" [removingCategories]="removingCategories"
+                         [category]="category"></app-category-card>
+    </div>
   </div>
 
-  <div class="d-flex flex-column">
-    <h4>Items </h4>
+  <div class="d-flex flex-column w-75">
+    <!--    Default-->
+    <div *ngIf="!removingItems" class="h-25 d-flex flex-row justify-content-between w-50 mt-auto">
+      <h4>Items </h4>
+      <select [(ngModel)]="chosenCategoryId" name="category" (change)="loadItemsByCategory()">
+        <option [ngValue]="0">All</option>
+        <option *ngFor="let category of categories" [ngValue]="category.id">
+          {{ category.name }}
+        </option>
+
+      </select>
+      <button class="btn btn-primary" routerLink="/items/new-item">Add Items</button>
+      <button class="btn btn-outline-danger" (click)="removingItems = true">Remove Items</button>
+    </div>
+
+    <div *ngIf="removingItems" class="h-25 d-flex flex-row">
+      <h4>Items </h4>
+      <button class="btn btn-outline-danger" (click)="removingItems = false">Cancel</button>
+    </div>
+
     <div *ngFor="let item of items">
-      <app-item-card [item]="item"></app-item-card>
+      <app-item-card (itemRemoved)="onItemRemoved($event)" [removingItems]="removingItems"
+                     [item]="item"></app-item-card>
     </div>
   </div>
 </div>

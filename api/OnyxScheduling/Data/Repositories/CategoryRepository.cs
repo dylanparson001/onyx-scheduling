@@ -23,9 +23,15 @@ namespace OnyxScheduling.Data.Repositories
             return await _context.Category.AsNoTracking().AnyAsync(x => x.Name == name);
         }
 
+        public async Task DeleteCategory(Category category)
+        {
+            _context.Category.Remove(category);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Category>> GetAllCategories()
         {
-            return await _context.Category.ToListAsync();
+            return await _context.Category.OrderBy(x => x.Name).ToListAsync();
             
         }
 

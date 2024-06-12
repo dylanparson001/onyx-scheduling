@@ -12,6 +12,8 @@ namespace OnyxScheduling.Interfaces
         public Task<List<Invoices>> GetInvoicesByDateAndStatus(DateTime date, string status, int position, int take);
         public Task<int> GetCountOfInvoicesByDateAndStatus(DateTime date, string status);
         public Task<Invoices> GetInvoiceFromJobId(int jobId);
+        public Task<Invoices> GetInvoiceFromInvoiceId(int invoiceId);
         public Task UpdateInvoiceFilePath(int invoiceId,string filePath);
+        public Task<string> GetPdfFilePath(int invoiceId);
     }
 }

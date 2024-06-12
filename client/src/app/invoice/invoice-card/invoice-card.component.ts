@@ -66,4 +66,16 @@ export class InvoiceCardComponent implements OnInit {
       });
       }
     }
+
+  getPdfFromInvoice() {
+    if (this.invoice) {
+      this.invoiceService.downloadPDF(this.invoice.id).subscribe({
+        next: () => {
+          console.log('success')
+        }, error: (error) => {
+          console.log(error)
+        }
+      })
+    }
+  }
 }

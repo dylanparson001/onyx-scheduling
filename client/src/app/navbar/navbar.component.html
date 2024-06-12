@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" href="#">
-      <img routerLink="/home" src="../../favicon.ico" alt="Onyx Logo" />
+      <img routerLink="/home" src="../../favicon.ico" alt="Onyx Logo"/>
     </a>
     <button
       class="navbar-toggler"
@@ -16,9 +16,8 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-<!--        <li class="nav-item me-4" *ngFor="let item of navItems">-->
-<!--          <a class="nav-link" [routerLink]="item.link" routerLinkActive="active">{{ item.label }}</a>-->
-<!--        </li>-->
+
+        <!--        Office and Admin-->
         <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)">
           <a class="nav-link active" routerLink="/home" routerLinkActive="active" aria-current="page">
             Home
@@ -26,7 +25,7 @@
         </li>
         <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async)  && isAdmin || isOffice">
           <a class="nav-link" routerLink="/jobs" routerLinkActive="active">
-            Jobs
+            Schedule
           </a>
         </li>
         <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async) && isAdmin || isOffice">
@@ -39,14 +38,22 @@
             Items
           </a>
         </li>
+
+        <!--        Field Staff-->
+        <li class="nav-item me-4" *ngIf="(authService.currentUser$ | async) && isField">
+          <a class="nav-link" routerLink="/jobs/tech-schedule" routerLinkActive="active">
+            My Jobs
+          </a>
+        </li>
       </ul>
 
       <div class="dropdown" *ngIf="(authService.currentUser$ | async)">
-        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+        <button class="btn btn-outline-light dropdown-toggle" type="button" id="dropdownMenuButton"
+                data-bs-toggle="dropdown" aria-expanded="false">
           <i class="fa-solid fa-user"></i>
         </button>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-          <li >
+          <li>
             <a class="dropdown-item" routerLink="account">My Account</a>
           </li>
           <li *ngIf="isAdmin || isOffice">
