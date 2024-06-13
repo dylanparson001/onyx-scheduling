@@ -15,3 +15,8 @@ Full stack website for a service company (ie plumbing, electrician, etc) to mana
      - Entity Framework
      - SQL Server
      - Deployed to Azure
+
+Now live on Azure!
+Screenshots: 
+
+[Login Page](C:\Users\parsond\OneDrive - iGPS Logistics, LLC\Documents\OnyxScreenshots\login.png)
