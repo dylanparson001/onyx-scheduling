@@ -149,7 +149,7 @@ namespace OnyxScheduling.Controllers
 
             return Ok(customerDto);
         }
-
+        [HttpGet]
         public async Task<User> GetCustomerFromCustomerId(string customerId)
         {
              return await _accountRepository.GetCustomersFromCustomerId(customerId);
@@ -178,7 +178,8 @@ namespace OnyxScheduling.Controllers
 
             return Ok(techDto);
         }
-
+        [HttpGet]
+        [Route("GetTechFromId")]
         public async Task<User> GetTechFromId(string techId)
         {
             return await _accountRepository.GetTechnciainsFromTechId(techId);

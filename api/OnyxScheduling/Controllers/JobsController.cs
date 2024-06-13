@@ -109,8 +109,8 @@ namespace OnyxScheduling.Controllers
             await GenerateInvoicePdfFromJob(jobResult);
             return NoContent();
         }
-        
-        
+
+        [HttpPost]
         public async Task GenerateInvoicePdfFromJob(Jobs job)
         {
             if (job == null)

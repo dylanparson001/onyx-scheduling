@@ -1,4 +1,4 @@
-# Onyx Web Application
+# Onyx Web Application [Link text](onyx-solutions.azurewebsites.net)
 
 ## Work in progress
 
@@ -8,9 +8,10 @@ Full stack website for a service company (ie plumbing, electrician, etc) to mana
 
 ## Technologies used:
 
-     - C# Dotnet Core 6
+     - C# Dotnet Core 8
      - Angular Framework 17
      - TypeScript
      - Microsoft Identity
-     - Dotnet Entity Framework
-     - SQLite (During development)
+     - Entity Framework
+     - SQL Server
+     - Deployed to Azure

@@ -32,7 +32,7 @@ export class LoginServiceService {
 
   login(model: loginDto){
     // http request to login api endpoint
-    return this.http.post<any>(this.baseUrl + "Authenticate/login", model).pipe(
+    return this.http.post<any>(`${this.baseUrl}Authenticate/login`, model).pipe(
       map((response) => {
         const user = response;
         if (user){
@@ -52,16 +52,7 @@ export class LoginServiceService {
   }
 
   register(model: any){
-    return this.http.post<any>(this.baseUrl + 'Authenticate/register', model).pipe(
-      map(user  => {
-        if(user){
-          localStorage.setItem('user', JSON.stringify(user.token));
-          localStorage.setItem('role', JSON.stringify(user.role))
-          this.currentUserSource.next(user)
-
-        }
-      })
-    )
+    return this.http.post<any>(this.baseUrl + 'Authenticate/register', model);
   }
 
   logout(){

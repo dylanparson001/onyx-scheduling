@@ -1,4 +1,4 @@
 export const environment= {
-  production: false,
-  apiUrl: 'http://localhost:5200/api/'
+  production: true,
+  apiUrl: 'https://onyxsolutionsapi.azurewebsites.net/api/'
 }

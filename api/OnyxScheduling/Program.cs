@@ -13,7 +13,6 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OnyxScheduling.Controllers;
 using QuestPDF.Infrastructure;
 
-//Twilio SID: US2e733ad783038e074188c73ae8590b5d
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -23,8 +22,8 @@ ConfigurationManager configuration = builder.Configuration;
 QuestPDF.Settings.License = LicenseType.Community;
 
 // For Entity Framework
-builder.Services.AddDbContext<AuthDataContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<AuthDataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddDbContext<DataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 // For Identity
 builder.Services.AddIdentity<User, IdentityRole>()
