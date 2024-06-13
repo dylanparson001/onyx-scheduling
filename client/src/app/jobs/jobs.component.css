@@ -17,3 +17,42 @@
 {
   min-height: 100%;
 }
+
+
+@media (min-width: 300px) and (max-width: 1200px) {
+  .searchDate{
+    width: 50vw;
+  }
+  .search-container{
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-container button {
+    align-self: flex-start; /* Align button to start */
+  }
+  .search-container input {
+    min-width: 65vw;
+    height: 8vh;
+  }
+
+  .invoice-search-form{
+    flex-wrap: wrap;
+  }
+  button{
+    font-size: 1.2rem;
+    height: 2em;
+    width: 35vw;
+    margin-left: 5%;
+    margin-top: 5%;
+  }
+
+  .date-toggle{
+    padding: 5%;
+  }
+
+  .job-card-section{
+    width: 100%;
+  }
+}
+

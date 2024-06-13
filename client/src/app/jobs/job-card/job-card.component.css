@@ -45,3 +45,24 @@
   background-color: rgba(9, 114, 234, 0.26);
 }
 
+@media (min-width: 300px) and (max-width: 1200px) {
+  .container{
+  }
+  .card{
+    max-width: 90vw;
+  }
+  .job-section{
+    width: 100vw;
+  }
+  .row {
+    min-width: 95vw;
+  }
+}
+
+@media (min-width: 500px) and (max-width: 750px) {
+  .card{
+    max-width:65vw;
+    margin-left: 0;
+  }
+
+}

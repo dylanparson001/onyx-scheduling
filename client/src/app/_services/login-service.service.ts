@@ -38,7 +38,6 @@ export class LoginServiceService {
         if (user){
           // TOKEN
           localStorage.setItem("user", JSON.stringify(user.token));
-          // ROLE, should delete and load from API everytime role is needed
           localStorage.setItem('userName', user.userName)
           //USERID
           localStorage.setItem('userId', user.userId)

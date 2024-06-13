@@ -1,9 +1,12 @@
-<button mat-button class="close-overlay-button" (click)="closeOverlay()">
-  <i class="fa-solid fa-times-circle" aria-hidden="true"></i>
-</button>
-<button mat-button (click)="editingItems = !editingItems">
-  <i class="edit-job-button fa-solid fa-pencil"></i>
-</button>
+<div class="top-buttons d-flex flex-row">
+
+  <button mat-button (click)="editingItems = !editingItems">
+    <i class="edit-job-button fa-solid fa-pencil"></i>
+  </button>
+  <button mat-button class="close-overlay-button" (click)="closeOverlay()">
+    <i class="fa-solid fa-times-circle" aria-hidden="true"></i>
+  </button>
+</div>
 
 <div class="d-flex flex-row align-items-start">
   <!--  Adding/ removing items section-->
@@ -60,21 +63,13 @@
     <div class="d-flex flex-row submit-cancel-buttons" *ngIf="editingItems">
 
       <button
-        class="mx-2"
+        class="mx-2 add-item-button"
         mat-raised-button
         color="primary"
         (click)="submitChanges()"
       >
         Add Items
       </button>
-      <!--      <button-->
-      <!--        mat-button-->
-      <!--        color="red"-->
-      <!--        class="cancel-remove-item-button"-->
-      <!--        (click)="editingItems = false; removingItems = false"-->
-      <!--      >-->
-      <!--        Cancel Edit-->
-      <!--      </button>-->
     </div>
   </div>
   <!--Customer / technician info-->
@@ -87,41 +82,18 @@
       </p>
 
 
-      <div *ngIf="editingItems" class="d-flex flex-column">
-        <label for="startTime">Start Time: </label>
-        <input
-          type="time"
-          id="startTime"
-          name="startTime"
-          [ngModel]="newScheduledStartTime"
-          (ngModelChange)="onTimeChange($event, 'startTime')"
-          step="900"
-          required
-        />
-        <label for="endTime">End Time: </label>
-        <input
-          type="time"
-          id="endTime"
-          name="endTime"
-          [ngModel]="newScheduledEndTime"
-          (ngModelChange)="onTimeChange($event, 'endTime')"
-          step="900"
-          required
-        />
-        <button (click)="updateJobTime()" class="mt-1" mat-raised-button>Update Time</button>
-      </div>
       <div class="pt-5">
-        <p >Technician: {{ technician?.firstName }} {{ technician?.lastName }}</p>
-        <select *ngIf="editingItems" name="" id="">
+        <p>Technician: {{ technician?.firstName }} {{ technician?.lastName }}</p>
+<!--        <select *ngIf="editingItems" name="" id="">-->
 
-          <option value="" disabled selected></option>
-          <option
-            *ngFor="let tech of technicianList"
-            [ngValue]="tech"
-          >
-            {{ tech.firstName }} {{ tech.lastName }}
-          </option>
-        </select>
+<!--          <option value="" disabled selected></option>-->
+<!--          <option-->
+<!--            *ngFor="let tech of technicianList"-->
+<!--            [ngValue]="tech"-->
+<!--          >-->
+<!--            {{ tech.firstName }} {{ tech.lastName }}-->
+<!--          </option>-->
+<!--        </select>-->
 
       </div>
     </div>
@@ -141,7 +113,31 @@
         <br>
       <button class="mt-1" mat-raised-button color="primary" (click)="updateJobStatus()">Change Status</button>
       </span>
+    <div *ngIf="editingItems" class="d-flex flex-column">
+      <label for="startTime">Start Time: </label>
+      <input
+        type="time"
+        id="startTime"
+        name="startTime"
+        [ngModel]="newScheduledStartTime"
+        (ngModelChange)="onTimeChange($event, 'startTime')"
+        step="900"
+        required
+      />
+      <label for="endTime">End Time: </label>
+      <input
+        type="time"
+        id="endTime"
+        name="endTime"
+        [ngModel]="newScheduledEndTime"
+        (ngModelChange)="onTimeChange($event, 'endTime')"
+        step="900"
+        required
+      />
+      <button (click)="updateJobTime()" class="mt-1" mat-raised-button>Update Time</button>
+    </div>
   </div>
+
 </div>
 
 <div class="complete-button" *ngIf="!editingItems">

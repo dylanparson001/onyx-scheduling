@@ -1,0 +1,14 @@
+@media (min-width: 300px) and (max-width: 1200px) {
+  .mobile-screen{
+    min-width: 95vw;
+  }
+  .search-inputs{
+    margin-bottom: 5%;
+  }
+  .search-inputs input{
+    min-width: 35%;
+    font-size: 1.5rem;
+  }
+  .search-inputs button{
+  }
+}

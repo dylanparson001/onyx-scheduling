@@ -1,10 +1,11 @@
-<div class="d-flex flex-column w-50 mx-auto">
+<div class="d-flex flex-column w-75 mx-auto mobile-screen">
   <label>Search User</label>
-  <div class="d-flex flex-row">
-  <input class="w-25 mx-1" type="text"
-         [(ngModel)]="usernameToSearch"
-         (ngModelChange)="searchUsers()"
-  > <span><button mat-raised-button (click)="searchUsers()"><i class="fas fa-search"></i></button></span>
+  <div class="search-inputs d-flex flex-row justify-content-evenly">
+    <input class="w-25 mx-1" type="text"
+           [(ngModel)]="usernameToSearch"
+           (ngModelChange)="searchUsers()"
+    >
+    <button mat-raised-button (click)="searchUsers()"><i class="fas fa-search"></i></button>
     <select
       class="mx-1"
       name="showAmount"
@@ -17,7 +18,7 @@
       <option [ngValue]="20">20</option>
       <option [ngValue]="50">50</option>
     </select>
-  <button class="btn btn-info w-25 align-self0" routerLink="/account/manage-accounts">Go Back</button>
+    <button class="btn btn-info w-25 align-self0" routerLink="/account/manage-accounts">Go Back</button>
   </div>
 
 
@@ -29,9 +30,9 @@
 
     <div class="flex d-flex align-content-between w-50" *ngIf="totalPages != 0">
 
-      <button mat-raised-button class="mx-3"  (click)="previousButtonClick()">Previous</button>
-      <h5  class="mx-3">{{currentPage}} / {{totalPages}}</h5>
-      <button  mat-raised-button  class="mx-3" color="primary" (click)="nextButtonClick()">Next</button>
+      <button mat-raised-button class="mx-3" (click)="previousButtonClick()">Previous</button>
+      <h5 class="mx-3">{{ currentPage }} / {{ totalPages }}</h5>
+      <button mat-raised-button class="mx-3" color="primary" (click)="nextButtonClick()">Next</button>
     </div>
   </div>
 </div>

@@ -35,3 +35,34 @@ input {
   margin-top: 2%;
   color: red;
 }
+
+@media (min-width: 300px) and (max-width: 1200px) {
+
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 99%;
+    min-height: 65%;
+    padding: 2% 5% 2% 5%;
+    background-color: rgba(205, 241, 255, 0.8);
+    border-radius: 5px;
+    font-size: 2.5rem;
+
+  }
+
+  .login-form input {
+    font-size: 1.2rem;
+  }
+  .login-form button {
+    font-size: 1.2rem;
+    width: 100%;
+
+  }
+
+  .forgot-button{
+    width: 25%;
+    margin-left: 0%;
+    margin-top: 2%;
+    color: red;
+  }
+}

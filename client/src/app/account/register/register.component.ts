@@ -49,13 +49,16 @@ export class RegisterComponent {
     }
 
     this.authService.register(this.model).subscribe({
-      next: (response) => this.toastr.success('User has been created'),
+      next: (response) => {
+        this.toastr.success('User has been created')
+        this.router.navigateByUrl('/account/manage-accounts'
+        )
+      },
       error: (error) => this.toastr.error('Error creating user')
     })
   }
 
   changeOption() {
-    console.log(this.model.role)
   }
 
 
