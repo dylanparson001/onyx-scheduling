@@ -16,7 +16,8 @@ Full stack website for a service company (ie plumbing, electrician, etc) to mana
      - SQL Server
      - Deployed to Azure
 
-Now live on Azure!💻
+
+<a target="_blank" href = "https://onyx-solutions.azurewebsites.net">Now live on Azure!💻 </a> <br>
 Screenshots 
 
 Login ✏
