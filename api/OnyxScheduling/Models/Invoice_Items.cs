@@ -13,6 +13,8 @@ namespace OnyxScheduling.Models
         public int DefaultQuantity { get; set; }
         public List<InvoiceInvoice_Item> InvoiceInvoiceItems { get; set; }
         public List<JobInvoice_Item> JobInvoiceItems { get; set; }
+        public string CompanyId { get; set; }
+
 
     }
 }

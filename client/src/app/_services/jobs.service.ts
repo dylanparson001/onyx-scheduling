@@ -11,7 +11,6 @@ import {Item} from "../models/item";
 })
 export class JobsService {
   baseUrl = environment.apiUrl;
-
   constructor(private http: HttpClient) { }
 
   getJobsByTechnicianAndDate(date: string, status: string, position: number, take: number):Observable<Jobs[]> {

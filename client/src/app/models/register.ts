@@ -20,5 +20,7 @@ export interface Register{
   phone: string,
   state: string,
   password: string
+  companyId: string
+
 
 }

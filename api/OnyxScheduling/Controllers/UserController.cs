@@ -16,11 +16,20 @@ namespace OnyxScheduling.Controllers
         {
             _accountRepository = accountRepository;
         }
+        
+        private string GetCompanyIdFromHeader()
+        {            
+            Request.Headers.TryGetValue("CompanyId", out var companyIdHeader);
+
+            return companyIdHeader.FirstOrDefault();
+        }
         [HttpGet]
         [Route("GetAllOfficeStaff")]
         public async Task<ActionResult<List<OfficeStaffDto>>> GetAllOfficeStaff()
         {
-            var officeStaffResult = await _accountRepository.GetAllOfficeStaff();
+            var companyId = GetCompanyIdFromHeader();
+
+            var officeStaffResult = await _accountRepository.GetAllOfficeStaff(companyId);
             List<OfficeStaffDto> officeStaffDtos = new List<OfficeStaffDto>();
 
             foreach (var user in officeStaffResult)
@@ -43,7 +52,9 @@ namespace OnyxScheduling.Controllers
         [Route("GetAllCustomers")]
         public async Task<ActionResult<List<CustomerDto>>> GetAllCustomers()
         {
-            var customerResult = await _accountRepository.GetAllCustomers();
+            var companyId = GetCompanyIdFromHeader();
+
+            var customerResult = await _accountRepository.GetAllCustomers(companyId);
             List<CustomerDto> customerDtoResut = new List<CustomerDto>();
 
             foreach (var customer in customerResult)
@@ -69,7 +80,9 @@ namespace OnyxScheduling.Controllers
         [Route("GetUsers")]
         public async Task<ActionResult<List<UserDto>>> GetUsers(int position, int take)
         {
-            var result = await _accountRepository.GetUsers(position, take);
+            var companyId = GetCompanyIdFromHeader();
+
+            var result = await _accountRepository.GetUsers(position, take, companyId);
             List<UserDto> listOfUserDtos = new List<UserDto>();
             foreach (var user in result)
             {
@@ -96,14 +109,18 @@ namespace OnyxScheduling.Controllers
         [Route("GetCountOfUsers")]
         public async Task<ActionResult<int>> GetCountOfUsers()
         {
-            return await _accountRepository.GetCountUsers();
+            var companyId = GetCompanyIdFromHeader();
+
+            return await _accountRepository.GetCountUsers(companyId);
         }
 
         [HttpGet]
         [Route("GetAllTechnicians")]
         public async Task<ActionResult<List<TechnicianDto>>> GetAllFieldStaff()
         {
-            var technicianResult = await _accountRepository.GetAllTechnicians();
+            var companyId = GetCompanyIdFromHeader();
+
+            var technicianResult = await _accountRepository.GetAllTechnicians(companyId);
             List<TechnicianDto> technicianDtos = new List<TechnicianDto>();
 
             foreach (var technician in technicianResult)
@@ -132,6 +149,8 @@ namespace OnyxScheduling.Controllers
         [Route("GetCustomerFromInvoice")]
         public async Task<ActionResult<CustomerDto>> GetCustomerFromInvoice(string customerId)
         {
+            var companyId = GetCompanyIdFromHeader();
+
             var customer = await GetCustomerFromCustomerId(customerId);
 
             if (customer == null) return BadRequest();
@@ -152,6 +171,8 @@ namespace OnyxScheduling.Controllers
         [HttpGet]
         public async Task<User> GetCustomerFromCustomerId(string customerId)
         {
+            var companyId = GetCompanyIdFromHeader();
+
              return await _accountRepository.GetCustomersFromCustomerId(customerId);
         }
 
@@ -159,6 +180,8 @@ namespace OnyxScheduling.Controllers
         [Route("GetTechnicianFromInvoice")]
         public async Task<ActionResult<TechnicianDto>> GetTechniciansFromInvoice(string technicianId)
         {
+            var companyId = GetCompanyIdFromHeader();
+
             var technician = await _accountRepository.GetTechnciainsFromTechId(technicianId);
             
             if (technician == null)
@@ -182,6 +205,8 @@ namespace OnyxScheduling.Controllers
         [Route("GetTechFromId")]
         public async Task<User> GetTechFromId(string techId)
         {
+            var companyId = GetCompanyIdFromHeader();
+
             return await _accountRepository.GetTechnciainsFromTechId(techId);
         }
 
@@ -189,6 +214,8 @@ namespace OnyxScheduling.Controllers
         [Route("GetCustomerFromJob")]
         public async Task<ActionResult<User>> GetCustomersFromJob(string customerId)
         {
+            var companyId = GetCompanyIdFromHeader();
+
             var result = await _accountRepository.GetCustomersFromCustomerId(customerId);
 
             return Ok(result);
@@ -198,7 +225,8 @@ namespace OnyxScheduling.Controllers
         [Route("UpdateUserInfo")]
         public async Task<ActionResult> UpdateUserInfo(string userId, [FromBody] UserDto userDto)
         {
-            
+            var companyId = GetCompanyIdFromHeader();
+
             await _accountRepository.UpdateUserInfo(userId, userDto);
             return Ok();
         }
@@ -207,7 +235,9 @@ namespace OnyxScheduling.Controllers
         [Route("GetUserFromUsername")]
         public async Task<ActionResult<UserDto>> GetUserFromUsername(string username)
         {
-            var result =  await _accountRepository.GetUserFromUsername(username);
+            var companyId = GetCompanyIdFromHeader();
+
+            var result =  await _accountRepository.GetUserFromUsername(username, companyId);
 
             var userDto = new UserDto()
             {
@@ -226,7 +256,9 @@ namespace OnyxScheduling.Controllers
         [Route("SearchUsers")]
         public async Task<ActionResult<List<UserDto>>> SearchUsername(string username)
         {
-            var result = await _accountRepository.SearchUsernames(username);
+            var companyId = GetCompanyIdFromHeader();
+
+            var result = await _accountRepository.SearchUsernames(username, companyId);
             List<UserDto> userDtoResult = new List<UserDto>();
             if (result.Count > 0)
             {

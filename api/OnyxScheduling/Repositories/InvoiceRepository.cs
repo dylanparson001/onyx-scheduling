@@ -27,24 +27,28 @@ namespace OnyxScheduling.Data.Repositories
             }
         }
 
-        public async Task<List<Invoices>> GetInvoicesAsync()
+        public async Task<List<Invoices>> GetInvoicesAsync(string companyId)
         {
             List<Invoices> result =
-                await _context.Invoices.AsNoTracking().OrderBy(x => x.CreatedDateTime).ToListAsync();
+                await _context.Invoices.AsNoTracking().Where(x => x.CompanyId == companyId)
+                    .OrderBy(x => x.CreatedDateTime)
+                    .ToListAsync();
 
             return result;
         }
 
-        public async Task<List<Invoices>> GetInvoicesByDate(DateTime date)
+        public async Task<List<Invoices>> GetInvoicesByDate(DateTime date, string companyId)
         {
+            
             var result = await _context.Invoices
-                .Where(x => x.FinishedDateTime.Value.Date == date.Date)
+                .Where(x => x.FinishedDateTime.Value.Date == date.Date && x.CompanyId == companyId)
                 .ToListAsync();
 
             return result;
         }
 
-        public async Task<List<Invoices>> GetInvoicesByDateAndStatus(DateTime date, string status, int position, int take)
+        public async Task<List<Invoices>> GetInvoicesByDateAndStatus(DateTime date, string status,
+            int position, int take, string companyId)
         {
             var result = new List<Invoices>();
             switch (status)
@@ -56,7 +60,9 @@ namespace OnyxScheduling.Data.Repositories
                             
                         .Where(x => x.ScheduledStartDateTime.Month == date.Month &&
                                     x.ScheduledStartDateTime.Day == date.Day &&
-                                    x.Processing_Status == status)
+                                    x.Processing_Status == status &&
+                                    x.CompanyId == companyId
+                                    )
                         .OrderBy(x => x.ScheduledStartDateTime)
                         .Skip(position)
                         .Take(take)
@@ -67,7 +73,9 @@ namespace OnyxScheduling.Data.Repositories
                     result = await _context.Invoices
                         .Where(x => x.FinishedDateTime.Value.Month == date.Month &&
                                     x.FinishedDateTime.Value.Day == date.Day &&
-                                    x.Processing_Status == status)
+                                    x.Processing_Status == status &&
+                                    x.CompanyId == companyId
+                                    )
                         
                         .OrderBy(x => x.FinishedDateTime)
                         .Skip(position)
@@ -82,7 +90,7 @@ namespace OnyxScheduling.Data.Repositories
             return result;
         }
 
-        public async Task<int> GetCountOfInvoicesByDateAndStatus(DateTime date, string status)
+        public async Task<int> GetCountOfInvoicesByDateAndStatus(DateTime date, string status, string companyId)
         {
             int result;
             switch (status)
@@ -94,7 +102,9 @@ namespace OnyxScheduling.Data.Repositories
 
                         .Where(x => x.ScheduledStartDateTime.Month == date.Month &&
                                     x.ScheduledStartDateTime.Day == date.Day &&
-                                    x.Processing_Status == status)
+                                    x.Processing_Status == status &&
+                                    x.CompanyId == companyId
+                                    )
                         .CountAsync();
                         
                     break;
@@ -103,7 +113,9 @@ namespace OnyxScheduling.Data.Repositories
                     result = await _context.Invoices
                         .Where(x => x.FinishedDateTime.Value.Month == date.Month &&
                                     x.FinishedDateTime.Value.Month == date.Day &&
-                                    x.Processing_Status == status)
+                                    x.Processing_Status == status &&
+                                    x.CompanyId == companyId
+                        )
                         .CountAsync();
                     break;
                 // If for some reason another option was sent, return null

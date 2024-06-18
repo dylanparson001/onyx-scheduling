@@ -18,14 +18,17 @@ namespace OnyxScheduling.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Invoice_Items>> GetAllInvoiceItems()
+        public async Task<List<Invoice_Items>> GetAllInvoiceItems(string companyId)
         {
-            return await _context.Invoice_Items.OrderBy(x => x.Item_Name).ToListAsync();
+            return await _context.Invoice_Items.Where(x => x.CompanyId == companyId).OrderBy(x => x.Item_Name).ToListAsync();
         }
 
-        public async Task<List<Invoice_Items>> GetAllInvoiceItemsByCateogry(int categoryId)
+        public async Task<List<Invoice_Items>> GetAllInvoiceItemsByCateogry(int categoryId, string companyId)
         {
-            return await _context.Invoice_Items.Where(x => x.Category_Id == categoryId).OrderBy(x => x.Item_Name).ToListAsync();
+            return await _context.Invoice_Items.Where(x => x.Category_Id == categoryId &&
+                                                           x.CompanyId == companyId)
+                .OrderBy(x => x.Item_Name)
+                .ToListAsync();
         }
 
         public async Task<Invoice_Items> GetItemById(int id)

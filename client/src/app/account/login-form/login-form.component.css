@@ -2,31 +2,44 @@
 form {
   display: flex;
   flex-direction: column;
-  max-width: 45%;
+  max-width: 35%;
   min-height: 50%;
-  margin: 7% auto;
+  margin: 5% auto;
   padding: 2% 5% 2% 5%;
-  background-color: rgba(205, 241, 255, 0.8);
-  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.49);
+  border-radius: 55px;
 }
 
 input {
-  margin: 1rem 0 1rem 0;
+  margin: 0 0 1rem 0;
+  width: 100%;
+  border-radius: 0;
+  height: 2.5em;
+}
+.login-subtitles{
+  font-size: 1.2rem;
+}
+.login-button-submit{
+  background-color: #414b9b;
+  color: white;
 }
 
 .background-login{
   overflow: hidden;
-  height: 100vh;
+  height: 100%;
   margin: 0;
   background-size: cover;
   max-width: 100%;
-  background-image: url("../../../assets/home_bg_image.jpg");
+  background-color: #1a1a23;
 }
-
+.login-title{
+  font-size: 1.5rem;
+  font-weight: bold;
+}
 .login-buttons button{
-  margin: 1%;
+  margin: 0 auto;
   font-size: 1.2rem;
-  width: 25%;
+  width: 45%;
 }
 
 .forgot-button{
@@ -36,18 +49,55 @@ input {
   color: red;
 }
 
+.loading-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+}
+
+.spinner {
+  border: 16px solid #f3f3f3; /* Light grey */
+  border-top: 16px solid #414b9b; /* Blue */
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
 @media (min-width: 300px) and (max-width: 1200px) {
 
   .login-form {
     display: flex;
     flex-direction: column;
     max-width: 99%;
-    min-height: 65%;
+    min-height: 85%;
     padding: 2% 5% 2% 5%;
-    background-color: rgba(205, 241, 255, 0.8);
+    background-color: rgba(255, 255, 255, 0.49);
     border-radius: 5px;
     font-size: 2.5rem;
 
+  }
+  .login-title{
+    font-size:1.8rem;
+  }
+  .login-subtitles{
+    font-size: 1.5rem;
+  }
+  input{
+    height: 3em;
   }
 
   .login-form input {

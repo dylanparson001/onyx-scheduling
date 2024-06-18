@@ -14,4 +14,6 @@ public class JobsDto
     public string City { get; set; }
     public string processing_Status { get; set; }
     public int InvoiceId { get; set; }
+    public string CompanyId { get; set; }
+
 }

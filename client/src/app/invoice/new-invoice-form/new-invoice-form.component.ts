@@ -30,6 +30,7 @@ export class NewInvoiceFormComponent implements OnInit {
   scheduledEndTime: string = '';
   model: any;
   invoice: Invoice = {
+    companyId: "",
     id: 0,
     address: '',
     city: '',
@@ -42,7 +43,7 @@ export class NewInvoiceFormComponent implements OnInit {
     createdDateTime: '',
     finishedDateTime: '',
     scheduledStartDateTime: '',
-    scheduledEndDateTime: '',
+    scheduledEndDateTime: ''
   };
 
   constructor(

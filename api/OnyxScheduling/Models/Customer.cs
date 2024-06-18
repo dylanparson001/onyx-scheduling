@@ -6,5 +6,7 @@
         public string Last_Name { get; set; }
         public string Address { get; set; }
         public ICollection<Invoices> Invoices { get; set; }
+        public string CompanyId { get; set; }
+
     }
 }

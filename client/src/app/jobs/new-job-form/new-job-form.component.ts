@@ -39,7 +39,8 @@ export class NewJobFormComponent implements OnInit{
     id: 0,
     categoryId: 0,
     itemName: '',
-    price: 0
+    price: 0,
+    companyId: ''
   }
 
   job: Jobs = {
@@ -56,7 +57,8 @@ export class NewJobFormComponent implements OnInit{
     totalPrice: 0,
     invoiceNumber: '0',
     invoiceId: '0',
-    invoiceItems: []
+    invoiceItems: [],
+    companyId: ''
   }
   categories: any
 

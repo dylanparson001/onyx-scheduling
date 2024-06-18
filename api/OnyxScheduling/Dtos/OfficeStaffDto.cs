@@ -18,5 +18,7 @@ namespace OnyxScheduling.Dtos
 
         public string Email { get; set; }
         public string Id { get; internal set; }
+        public string CompanyId { get; set; }
+
     }
 }

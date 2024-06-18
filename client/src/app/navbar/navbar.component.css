@@ -2,3 +2,10 @@ li {
   cursor: pointer;
   list-style: none;
 }
+@media (min-width: 300px) and (max-width: 1200px) {
+
+
+.dropdown-menu{
+  margin-right: 55%;
+}
+}

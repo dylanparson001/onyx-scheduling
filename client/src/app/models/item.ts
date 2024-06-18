@@ -5,4 +5,6 @@ export interface Item {
   price: number
   quantity: number
   defaultQuantity: number
+  companyId: string
+
 }

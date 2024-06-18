@@ -25,6 +25,5 @@ body {
 }
 
 .content {
-  min-height: 65vh; /* ensures that the footer is pushed to the bottom if content is less */
-  margin-bottom: 60px; /* ensure there's space to scroll */
+  min-height: 100vh; /* ensures that the footer is pushed to the bottom if content is less */
 }

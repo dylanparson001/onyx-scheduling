@@ -20,16 +20,24 @@ namespace OnyxScheduling.Controllers
             _invoiceInvoiceItemRepository = invoiceInvoiceItemRepository;
         }
 
+        private string GetCompanyIdFromHeader()
+        {            
+            Request.Headers.TryGetValue("CompanyId", out var companyIdHeader);
+
+            return companyIdHeader.FirstOrDefault();
+        }
+
         [HttpGet]
         [Route("GetInvoiceItemsByCategory")]
         public async Task<ActionResult<List<Invoice_Items>>> GetInvoiceItemsByCategory(int categoryId)
         {
+            var companyId = GetCompanyIdFromHeader();
+            
             if (!await _invoiceItemRepository.InvoiceItemCategoryExists(categoryId))
             {
                 return NoContent();
             }
-
-            return await _invoiceItemRepository.GetAllInvoiceItemsByCateogry(categoryId);
+            return await _invoiceItemRepository.GetAllInvoiceItemsByCateogry(categoryId, companyId);
         }
 
         [HttpPost]
@@ -46,7 +54,9 @@ namespace OnyxScheduling.Controllers
         [Route("GetInvoiceItems")]
         public async Task<ActionResult<List<Invoice_Items>>> GetInvoiceItems()
         {
-            return await _invoiceItemRepository.GetAllInvoiceItems();
+            var companyId = GetCompanyIdFromHeader();
+
+            return await _invoiceItemRepository.GetAllInvoiceItems(companyId);
         }
 
         [HttpGet]

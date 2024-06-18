@@ -20,7 +20,10 @@ import {Category} from "../../models/category";
   styleUrl: './new-category.component.css'
 })
 export class NewCategoryComponent {
+  companyId: string | null = localStorage.getItem('companyId')
+
   newCategory: Category = {
+    companyId: "",
     id: 0,
     name: ""
   }
@@ -28,7 +31,11 @@ export class NewCategoryComponent {
     private itemService: ItemsService,
     private router: Router,
     private toastr: ToastrService
-  ) {}
+  ) {
+    if(this.companyId) {
+      this.newCategory.companyId = this.companyId
+    }
+  }
 
   addCategory() {
     if (this.newCategory.name === '' || this.newCategory.name === null) {

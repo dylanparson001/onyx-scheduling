@@ -11,4 +11,6 @@ public class JobInvoice_Item
     public int InvoiceItemId { get; set; }
     public Invoice_Items InvoiceItems { get; set; }
     public int Quantity { get; set; }
+    public string CompanyId { get; set; }
+
 }

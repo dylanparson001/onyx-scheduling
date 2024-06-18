@@ -12,6 +12,9 @@ export interface Invoice {
   processing_Status: string,
   createdDateTime: string,
   finishedDateTime: string,
-  scheduledStartDateTime: string
-  scheduledEndDateTime: string
+  scheduledStartDateTime: string,
+  scheduledEndDateTime: string,
+  companyId: string
+
+
 }

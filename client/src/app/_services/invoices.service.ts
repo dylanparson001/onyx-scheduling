@@ -11,6 +11,7 @@ import {map} from "rxjs/operators";
   providedIn: 'root',
 })
 export class InvoicesService {
+
   baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}

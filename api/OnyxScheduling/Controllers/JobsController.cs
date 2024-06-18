@@ -38,17 +38,25 @@ namespace OnyxScheduling.Controllers
             _invoiceRepository = invoiceRepository;
             _invoiceInvoiceItemRepository = invoiceInvoiceItemRepository;
         }
+        
+        private string GetCompanyIdFromHeader()
+        {            
+            Request.Headers.TryGetValue("CompanyId", out var companyIdHeader);
+
+            return companyIdHeader.FirstOrDefault();
+        }
 
         [HttpGet]
         [Route("GetJobsByDateAndStatus")]
         public async Task<ActionResult<List<Jobs>>> GetJobsByDateAndStatus(string setDate, string status, int position, int take)
         {
+            var companyId = GetCompanyIdFromHeader();
             if (setDate == null || status == null)
             {
                 return BadRequest(ModelState);
             }
             var parsedDate = DateTime.Parse(setDate);
-            var result = await _jobsRepository.GetJobsByDateAndStatusAsync(parsedDate, status, position, take);
+            var result = await _jobsRepository.GetJobsByDateAndStatusAsync(parsedDate, status, position, take, companyId);
 
             if (result == null)
             {
@@ -162,7 +170,8 @@ namespace OnyxScheduling.Controllers
                 Total_Price = tempPrice,
                 Address = job.Address,
                 JobId = job.Id,
-                FilePath = fileName
+                FilePath = fileName,
+                CompanyId = technician.CompanyId
             };
             
             

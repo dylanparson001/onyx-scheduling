@@ -25,13 +25,20 @@ namespace OnyxScheduling.Controllers
             _pdfService = pdfService;
             _accountRepository = accountRepository;
         }
+        private string GetCompanyIdFromHeader()
+        {            
+            Request.Headers.TryGetValue("CompanyId", out var companyIdHeader);
+
+            return companyIdHeader.FirstOrDefault();
+        }
 
         [HttpGet]
         [Route("GetAllInvoices")]
         public async Task<ActionResult<List<Invoices>>> GetAllInvoices()
         {
+            var companyId = GetCompanyIdFromHeader();
 
-            var result = await _invoiceRepository.GetInvoicesAsync();
+            var result = await _invoiceRepository.GetInvoicesAsync(companyId);
 
             if (result == null)
             {
@@ -57,8 +64,11 @@ namespace OnyxScheduling.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var companyId = GetCompanyIdFromHeader();
+
             var parsedDate = DateTime.Parse(setDate);
-            var result = await _invoiceRepository.GetInvoicesByDateAndStatus(parsedDate, status, position, take);
+            var result = await _invoiceRepository.GetInvoicesByDateAndStatus(parsedDate, status,
+                position, take, companyId);
 
             if (result == null)
             {
@@ -78,8 +88,10 @@ namespace OnyxScheduling.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var companyId = GetCompanyIdFromHeader();
+
             var parsedDate = DateTime.Parse(setDate);
-            var result = await _invoiceRepository.GetCountOfInvoicesByDateAndStatus(parsedDate, status);
+            var result = await _invoiceRepository.GetCountOfInvoicesByDateAndStatus(parsedDate, status, companyId);
 
             return Ok(result);
         }

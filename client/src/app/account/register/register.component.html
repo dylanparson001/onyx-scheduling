@@ -77,9 +77,23 @@
     <input type="password"
            [(ngModel)]="passwordConfirmation"
            (ngModelChange)="checkPasswords()"
-           placeholder="Password"
+           placeholder="Confirm Password"
            name="password"
     />
+
+    <h4 *ngIf="isAdmin" >Company ID</h4>
+    <input type="text"
+           [(ngModel)]="model.companyId"
+           *ngIf="isAdmin"
+           name="companyId"
+    />
+<!--           Only site admins can change company ids-->
+<!--    <input type="text"-->
+<!--           *ngIf="!isAdmin"-->
+<!--           name="companyId"-->
+<!--           disabled-->
+<!--           [placeholder]="currentUser?.companyId"-->
+<!--    />-->
 
     <div class="d-flex flex-row justify-content-evenly">
 

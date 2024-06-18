@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, map } from 'rxjs';
-import { User } from '../models/user';
-import { environment } from '../environments/environment';
-import { loginDto } from '../dtos/loginDto';
+import {HttpClient} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject, map, Observable} from 'rxjs';
+import {User} from '../models/user';
+import {environment} from '../environments/environment';
+import {loginDto} from '../dtos/loginDto';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +14,7 @@ export class LoginServiceService {
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
   public user: User = {
+    companyId: "",
     Id: '',
     userName: '',
     firstName: '',
@@ -28,19 +29,21 @@ export class LoginServiceService {
   };
   roleAs: string = '';
 
-  constructor (private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+  }
 
-  login(model: loginDto){
+  login(model: loginDto) {
     // http request to login api endpoint
     return this.http.post<any>(`${this.baseUrl}Authenticate/login`, model).pipe(
       map((response) => {
         const user = response;
-        if (user){
+        if (user) {
           // TOKEN
           localStorage.setItem("user", JSON.stringify(user.token));
           localStorage.setItem('userName', user.userName)
           //USERID
           localStorage.setItem('userId', user.userId)
+          localStorage.setItem('companyId', user.companyId)
 
           // sets current staff member
           this.currentUserSource.next(user);
@@ -50,19 +53,20 @@ export class LoginServiceService {
     )
   }
 
-  register(model: any){
+  register(model: any) {
     return this.http.post<any>(this.baseUrl + 'Authenticate/register', model);
   }
 
-  logout(){
+  logout() {
     localStorage.removeItem("user");
     localStorage.removeItem('userName')
     localStorage.removeItem('userId')
     this.currentUserSource.next(null);
   }
+
   resetPassword(userId: string, currentPassword: string, newPassword: string) {
     let model = {
-      userId : userId,
+      userId: userId,
       currentPassword: currentPassword,
       newPassword: newPassword
     }
@@ -71,9 +75,10 @@ export class LoginServiceService {
       model
     )
   }
+
   forgotPassword(userId: string, newPassword: string) {
     let model = {
-      userId : userId,
+      userId: userId,
       newPassword: newPassword
     }
     return this.http.put(
@@ -81,21 +86,36 @@ export class LoginServiceService {
       model
     )
   }
-  setCurrentUser(user: any){
-    this.currentUserSource.next(user);
 
+  setCurrentUser(user: any) {
+    this.currentUserSource.next(user);
   }
+
   getRole() {
     return localStorage.getItem('role');
   }
+
   hasRole(role: string): boolean {
     const currentUser = this.currentUserSource.value;
     return currentUser ? currentUser.role === role : false;
   }
 
-  getUserFromId( userId: string) {
+  getUserFromId(userId: string) {
     return this.http.get<User>(
       `${this.baseUrl}Authenticate/GetUserFromId?userId=${userId}`
+    )
+  }
+
+  getCurrentUser() {
+    const userId = localStorage.getItem('userId')
+    if (userId) {
+      return this.http.get<User>(
+        `${this.baseUrl}Authenticate/GetUserFromId?userId=${userId}`
+      )
+    }
+
+    return this.http.get<User>(
+      `${this.baseUrl}Authenticate/GetUserFromId?userId=0`
     )
   }
 }

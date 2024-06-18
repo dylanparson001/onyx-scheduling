@@ -1,5 +1,6 @@
 <div class="container d-flex flex-row item-card" *ngIf="item">
-  <button class="btn btn-danger delete-button" *ngIf="removingItems" (click)="deleteItem()"><i class="fa-solid fa-x"></i></button>
+  <button class="btn btn-danger delete-button" *ngIf="removingItems" (click)="deleteItem()">
+    <i class="fa-solid fa-x"></i></button>
   <p>
     {{ item.defaultQuantity }}
     {{ item.item_Name }} <span>{{ item.price | currency: 'USD' }}</span>

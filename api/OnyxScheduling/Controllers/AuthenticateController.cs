@@ -35,42 +35,67 @@ namespace OnyxScheduling.Controllers
             _accountRepository = accountRepository;
         }
 
+        private async Task<bool> CheckCompanyCode(string incomingCode, string codeFound)
+        {
+            if (incomingCode == codeFound)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         [HttpPost]
         [Route("login")]
         public async Task<ActionResult<UserDto>> Login([FromBody] LoginDto model)
         {
             var user = await _userManager.FindByNameAsync(model.Username);
+            if (user == null)
+            {
+                return NoContent();
+            }
+
+        
+            if (!await CheckCompanyCode(model.CompanyId, user.CompanyId))
+            {
+                return BadRequest(error:"Company Id does not match");
+            }
             var validUserRole = await _userManager.GetRolesAsync(user);
             if (await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
 
-                var authClaims = new List<Claim>
+                if (user.UserName != null)
                 {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
+                    var authClaims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                        new Claim("CompanyId", user.CompanyId) 
+                    };
 
-                foreach (var userRole in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    foreach (var userRole in userRoles)
+                    {
+                        authClaims.Add(new Claim(ClaimTypes.Role, userRole));
+                    }
+
+                    var token = GetToken(authClaims);
+
+                    UserDto returnUser = new UserDto()
+                    {
+                        UserName = user.UserName,
+                        Role = validUserRole[0]
+                    };
+                    return Ok(new 
+                    {
+                        token = new JwtSecurityTokenHandler().WriteToken(token),
+                        expiration = token.ValidTo,
+                        role = validUserRole[0],
+                        userName = user.UserName,
+                        userId = user.Id,
+                        companyId = user.CompanyId
+                    });
                 }
-
-                var token = GetToken(authClaims);
-
-                UserDto returnUser = new UserDto()
-                {
-                    UserName = user.UserName,
-                    Role = validUserRole[0]
-                };
-                return Ok(new 
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo,
-                    role = validUserRole[0],
-                    userName = user.UserName,
-                    userId = user.Id
-                });
             }
             return Unauthorized();
         }
@@ -80,8 +105,14 @@ namespace OnyxScheduling.Controllers
         public async Task<IActionResult> Register([FromBody] RegisterDto model)
         {
             var userExists = await _userManager.FindByNameAsync(model.Username);
-            if (userExists != null)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
+            // Usernames cannot be shared among the same company
+            if (userExists != null && userExists.CompanyId == model.CompanyId)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                {
+                    Status = "Error", Message = "User already exists!"
+                });
+            }
 
             User user = new()
             {
@@ -94,12 +125,16 @@ namespace OnyxScheduling.Controllers
                 City = model.City,
                 Role = model.Role,
                 Phone = model.Phone,
-                State = model.State
+                State = model.State,
+                CompanyId = model.CompanyId
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response
+                {
+                    Status = "Error", Message = "User creation failed! Please check user details and try again."
+                });
 
             if (!await _roleManager.RoleExistsAsync(Auth.UserRoles.Admin))
                 await _roleManager.CreateAsync(new IdentityRole(Auth.UserRoles.Admin));
@@ -152,7 +187,8 @@ namespace OnyxScheduling.Controllers
                 State = resultUser.State,
                 Phone = resultUser.Phone,
                 Email = resultUser.Email,
-                Role = resultUser.Role
+                Role = resultUser.Role,
+                CompanyId = resultUser.CompanyId
             };
 
             return Ok(userDto);
@@ -178,7 +214,10 @@ namespace OnyxScheduling.Controllers
         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {
             var user = await _accountRepository.GetTechnciainsFromTechId(resetPasswordDto.UserId);
-            
+            if (user.CompanyId != resetPasswordDto.CompanyId)
+            {
+                return NotFound("Company ID does not match");
+            }
             string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             
             
@@ -196,7 +235,10 @@ namespace OnyxScheduling.Controllers
         public async Task<ActionResult> ForgotPassword([FromBody] ResetPasswordDto resetPasswordDto)
         {            
             var user = await _accountRepository.GetTechnciainsFromTechId(resetPasswordDto.UserId);
-
+            if (user.CompanyId != resetPasswordDto.CompanyId)
+            {
+                return NotFound("Company ID does not match");
+            }
             string resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             
             await _userManager.ResetPasswordAsync(user, resetToken, resetPasswordDto.NewPassword);

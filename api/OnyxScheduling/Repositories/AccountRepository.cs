@@ -21,19 +21,25 @@ namespace OnyxScheduling.Data.Repositories
         }
 
         
-        public async Task<List<User>> GetAllCustomers()
+        public async Task<List<User>> GetAllCustomers(string companyId)
         {
-            return await _authDataContext.Users.Where(x => x.Role == "Customer").ToListAsync();
+            return await _authDataContext.Users.Where(x => x.Role == "Customer" &&
+                                                           x.CompanyId == companyId
+            ).ToListAsync();
         }
 
-        public async Task<List<User>> GetAllOfficeStaff()
+        public async Task<List<User>> GetAllOfficeStaff(string companyId)
         {
-            return await _authDataContext.Users.Where(x => x.Role == "Office").ToListAsync();
+            return await _authDataContext.Users.Where(x => x.Role == "Office" &&
+                                                           x.CompanyId == companyId
+                                                           ).ToListAsync();
         }
 
-        public async Task<List<User>> GetAllTechnicians()
+        public async Task<List<User>> GetAllTechnicians(string companyId)
         {
-            return await _authDataContext.Users.Where(x => x.Role == "Field").ToListAsync();
+            return await _authDataContext.Users.Where(x => x.Role == "Field" &&
+                                                           x.CompanyId == companyId
+            ).ToListAsync();
         }
 
         public async Task<User> GetCustomersFromCustomerId(string customerId)
@@ -67,14 +73,16 @@ namespace OnyxScheduling.Data.Repositories
             throw new NotImplementedException();
         }
 
-        public async Task<User> GetUserFromUsername(string username)
+        public async Task<User> GetUserFromUsername(string username, string companyId)
         {
-            return await _authDataContext.Users.FirstOrDefaultAsync(x => x.UserName == username);
+            return await _authDataContext.Users.FirstOrDefaultAsync(x => x.UserName == username &&
+                                                                         x.CompanyId == companyId
+            );
         }
         
-        public async Task<List<User>> GetUsers(int position, int take)
+        public async Task<List<User>> GetUsers(int position, int take, string companyId)
         {
-            var result = await _authDataContext.Users.Where(x => true)
+            var result = await _authDataContext.Users.Where(x => x.CompanyId == companyId)
                 .OrderBy(x => x.NormalizedUserName)
                 .Skip(position)
                 .Take(take)
@@ -83,19 +91,20 @@ namespace OnyxScheduling.Data.Repositories
             return result;
         }
 
-        public async Task<int> GetCountUsers()
+        public async Task<int> GetCountUsers(string companyId)
         {
-            var result = await _authDataContext.Users.Where(x => true).CountAsync();
+            var result = await _authDataContext.Users.Where(x => x.CompanyId == companyId).CountAsync();
 
             return result;
         }
 
-        public async Task<List<User>> SearchUsernames(string username)
+        public async Task<List<User>> SearchUsernames(string username, string companyId)
         {
             var result = await _authDataContext.Users
-                .Where(x => x.NormalizedUserName.Contains(username.ToUpper()) || 
-                            x.FirstName.ToUpper().Contains(username.ToUpper()) ||
-                            x.LastName.ToUpper().Contains(username.ToUpper())
+                .Where(x => (x.NormalizedUserName.Contains(username.ToUpper()) ||
+                             x.FirstName.ToUpper().Contains(username.ToUpper()) ||
+                             x.LastName.ToUpper().Contains(username.ToUpper()))&&
+                            x.CompanyId == companyId
                             )
                 .OrderBy(x => x.NormalizedUserName)
                 .ToListAsync();

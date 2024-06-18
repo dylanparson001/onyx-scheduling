@@ -6,7 +6,8 @@
     (ngSubmit)="login()"
     autocomplete="off"
   >
-    <p>Onyx Solutions</p>
+    <p class="login-title">Onyx Solutions</p>
+    <p class="login-subtitles">Username</p>
     <input
       class="form-control me-2"
       name="username"
@@ -14,6 +15,7 @@
       type="text"
       placeholder="Username"
     />
+    <p  class="login-subtitles">Password</p>
     <input
       name="password"
       [(ngModel)]="model.password"
@@ -21,10 +23,21 @@
       type="password"
       placeholder="Password"
     />
+    <p  class="login-subtitles">Company Code</p>
+    <input
+      name="companyId"
+      [(ngModel)]="model.companyId"
+      class="form-control me-2"
+      type="text"
+      placeholder="Company Code"
+    />
     <div class="d-flex flex-row justify-content-between login-buttons">
-    <button class="btn btn-success" type="submit">Login</button>
+    <button class="btn login-button-submit" type="submit">Login</button>
     </div>
-    <button class="btn forgot-button" (click)="resetPassword()">Forgot Password?</button>
+<!--    <button class="btn forgot-button" (click)="resetPassword()">Forgot Password?</button>-->
   </form>
-
+  <div *ngIf="loading" class="loading-spinner">
+    <!-- Insert your loading animation here -->
+    <div class="spinner"></div>
+  </div>
 </div>

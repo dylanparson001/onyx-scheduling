@@ -10,4 +10,5 @@ export interface User {
   role: string;
   token: string;
   email: string;
+  companyId: string
 }

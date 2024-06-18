@@ -6,10 +6,7 @@ using OnyxScheduling.Auth;
 using OnyxScheduling.Data.Repositories;
 using OnyxScheduling.Interfaces;
 using System.Text;
-using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 using OnyxScheduling.Models;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OnyxScheduling.Controllers;
 using QuestPDF.Infrastructure;
 
@@ -53,6 +50,8 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+
+
 // Adding Repositories 
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
@@ -63,16 +62,28 @@ builder.Services.AddScoped<IJobsRepository, JobsRepository>();
 builder.Services.AddScoped<IJobInvoiceItemRepository, JobsInvoiceItemRepository>();
 builder.Services.AddScoped<PdfService>();
 
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// app.UseCors(options =>
+// {
+//     options.WithOrigins("https://onyx-solutions.azurewebsites.net")
+//         .AllowAnyHeader()
+//         .AllowAnyMethod();
+// });
+
 app.UseCors(options =>
 {
-    options.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+    options.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
 });
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -15,8 +15,9 @@ import {ToastrService} from "ngx-toastr";
   styleUrl: './login-form.component.css'
 })
 export class LoginFormComponent implements OnInit {
-
+  loading: boolean = false
   model: loginDto = {
+    companyId: "",
     userName: '',
     password: '',
     token: ''
@@ -26,21 +27,37 @@ export class LoginFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
+
     let userLogin = localStorage.getItem('user');
 
     if (userLogin) {
       this.router.navigateByUrl('/jobs');
     }
+    let lastCompanyId = localStorage.getItem('companyId');
+
+    if (lastCompanyId) {
+      this.model.companyId = lastCompanyId
+    }
   }
 
   login() {
+    if(this.model.password === '' && this.model.userName === '' && this.model.companyId === ''){
+      this.toastr.error('Enter all values to login')
+      return;
+    }
+
+    this.loading = true;
     this.loginService.login(this.model).subscribe({
       next: () => {
         this.router.navigateByUrl('/home')
+        localStorage.setItem('companyId', this.model.companyId)
+        this.loading = false;
       },
-      error: () => {
-        this.toastr.error('Incorrect Login')
+      error: (err) => {
+        this.toastr.error(err.message)
         this.model.password = ''
+        this.loading = false
       }
     });
   }

@@ -1,11 +1,10 @@
 .delete-button{
-  min-width: 0.8em;
-  height: 4em;
-  font-size: 0.5rem;
+  margin-left: 0;
+  font-size: 1.5rem;
+  max-height: 2em;
 }
 
 .item-card{
-  min-width: 50vw;
   min-height: 15%;
   margin-bottom: 5%;
 }

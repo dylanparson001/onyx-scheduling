@@ -10,6 +10,7 @@ import {map} from "rxjs/operators";
   providedIn: 'root'
 })
 export class NavigationService {
+
   constructor(private authService: LoginServiceService) {
   }
 

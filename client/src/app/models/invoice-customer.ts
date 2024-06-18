@@ -3,6 +3,8 @@ import {Invoice} from "./invoice";
 
 export interface invoiceCustomer {
   customer: User,
-  invoice: Invoice
+  invoice: Invoice,
+  companyId: string
+
 
 }

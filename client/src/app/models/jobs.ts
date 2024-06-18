@@ -16,4 +16,6 @@ export interface Jobs {
   invoiceNumber: string;
   invoiceItems: Item[];
   invoiceId: string;
+  companyId: string
+
 }

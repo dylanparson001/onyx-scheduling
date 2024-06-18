@@ -1,48 +1,56 @@
-<div class="container d-flex flex-column m-auto">
-  <div class="w-75 mt-5 mb-5 d-flex flex-column align-items-start justify-content-evenly">
+<div class="container item-category-container">
+  <div class="d-flex flex-column ">
     <!--    Default-->
-    <div *ngIf="!removingCategories" class="h-25 d-flex flex-row justify-content-around">
+    <div *ngIf="!removingCategories" class="h-25 w-25 d-flex flex-column category-section">
       <h4>Categories</h4>
-      <button *ngIf="removingCategories" class="btn btn-outline-danger" (click)="removingItems = false">Cancel
-      </button>
-
-      <button class="btn btn-primary" routerLink="/items/new-category">Add Category</button>
-      <button class="btn btn-outline-danger" (click)="removingCategories = true">Remove Category</button>
+      <div class="default-button-order">
+        <button *ngIf="removingCategories" class="btn btn-outline-danger" (click)="removingItems = false">
+          Cancel
+        </button>
+        <button class="btn btn-primary add-category-button" routerLink="/items/new-category">
+          Add Category
+        </button>
+        <button class="btn btn-outline-danger" (click)="removingCategories = true">
+          Remove Category
+        </button>
+      </div>
     </div>
 
-    <div *ngIf="removingCategories" class="d-flex flex-row justify-content-around">
+    <div *ngIf="removingCategories" class="d-flex flex-column justify-content-around">
       <h4>Categories</h4>
-      <button *ngIf="removingCategories" class="btn btn-outline-danger" (click)="removingCategories = false">Cancel
+      <button *ngIf="removingCategories" class="btn btn-outline-danger cancel-remove-item-button" (click)="removingCategories = false">Cancel
       </button>
     </div>
 
-    <div *ngFor="let category of categories">
+    <div class="mt-2" *ngFor="let category of categories">
       <app-category-card (categoryRemoved)="onCategoryRemoved($event)" [removingCategories]="removingCategories"
                          [category]="category"></app-category-card>
     </div>
   </div>
 
-  <div class="d-flex flex-column w-75">
-    <!--    Default-->
-    <div *ngIf="!removingItems" class="h-25 d-flex flex-row justify-content-between w-50 mt-auto">
+  <!--    Default-->
+  <div  class="d-flex flex-column item-section">
+    <div *ngIf="!removingItems"class=" ">
       <h4>Items </h4>
-      <select [(ngModel)]="chosenCategoryId" name="category" (change)="loadItemsByCategory()">
-        <option [ngValue]="0">All</option>
-        <option *ngFor="let category of categories" [ngValue]="category.id">
-          {{ category.name }}
-        </option>
+      <div class="default-button-order">
+        <select [(ngModel)]="chosenCategoryId" name="category" (change)="loadItemsByCategory()">
+          <option [ngValue]="0">All</option>
+          <option *ngFor="let category of categories" [ngValue]="category.id">
+            {{ category.name }}
+          </option>
 
-      </select>
-      <button class="btn btn-primary" routerLink="/items/new-item">Add Items</button>
-      <button class="btn btn-outline-danger" (click)="removingItems = true">Remove Items</button>
+        </select>
+        <button class="btn btn-primary" routerLink="/items/new-item">Add Items</button>
+        <button class="btn btn-outline-danger" (click)="removingItems = true">Remove Items</button>
+      </div>
     </div>
 
-    <div *ngIf="removingItems" class="h-25 d-flex flex-row">
+    <div *ngIf="removingItems" class="h-25 d-flex flex-column">
       <h4>Items </h4>
-      <button class="btn btn-outline-danger" (click)="removingItems = false">Cancel</button>
+      <button class="btn btn-outline-danger cancel-remove-item-button" (click)="removingItems = false">Cancel</button>
     </div>
 
-    <div *ngFor="let item of items">
+    <div class="mt-2" *ngFor="let item of items">
       <app-item-card (itemRemoved)="onItemRemoved($event)" [removingItems]="removingItems"
                      [item]="item"></app-item-card>
     </div>

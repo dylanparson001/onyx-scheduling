@@ -21,8 +21,8 @@ import {UsersService} from "../../_services/users.service";
   styleUrl: './edit-job.component.css'
 })
 export class EditJobComponent implements OnInit {
-  job: Jobs | undefined;
-  customer: User | undefined;
+  @Input() job: Jobs | undefined;
+  @Input() customer: User | undefined;
   technician: User | undefined;
   technicianList: User[] = []
   items: Item[] = [];

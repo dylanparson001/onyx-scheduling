@@ -19,5 +19,7 @@ namespace OnyxScheduling.Dtos
         public List<Invoices> Invoices { get; set; }
         [JsonPropertyName("Id")]
         public string Id { get; internal set; }
+        public string CompanyId { get; set; }
+
     }
 }

@@ -7,4 +7,6 @@ public class InvoiceItemDto
     public string Item_Name { get; set; }
     public double Price { get; set; }
     public int Quantity { get; set; }
+    public string CompanyId { get; set; }
+
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {CurrencyPipe, NgForOf, NgIf} from "@angular/common";
 import {Item} from "../../models/item";
@@ -20,8 +20,11 @@ import {ToastrService} from "ngx-toastr";
   templateUrl: './new-item.component.html',
   styleUrl: './new-item.component.css'
 })
-export class NewItemComponent {
+export class NewItemComponent implements OnInit{
+  companyId: string | null = localStorage.getItem('companyId')
+
   newItem: Item = {
+    companyId: "",
     id: 0,
     item_Name: "",
     category_id: 0,
@@ -39,19 +42,13 @@ export class NewItemComponent {
 
 
   ngOnInit(): void {
+    if (this.companyId) {
+      this.newItem.companyId = this.companyId
+    }
     this.loadCategories()
   }
   amount: number = 0;
 
-  // onInputChange(event: any): void {
-  //   const input = event.target.value;
-  //   // Remove all non-numeric characters (except for the decimal point)
-  //   const cleanInput = input.replace(/[^0-9.]/g, '');
-  //
-  //   // Convert the cleaned input to a number
-  //   this.newItem.price = parseFloat(cleanInput) || 0;
-  //
-  // }
   loadCategories() {
     this.itemService.getCategories().subscribe({
       next: (response) => {

@@ -17,6 +17,8 @@ namespace OnyxScheduling.Dtos
         [JsonPropertyName("email")]
         public string Email { get; set; }
         public string Token { get; set; }
+        public string CompanyId { get; set; }
+
 
     }
 }

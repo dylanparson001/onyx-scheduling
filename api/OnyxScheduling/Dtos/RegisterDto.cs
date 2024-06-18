@@ -28,5 +28,7 @@ namespace OnyxScheduling.Auth
         public string State { get; set; }
         public string Phone { get; set; }
         public string Address { get; set; }
+        public string CompanyId { get; set; }
+
     }
 }

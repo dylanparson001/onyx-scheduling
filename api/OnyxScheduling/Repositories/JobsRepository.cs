@@ -48,7 +48,8 @@ namespace OnyxScheduling.Data.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<Jobs>> GetJobsByDateAndStatusAsync(DateTime date, string status, int position, int take)
+        public async Task<List<Jobs>> GetJobsByDateAndStatusAsync(DateTime date, string status,
+            int position, int take, string companyId)
         {
             var result = new List<Jobs>();
             switch (status)
@@ -59,7 +60,9 @@ namespace OnyxScheduling.Data.Repositories
                     result = await _context.Jobs
                         .Where(x => x.ScheduledStartDateTime.Month == date.Month &&
                                     x.ScheduledStartDateTime.Day == date.Day &&
-                                    x.Processing_Status == status)
+                                    x.Processing_Status == status &&
+                                    x.CompanyId == companyId
+                                    )
                         .OrderBy(x => x.ScheduledStartDateTime)
                         .Skip(position)
                         .Take(take)
@@ -70,7 +73,9 @@ namespace OnyxScheduling.Data.Repositories
                     result = await _context.Jobs
                         .Where(x => x.FinishedDateTime.Value.Month == date.Month &&
                                     x.FinishedDateTime.Value.Month == date.Day &&
-                                    x.Processing_Status == status)
+                                    x.Processing_Status == status &&
+                                    x.CompanyId == companyId
+                        )
                         .OrderBy(x => x.FinishedDateTime)
                         .Skip(position)
                         .Take(take)

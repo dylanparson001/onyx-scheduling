@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class DateServiceService {
-
+  companyId: string | null = localStorage.getItem('companyId')
   constructor() { }
   returnDateTime(date: Date, time: string) {
     let timeArray = time.split(':');

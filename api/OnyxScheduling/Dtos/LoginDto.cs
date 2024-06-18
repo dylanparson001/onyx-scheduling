@@ -9,5 +9,7 @@ namespace OnyxScheduling.Auth
 
         [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; }
+
+        public string CompanyId { get; set; }
     }
 }

@@ -15,6 +15,12 @@ namespace OnyxScheduling.Controllers
         {
             _categoryRepository = categoryRepository;
         }
+        private string GetCompanyIdFromHeader()
+        {            
+            Request.Headers.TryGetValue("CompanyId", out var companyIdHeader);
+
+            return companyIdHeader.FirstOrDefault();
+        }
 
         [HttpPost]
         [Route("AddCategory")]
@@ -24,8 +30,7 @@ namespace OnyxScheduling.Controllers
             {
                 return BadRequest("A response was not sent");
             }
-
-            if (await _categoryRepository.CategoryExists(category.Name))
+            if (await _categoryRepository.CategoryExists(category.Name, category.CompanyId))
             {
                 return BadRequest("Category Exists");
             } 
@@ -40,14 +45,17 @@ namespace OnyxScheduling.Controllers
         [Route("GetAllCategories")]
         public async Task<ActionResult<List<Category>>> GetAllCategories()
         {
-            return await _categoryRepository.GetAllCategories();
+            var companyId = GetCompanyIdFromHeader();
+            return await _categoryRepository.GetAllCategories(companyId);
         }
 
         [HttpDelete]
         [Route("DeleteCategory")]
         public async Task<ActionResult> DeleteCategory(int categoryId)
         {
-            var category = await _categoryRepository.GetCategoryById(categoryId);
+            var companyId = GetCompanyIdFromHeader();
+
+            var category = await _categoryRepository.GetCategoryById(categoryId, companyId);
 
             await _categoryRepository.DeleteCategory(category);
 
