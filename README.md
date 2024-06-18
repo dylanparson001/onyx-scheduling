@@ -1,6 +1,8 @@
 # Onyx Web Application [Link](https://onyx-solutions.azurewebsites.net)
-
-## Work in progress
+#DEMO ACCOUNT: 
+-Username: TestAccountOffice
+-Password: Welcome1!
+-Company ID: DEMO
 
 ## Description:
 
