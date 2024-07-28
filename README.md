@@ -1,11 +1,6 @@
 # Onyx Web Application [Link](https://onyx-solutions.azurewebsites.net)
 # DEMO ACCOUNT: 
 
-- Username: TestAccountOffice
-- Password: Welcome1!
-- Company ID: DEMO
-
-
 - Username: TestOfficeAccount
 - Password: Welcome1!
 - Company ID: DEMO
