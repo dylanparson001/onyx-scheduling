@@ -11,6 +11,7 @@ import {provideToastr, ToastrModule} from "ngx-toastr";
 import {BrowserAnimationsModule, provideAnimations} from "@angular/platform-browser/animations";
 import {PhoneNumberPipe} from "./phone-number.pipe";
 import {FooterComponent} from "./footer/footer.component";
+import {BaseChartDirective, provideCharts, withDefaultRegisterables} from "ng2-charts";
 
 @Component({
   selector: 'app-root',
@@ -26,10 +27,12 @@ import {FooterComponent} from "./footer/footer.component";
     FormsModule,
     MatNativeDateModule,
     OverlayModule,
-    FooterComponent
+    FooterComponent,
+    BaseChartDirective,
   ],
   providers: [
-    DatePipe
+    DatePipe,
+    provideCharts(withDefaultRegisterables()),
 
   ]
 })

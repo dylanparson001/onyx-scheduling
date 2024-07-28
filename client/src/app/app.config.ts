@@ -8,6 +8,7 @@ import {jwtInterceptor} from "./_interceptors/jwt.interceptor";
 import {provideToastr, ToastrModule} from "ngx-toastr";
 import {PhoneNumberPipe} from "./phone-number.pipe";
 import {companyIdInterceptor} from "./_interceptors/company-id.interceptor";
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -21,6 +22,6 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([
       jwtInterceptor,
       companyIdInterceptor
-    ])),
+    ])), provideCharts(withDefaultRegisterables()),
 ]
 };

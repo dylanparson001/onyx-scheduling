@@ -20,6 +20,7 @@ namespace OnyxScheduling.Dtos
         [JsonPropertyName("Id")]
         public string Id { get; internal set; }
         public string CompanyId { get; set; }
-
+        public double DailyTotal { get; set; }
+        
     }
 }

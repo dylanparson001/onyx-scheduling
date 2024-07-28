@@ -11,10 +11,12 @@ namespace OnyxScheduling.Controllers
     public class UserController : ControllerBase
     {
         private readonly IAccountRepository _accountRepository;
+        private readonly IInvoiceRepository _invoiceRepository;
 
-        public UserController(IAccountRepository accountRepository)
+        public UserController(IAccountRepository accountRepository, IInvoiceRepository invoiceRepository)
         {
             _accountRepository = accountRepository;
+            _invoiceRepository = invoiceRepository;
         }
         
         private string GetCompanyIdFromHeader()
@@ -125,6 +127,17 @@ namespace OnyxScheduling.Controllers
 
             foreach (var technician in technicianResult)
             {
+                var todaysDate = DateTime.Today;
+                var techsInvoicesForToday = await _invoiceRepository.GetInvoicesByTechnicianByDate(technician.Id, todaysDate);
+
+                double total = 0.0;
+                
+                // sending techs daily total
+                foreach (var techInvoice in techsInvoicesForToday)
+                {
+                    total += techInvoice.Total_Price;
+                }
+                
                 technicianDtos.Add(new TechnicianDto()
                 {
                     Id = technician.Id,
@@ -132,7 +145,8 @@ namespace OnyxScheduling.Controllers
                     FirstName = technician.FirstName,
                     LastName = technician.LastName,
                     City = technician.City,
-                    State = technician.State
+                    State = technician.State,
+                    DailyTotal = total
                 });
             }
             return technicianDtos;
@@ -188,6 +202,7 @@ namespace OnyxScheduling.Controllers
             {
                 return BadRequest();
             }
+            
 
             var techDto = new TechnicianDto()
             {

@@ -57,6 +57,29 @@ namespace OnyxScheduling.Controllers
         }
 
         [HttpGet]
+        [Route("GetInvoicesByTechnicianByDate")]
+        public async Task<ActionResult<List<Invoices>>> GetInvoicesByTechnicianByDate(string technicianId, string date)
+        {
+            if (technicianId == null || String.IsNullOrEmpty(date))
+            {
+                return BadRequest();
+            }
+
+            var parsedDate = DateTime.Parse(date);
+
+            var result = await _invoiceRepository.GetInvoicesByTechnicianByDate(technicianId, parsedDate);
+
+            if (result == null)
+            {
+                return NoContent();
+            }
+
+            result = result.OrderBy(x => x.FinishedDateTime).ToList();
+
+            return Ok(result);
+        }
+
+        [HttpGet]
         [Route("GetInvoicesByDate")]
         public async Task<ActionResult<List<Invoices>>> GetInvoicesByDate(string setDate, string status, int position, int take)
         {

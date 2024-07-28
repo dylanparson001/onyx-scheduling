@@ -1,10 +1,11 @@
 <div class="flex flex-column w-75 mx-auto">
+<div class="charts w-50">
+
 
 <h3 *ngIf="(accountService.currentUser$  | async) as user">
   Welcome, {{currentUser | titlecase}}
 </h3>
-<div class="d-flex flex-row">
   <app-invoice-section></app-invoice-section>
-
+  <app-job-section></app-job-section>
 </div>
 </div>

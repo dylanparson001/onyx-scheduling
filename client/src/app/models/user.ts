@@ -11,4 +11,5 @@ export interface User {
   token: string;
   email: string;
   companyId: string
+  dailyTotal: number
 }

@@ -1,8 +1,11 @@
-<div class="container invoice-section-container  border-1 border-black invoice-container">
-  <h3>Today's Invoices</h3>
-
-
-  <div  *ngFor="let invoice of todaysInvoices">
-    <app-home-invoice-cards [invoice]="invoice"></app-home-invoice-cards>
-  </div>
+<div class="">
+  <h3>Last 5 Invoices</h3>
+    <canvas
+      baseChart
+      [data]="chartData"
+      [options]="chartOptions"
+      [type]="'line'"
+        [legend]="true"
+    >
+    </canvas>
 </div>

@@ -1,19 +1,20 @@
-app-items{
+app-items {
 
 }
-.item-category-container{
-  margin: 0;
-  min-width: 85%;
+
+.item-category-container {
+  margin: 5% auto;
+  min-width: 75%;
   display: flex;
   flex-direction: row;
 }
 
-.item-section{
+.item-section {
   width: 40%;
   margin: 0;
 }
 
-.category-section{
+.category-section {
   margin: 0;
 
 }
@@ -22,40 +23,45 @@ button {
   max-height: 3em;
   min-width: 12em;
 }
-.cancel-remove-item-button{
+
+.cancel-remove-item-button {
   width: 10em;
 }
 
-.default-button-order{
+.default-button-order {
   display: flex;
   flex-direction: row;
 }
 
 @media (min-width: 300px) and (max-width: 1200px) {
-  .item-category-container{
+  .item-category-container {
     flex-direction: column;
   }
+
   select {
     height: 40px;
   }
 
-  .item-section{
+  .item-section {
     width: 40%;
     margin: 0;
   }
 
-  .category-section{
+  .category-section {
     margin: 0;
 
   }
-  .cancel-remove-item-button{
+
+  .cancel-remove-item-button {
     width: 10em;
   }
-  .default-button-order{
+
+  .default-button-order {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
   }
+
   .default-button-order button {
     width: 25vw;
   }

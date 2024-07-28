@@ -6,6 +6,7 @@ namespace OnyxScheduling.Interfaces
     {
         public Task<List<Invoices>> GetInvoicesAsync(string companyId);
         public Task<List<Invoices>> GetInvoicesByTechnician(string technicianId);
+        public Task<List<Invoices>> GetInvoicesByTechnicianByDate(string technicianId, DateTime date);
         public Task AddInvoice(Invoices invoice,List<Invoice_Items> invoiceItemsList);
         public Task<List<Invoices>> GetInvoicesByDate(DateTime date, string companyId);
         public Task RemoveInvoiceAsync(int invoiceId);

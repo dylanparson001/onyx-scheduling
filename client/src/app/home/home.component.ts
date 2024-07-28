@@ -4,11 +4,12 @@ import { LoginServiceService } from '../_services/login-service.service';
 import { Router, RouterLink } from '@angular/router';
 import { User } from '../models/user';
 import {InvoiceSectionComponent} from "./invoice-section/invoice-section.component";
+import {JobSectionComponent} from "./job-section/job-section.component";
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, InvoiceSectionComponent],
+  imports: [CommonModule, InvoiceSectionComponent, JobSectionComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })

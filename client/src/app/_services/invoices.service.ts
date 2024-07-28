@@ -32,12 +32,24 @@ export class InvoicesService {
       })
     );
   }
-  getAllInvoices(): Observable<Invoice[]> {
-    let result = this.http.get<Invoice[]>(
-      `${this.baseUrl}Invoices/GetAllInvoices`
-    );
+  // getAllInvoices(): Observable<Invoice[]> {
+  //   let result = this.http.get<Invoice[]>(
+  //     `${this.baseUrl}Invoices/GetAllInvoices`
+  //   );
+  //
+  //   return result;
+  // }
+  //
+  // getInvoicesByTechnician(techId: string) {
+  //   return this.http.get<Invoice[]>(
+  //     `${this.baseUrl}Invoices/GetInvoicesByTechnician?techId=${techId}`
+  //   )
+  // }
 
-    return result;
+  getInvoicesByTechnicianByDate(techId: string, date: string) {
+    return this.http.get<Invoice[]>(
+      `${this.baseUrl}Invoices/GetInvoicesByTechnicianByDate?technicianId=${techId}&date=${date}`
+    )
   }
 
   getInvoiceItems(invoiceId: number): Observable<Item[]> {

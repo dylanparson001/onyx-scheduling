@@ -17,6 +17,15 @@ namespace OnyxScheduling.Data.Repositories
             _invoiceInvoiceItemRepository = invoiceInvoiceItemRepository;
         }
 
+        public async Task<List<Invoices>> GetInvoicesByTechnicianByDate(string technicianId, DateTime date)
+        {
+            var result =
+                await _context.Invoices.AsNoTracking().Where(x => x.Assigned_Technician_Id == technicianId)
+                    .Where(x => x.FinishedDateTime.Value.Date == date.Date)
+                    .ToListAsync();
+            return result;
+        }
+
         public async Task AddInvoice(Invoices invoice, List<Invoice_Items> invoiceItemsList)
         {
             await _context.Invoices.AddAsync(invoice);

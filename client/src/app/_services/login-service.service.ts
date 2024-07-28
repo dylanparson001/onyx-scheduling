@@ -14,6 +14,7 @@ export class LoginServiceService {
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
   public user: User = {
+    dailyTotal: 0,
     companyId: "",
     Id: '',
     userName: '',
