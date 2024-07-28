@@ -1,15 +1,15 @@
 # Onyx Web Application [Link](https://onyx-solutions.azurewebsites.net)
 # DEMO ACCOUNT: 
-<<<<<<< HEAD
+
 - Username: TestAccountOffice
 - Password: Welcome1!
 - Company ID: DEMO
 
-=======
+
 - Username: TestOfficeAccount
 - Password: Welcome1!
 - Company ID: DEMO
->>>>>>> 82d3d1a67ad1ab61175fd00d0ccbbbc070934301
+
 ## Description:
 
 Full stack website for a service company (ie plumbing, electrician, etc) to manage customers, invoices, and job schedules. 
