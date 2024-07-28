@@ -20,8 +20,13 @@ Full stack website for a service company (ie plumbing, electrician, etc) to mana
      - Deployed to Azure
 
 
+
+
 <a target="_blank" href = "https://onyx-solutions.azurewebsites.net"  rel="noopener noreferrer">Now live on Azure!💻 </a> <br>
 Screenshots 
+
+Home Dashboard 📈
+![Dashboard](https://imgur.com/YZ27Mb0.png)
 
 Job Schedule 📆
 ![Job Schedule](https://imgur.com/ZPaU0Uf.png)
