@@ -100,7 +100,6 @@ export class NewJobFormComponent implements OnInit{
     this.userService.getAllCustomers().subscribe({
       next: (response: User[]) => {
         this.existingCustomers = response;
-        console.log(response)
       },
     });
   }
@@ -122,6 +121,8 @@ export class NewJobFormComponent implements OnInit{
     })
   }
   submitForm() {
+
+
     let currentDateTime = new Date();
 
     this.job.createdDateTime = this.convertDateFormat(currentDateTime);
@@ -138,6 +139,14 @@ export class NewJobFormComponent implements OnInit{
       scheduledEndDate,
       this.scheduledEndTime
     );
+
+    let dateToCheckStart = new Date(completeStartDate)
+    let dateToCheckEnd = new Date(completeEndDate)
+    if (dateToCheckStart.getTime() > dateToCheckEnd .getTime()) {
+      this.toastr.error("Start time cannot be later than end time")
+      return
+    }
+
 
 
     this.job.scheduledStartDateTime = this.convertDateFormat(completeStartDate);

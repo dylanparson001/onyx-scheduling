@@ -127,8 +127,13 @@ namespace OnyxScheduling.Controllers
 
             foreach (var technician in technicianResult)
             {
-                var todaysDate = DateTime.Today;
-                var techsInvoicesForToday = await _invoiceRepository.GetInvoicesByTechnicianByDate(technician.Id, todaysDate);
+                // Need to make this adjustable to different time zones
+                var easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+                DateTime utcTime = DateTime.UtcNow;
+
+                DateTime easternTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, easternZone);
+                var completedTimeNow = easternTime;
+                var techsInvoicesForToday = await _invoiceRepository.GetInvoicesByTechnicianByDate(technician.Id, completedTimeNow);
 
                 double total = 0.0;
                 

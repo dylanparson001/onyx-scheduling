@@ -76,6 +76,7 @@ namespace OnyxScheduling.Controllers
             var parsedScheduledStartDate = DateTime.Parse(jobDto.ScheduledStartDateTime);
             var parsedScheduledEndDate = DateTime.Parse(jobDto.ScheduledEndDateTime);
             var parsedFinishedDateTime = DateTime.Now;
+            
             if (!string.IsNullOrEmpty(jobDto.CompletedDateTime))
             {
                 parsedFinishedDateTime = DateTime.Parse(jobDto.CompletedDateTime);
@@ -125,8 +126,14 @@ namespace OnyxScheduling.Controllers
             {
                 return;
             }
+                
+            // Need to make this adjustable to different time zones
+            var easternZone = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+            DateTime utcTime = DateTime.UtcNow;
 
-            var completedTimeNow = DateTime.Now;
+            DateTime easternTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, easternZone);
+            var completedTimeNow = easternTime;
+            
             var customer = await  _accountRepository.GetCustomersFromCustomerId(job.Assigned_Customer_Id);
             var technician = await _accountRepository.GetTechnciainsFromTechId(job.Assigned_Technician_Id);
             var itemsFromJob = await _jobInvoiceItemRepository.GetItemsOfJob(job.Id);

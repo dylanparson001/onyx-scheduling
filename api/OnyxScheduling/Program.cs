@@ -61,7 +61,7 @@ builder.Services.AddScoped<IInvoiceInvoiceItemRepository, InvoiceInvoice_ItemRep
 builder.Services.AddScoped<IJobsRepository, JobsRepository>();
 builder.Services.AddScoped<IJobInvoiceItemRepository, JobsInvoiceItemRepository>();
 builder.Services.AddScoped<PdfService>();
-
+builder.Services.AddScoped<DailyTask>();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

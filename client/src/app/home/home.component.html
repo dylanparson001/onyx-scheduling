@@ -5,7 +5,8 @@
 <h3 *ngIf="(accountService.currentUser$  | async) as user">
   Welcome, {{currentUser | titlecase}}
 </h3>
-  <app-invoice-section></app-invoice-section>
-  <app-job-section></app-job-section>
+
+    <app-job-section></app-job-section>
+  <app-invoice-section *ngIf="isAdmin || isOffice"></app-invoice-section>
 </div>
 </div>

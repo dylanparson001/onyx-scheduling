@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Input, OnInit, ViewChild} from '@angular/core';
 import {BaseChartDirective} from "ng2-charts";
 import {ChartData, ChartOptions} from "chart.js";
 import {UsersService} from "../../_services/users.service";
@@ -21,6 +21,7 @@ import dataset = _default.modes.dataset;
   styleUrl: './job-section.component.css'
 })
 export class JobSectionComponent implements OnInit {
+  @Input() currentUser: User | undefined
   technicians: User[] = []
   todaysDate: any = ''
 
@@ -58,6 +59,7 @@ export class JobSectionComponent implements OnInit {
     this.userService.getAllTechnicians().subscribe({
       next: (response) => {
         this.technicians = response
+        // update with all field staffs totals
         this.updateChartData()
         this.chart?.update()
 
@@ -67,12 +69,12 @@ export class JobSectionComponent implements OnInit {
 
   updateChartData() {
     if (this.technicians) {
-      this.technicians.forEach(x => {
-        console.log(x.dailyTotal)
-      })
-      console.log(this.technicians.map(x => x.dailyTotal))
-      this.chartData.datasets[0].data = this.technicians.map(x => x.dailyTotal)
-      this.chartData.labels = this.technicians.map(x => `${x.firstName} ${x.lastName}`)
+      if (this.currentUser?.role != 'Field') {
+        this.chartData.datasets[0].data = this.technicians.map(x => x.dailyTotal)
+        this.chartData.labels = this.technicians.map(x => `${x.firstName} ${x.lastName}`)
+        return
+      }
+
     }
   }
 }

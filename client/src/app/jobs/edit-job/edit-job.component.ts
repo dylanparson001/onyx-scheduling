@@ -220,6 +220,13 @@ export class EditJobComponent implements OnInit {
       let formattedEndDate = this.dateService.returnDateTime(dateTimeEndTemp, this.newScheduledEndTime);
       let formattedStringEndDate: string = this.convertDateFormat(formattedEndDate);
 
+      let dateToCheckStart = new Date(formattedStringStartDate)
+      let dateToCheckEnd = new Date(formattedStringEndDate)
+      if (dateToCheckStart.getTime() > dateToCheckEnd .getTime()) {
+        this.toastr.error("Start time cannot be later than end time")
+        return
+      }
+
       this.jobService.updateJobTime(this.job?.id, formattedStringStartDate, formattedStringEndDate).subscribe({
         next: (response) => {
           this.toastr.info('Job time updated')

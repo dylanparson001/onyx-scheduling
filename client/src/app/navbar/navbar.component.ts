@@ -43,6 +43,7 @@ export class NavbarComponent implements OnInit{
       next: response => {
         this.currentUser = response
         switch (this.currentUser.role) {
+          // Definitely can be done more efficiently
           case 'Admin':
             this.isAdmin = true;
             this.isOffice = false;
