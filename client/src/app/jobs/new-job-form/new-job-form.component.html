@@ -60,6 +60,15 @@
       name="city"
       required
     />
+    <label>Description</label>
+    <input
+      [(ngModel)]="job.description"
+      type="text"
+      class="input-boxes"
+      placeholder="Description"
+      name="description"
+      required
+    />
 
     <label>Scheduled Start Date</label>
     <input
@@ -103,18 +112,18 @@
 
     <small class="input-boxes">Office hours are 9am to 6pm</small>
 
-    <div class="technician-select">
-      <label>Status</label>
-      <select
-        [(ngModel)]="job.processing_Status"
-        class="form-select input-boxes"
-        aria-label="Default select example"
-        name="status"
-        required
-      >
-        <option *ngFor="let status of statusList" [ngValue]="status">{{ status }}</option>
-      </select>
-    </div>
+<!--    <div class="technician-select">-->
+<!--      <label>Status</label>-->
+<!--      <select-->
+<!--        [(ngModel)]="job.processing_Status"-->
+<!--        class="form-select input-boxes"-->
+<!--        aria-label="Default select example"-->
+<!--        name="status"-->
+<!--        required-->
+<!--      >-->
+<!--        <option *ngFor="let status of statusList" [ngValue]="status">{{ status }}</option>-->
+<!--      </select>-->
+<!--    </div>-->
 
     <!-- SUBMIT CANCEL BUTTONS -->
     <div class="button-container flex-row w-100">

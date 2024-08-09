@@ -8,7 +8,7 @@
 ## Description:
 
 Full stack website for a service company (ie plumbing, electrician, etc) to manage customers, invoices, and job schedules. 
-
+Email support for customer's and technicians notifying new jobs, and completed jobs. 
 ## Technologies used:
 
      - C# Dotnet Core 8
@@ -18,8 +18,6 @@ Full stack website for a service company (ie plumbing, electrician, etc) to mana
      - Entity Framework
      - SQL Server
      - Deployed to Azure
-
-
 
 
 <a target="_blank" href = "https://onyx-solutions.azurewebsites.net"  rel="noopener noreferrer">Now live on Azure!💻 </a> <br>

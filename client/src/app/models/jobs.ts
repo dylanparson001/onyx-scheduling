@@ -4,6 +4,7 @@ import {Item} from "./item";
 export interface Jobs {
   id: number;
   address: string;
+  description: string;
   city: string;
   processing_Status: string;
   createdDateTime: string;

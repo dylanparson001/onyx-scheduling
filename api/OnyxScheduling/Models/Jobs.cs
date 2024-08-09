@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 
 namespace OnyxScheduling.Models
@@ -8,7 +9,7 @@ namespace OnyxScheduling.Models
         [Key]
         public int Id { get; set; }
         public string Address { get; set; }
-        //public string City { get; set; }
+        public string Description { get; set; }
         public string Processing_Status { get; set; }
         [JsonConverter(typeof(MyCustomDateTimeConverter))]
         public DateTime CreatedDateTime { get; set; }

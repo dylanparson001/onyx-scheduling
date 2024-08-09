@@ -44,10 +44,11 @@ export class NewJobFormComponent implements OnInit{
   }
 
   job: Jobs = {
+    description: "",
     id: 0,
     address: '',
     city: '',
-    processing_Status: '',
+    processing_Status: 'Open',
     createdDateTime: '',
     finishedDateTime: '',
     scheduledStartDateTime: '',

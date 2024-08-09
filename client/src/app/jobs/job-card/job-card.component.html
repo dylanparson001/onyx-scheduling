@@ -23,6 +23,9 @@
           {{ job.scheduledStartDateTime | date: 'hh:mm a' }} - {{ job.scheduledEndDateTime | date: 'hh:mm a' }}
         </p>
         <p>
+          {{ job.description }}
+        </p>
+        <p>
           {{ job.processing_Status }}
         </p>
 

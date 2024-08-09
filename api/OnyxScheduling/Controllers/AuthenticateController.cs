@@ -56,7 +56,7 @@ namespace OnyxScheduling.Controllers
             }
 
         
-            if (!await CheckCompanyCode(model.CompanyId, user.CompanyId))
+            if (!await CheckCompanyCode(model.CompanyId.ToUpper(), user.CompanyId.ToUpper()))
             {
                 return BadRequest(error:"Company Id does not match");
             }

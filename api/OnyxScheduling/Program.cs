@@ -9,7 +9,11 @@ using System.Text;
 using OnyxScheduling.Models;
 using OnyxScheduling.Controllers;
 using QuestPDF.Infrastructure;
-
+using System;
+using sib_api_v3_sdk.Api;
+using sib_api_v3_sdk.Client;
+using sib_api_v3_sdk.Model;
+using OnyxScheduling.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigurationManager configuration = builder.Configuration;
@@ -17,6 +21,13 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 // Quest PDF License
 QuestPDF.Settings.License = LicenseType.Community;
+
+// Bredo API
+
+Configuration.Default.ApiKey.Add(
+    "api-key",
+    configuration["Brevo:Key"]
+    );
 
 // For Entity Framework
 builder.Services.AddDbContext<AuthDataContext>(options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
@@ -53,6 +64,7 @@ builder.Services.AddAuthentication(options =>
 
 
 // Adding Repositories 
+
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IInvoiceItemRepository, InvoiceItemRepository>();
@@ -61,7 +73,9 @@ builder.Services.AddScoped<IInvoiceInvoiceItemRepository, InvoiceInvoice_ItemRep
 builder.Services.AddScoped<IJobsRepository, JobsRepository>();
 builder.Services.AddScoped<IJobInvoiceItemRepository, JobsInvoiceItemRepository>();
 builder.Services.AddScoped<PdfService>();
-builder.Services.AddScoped<DailyTask>();
+
+builder.Services.AddScoped<IEmailService, EmailService>();
+
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
