@@ -1,5 +1,9 @@
-<div class="container" >
-  <form #registerForm="ngForm"  autocomplete="off" >
+<div class="container">
+  <form #registerForm="ngForm" autocomplete="off">
+    <div class="d-flex justify-content-center form-title ">
+      <h1 class="align-content-center">Register User</h1>
+
+    </div>
     <h4>Username</h4>
     <input type="text"
            [(ngModel)]="model.username"
@@ -38,16 +42,16 @@
     />
     <h4>Role</h4>
     <select
-           [(ngModel)]="model.role"
-           placeholder="Last Name"
-           name="role"
-           (change)="changeOption()"
+      [(ngModel)]="model.role"
+      placeholder="Last Name"
+      name="role"
+      (change)="changeOption()"
     >
       <option></option>
-      <option >Office</option>
-      <option >Admin</option>
-      <option >Field</option>
-      <option >Customer</option>
+      <option>Office</option>
+      <option>Admin</option>
+      <option>Field</option>
+      <option>Customer</option>
     </select>
 
 
@@ -81,24 +85,24 @@
            name="password"
     />
 
-    <h4 *ngIf="isAdmin" >Company ID</h4>
+    <h4 *ngIf="isAdmin">Company ID</h4>
     <input type="text"
            [(ngModel)]="model.companyId"
            *ngIf="isAdmin"
            name="companyId"
     />
-<!--           Only site admins can change company ids-->
-<!--    <input type="text"-->
-<!--           *ngIf="!isAdmin"-->
-<!--           name="companyId"-->
-<!--           disabled-->
-<!--           [placeholder]="currentUser?.companyId"-->
-<!--    />-->
+    <!--           Only site admins can change company ids-->
+    <!--    <input type="text"-->
+    <!--           *ngIf="!isAdmin"-->
+    <!--           name="companyId"-->
+    <!--           disabled-->
+    <!--           [placeholder]="currentUser?.companyId"-->
+    <!--    />-->
 
     <div class="d-flex flex-row justify-content-evenly">
 
-    <button class="mt-5 btn btn-primary" (click)="createAccount()">Create Account</button>
-    <button class="mt-5 btn btn-outline-primary" routerLink="/account/manage-accounts">Back </button>
+      <button class="mt-5 btn btn-primary" (click)="createAccount()">Create Account</button>
+      <button class="mt-5 btn btn-outline-primary" routerLink="/account/manage-accounts">Back</button>
     </div>
   </form>
 </div>

@@ -5,9 +5,13 @@
 }
 
 .container{
-  border: solid black 1px;
-  border-radius: 5px;
   margin-top: 2%;
+  border:1px outset #999;
+  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+  -moz-box-shadow: 5px 5px 15px rgba(0,0,0,0.4);
+  padding: 5%;
+  background-color: #fff;
+  border-radius: 1rem;
 }
 
 @media (min-width: 300px) and (max-width: 1200px) {

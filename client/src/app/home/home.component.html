@@ -1,12 +1,14 @@
-<div class="flex flex-column w-75 mx-auto">
-<div class="charts w-50">
+<div class="dashboard-home d-flex flex-column mx-auto p-1">
 
+<!--    <h3 class="title" *ngIf="(accountService.currentUser$  | async) as user">-->
+<!--      Onyx-->
+<!--    </h3>-->
 
-<h3 *ngIf="(accountService.currentUser$  | async) as user">
-  Welcome, {{currentUser | titlecase}}
-</h3>
+  <div class="charts justify-content-evenly p-3">
+    <main class="d-flex flex-row justify-content-evenly">
 
-    <app-job-section></app-job-section>
-  <app-invoice-section *ngIf="isAdmin || isOffice"></app-invoice-section>
-</div>
+        <app-job-section></app-job-section>
+        <app-invoice-section *ngIf="isAdmin || isOffice"></app-invoice-section>
+    </main>
+  </div>
 </div>
