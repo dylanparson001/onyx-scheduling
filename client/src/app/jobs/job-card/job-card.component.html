@@ -1,10 +1,11 @@
 <div class="container">
-  <p class="card-title">
+  <h2 class="card-title">
     {{ this.tech?.firstName }} {{ this.tech?.lastName }}
-  </p>
+  </h2>
 
   <div class="row">
-    <div *ngFor="let job of jobs" [ngClass]="getJobCardClass(job.processing_Status)" class="job-section card col-md-3 m-2">
+    <div *ngFor="let job of jobs" [ngClass]="getJobCardClass(job.processing_Status)"
+         class="job-section card col-md-3 m-2">
       <button *ngIf="job.processing_Status!= 'Closed' " mat-button
               color="primary"
               class="edit-button"
@@ -13,11 +14,11 @@
       </button>
 
       <div *ngIf="getCustomerForJob(job)">
-        <p class="card-subtitle">
+        <h4 class="card-subtitle">
           {{ getCustomerForJob(job)?.firstName }} {{ getCustomerForJob(job)?.lastName }}
-        </p>
+        </h4>
         <p>
-          {{job.scheduledStartDateTime | date: 'MM-dd-yy'}}
+          {{ job.scheduledStartDateTime | date: 'MM-dd-yy' }}
         </p>
         <p>
           {{ job.scheduledStartDateTime | date: 'hh:mm a' }} - {{ job.scheduledEndDateTime | date: 'hh:mm a' }}
@@ -31,7 +32,7 @@
 
         <div>
           <p *ngFor="let item of job.invoiceItems">
-            {{item.price | currency:'USD'}} {{item.item_Name}}  <span class="mx-4">x{{item.quantity}}</span>
+            {{ item.price | currency:'USD' }} {{ item.item_Name }}  <span class="mx-4">x{{ item.quantity }}</span>
           </p>
         </div>
       </div>

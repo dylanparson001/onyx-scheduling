@@ -61,6 +61,7 @@
   margin-left: 2em;
 }
 
+
 /* Mobile and Tablet - Column Layout */
 @media (max-width: 1200px) {
   :host {
@@ -133,6 +134,14 @@
 
   .container {
     font-size: 0.8rem;
+  }
+  .list-items{
+    width: 75%;
+  }
+  /* Column layout adjustments */
+  .d-flex.flex-row {
+    flex-direction: column;
+    align-items: stretch;
   }
 
   .top-buttons {

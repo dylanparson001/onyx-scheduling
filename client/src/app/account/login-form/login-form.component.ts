@@ -16,12 +16,14 @@ import {ToastrService} from "ngx-toastr";
 })
 export class LoginFormComponent implements OnInit {
   loading: boolean = false
+  showPassword: boolean = false
   model: loginDto = {
     companyId: "",
     userName: '',
     password: '',
     token: ''
   }
+  passwordType: string = 'password';
 
   constructor(private loginService: LoginServiceService, private router: Router, private toastr: ToastrService) {
   }
@@ -41,25 +43,36 @@ export class LoginFormComponent implements OnInit {
     }
   }
 
+  clickShowPassword() {
+    this.showPassword = !this.showPassword
+    if (this.showPassword) {
+      this.passwordType = 'text'
+    } else {
+      this.passwordType = 'password'
+    }
+  }
+
   login() {
-    if(this.model.password === '' && this.model.userName === '' && this.model.companyId === ''){
+    if (this.model.password != '' && this.model.userName != '' && this.model.companyId != '') {
+      this.loading = true;
+      this.loginService.login(this.model).subscribe({
+        next: () => {
+          this.router.navigateByUrl('/home')
+          localStorage.setItem('companyId', this.model.companyId)
+          this.loading = false;
+        },
+        error: (err) => {
+          this.toastr.error(err.message)
+          this.model.password = ''
+          this.loading = false
+        }
+      });
+    } else {
+
       this.toastr.error('Enter all values to login')
       return;
     }
 
-    this.loading = true;
-    this.loginService.login(this.model).subscribe({
-      next: () => {
-        this.router.navigateByUrl('/home')
-        localStorage.setItem('companyId', this.model.companyId)
-        this.loading = false;
-      },
-      error: (err) => {
-        this.toastr.error(err.message)
-        this.model.password = ''
-        this.loading = false
-      }
-    });
   }
 
   resetPassword() {

@@ -1,7 +1,10 @@
 <div  class="d-flex flex-column align-content-center p-4 m-auto">
 
 <div class="container w-50 " *ngIf="currentUser">
-<h4 class="mx-auto">Edit your account</h4>
+  <div class="d-flex justify-content-center form-title ">
+    <h1 class="align-content-center">Edit Account</h1>
+
+  </div>
 
   <div *ngIf="editUser">
     <form #editUserForm="ngForm" autocomplete="off" >

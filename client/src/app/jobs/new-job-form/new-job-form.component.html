@@ -129,20 +129,18 @@
 <!--    </div>-->
 
     <!-- SUBMIT CANCEL BUTTONS -->
-    <div class="button-container flex-row w-100">
+    <div class="d-flex justify-content-center form-title ">
+<!--      <div class="d-flex justify-content-center form-title ">-->
+
       <button
         (click)="submitForm()"
-        mat-raised-button
-        color="primary"
-        class="w-25 mx-5"
+        class="btn btn-primary w-25 "
         type="submit"
       >
         Submit
       </button>
       <button
-        mat-button
-        color="accent"
-        class="w-25 mx-5"
+        class="btn btn-outline-danger w-25 mx-5"
         type="button"
         (click)="cancelForm()"
       >
@@ -150,4 +148,8 @@
       </button>
     </div>
   </form>
+  <div *ngIf="loading" class="loading-spinner">
+    <!-- Insert your loading animation here -->
+    <div class="spinner"></div>
+  </div>
 </div>

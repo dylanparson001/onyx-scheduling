@@ -208,7 +208,7 @@ namespace OnyxScheduling.Controllers
 
             return token;
         }
-
+        
         [HttpPut]
         [Route("ResetPassword")]
         public async Task<ActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)

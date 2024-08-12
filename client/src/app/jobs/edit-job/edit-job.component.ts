@@ -37,15 +37,16 @@ export class EditJobComponent implements OnInit {
   newStatus: string = '';
   newScheduledStartTime: string = '';
   newScheduledEndTime: string = '';
+  loading: boolean = false
 
   constructor(
-              private overlayRef: OverlayRef,
-              @Inject(JOB_DATA) public data: any,
-              private itemService: ItemsService,
-              private jobService: JobsService,
-              private toastr: ToastrService,
-              private dateService: DateServiceService,
-              private userService: UsersService
+    private overlayRef: OverlayRef,
+    @Inject(JOB_DATA) public data: any,
+    private itemService: ItemsService,
+    private jobService: JobsService,
+    private toastr: ToastrService,
+    private dateService: DateServiceService,
+    private userService: UsersService
   ) {
   }
 
@@ -56,6 +57,7 @@ export class EditJobComponent implements OnInit {
     this.loadJobStatuses()
     this.loadAllTechs()
   }
+
   loadAllTechs() {
     this.userService.getAllTechnicians().subscribe({
       next: (response) => {
@@ -86,7 +88,7 @@ export class EditJobComponent implements OnInit {
       this.jobService.getItemsFromJob(this.job?.id).subscribe({
         next: (response) => this.chosenItems = response
       })
-    }
+  }
 
   updateItems() {
     if (this.selectedItem) {
@@ -96,9 +98,9 @@ export class EditJobComponent implements OnInit {
   }
 
   updateJobItems() {
-    if (this.job?.id){
+    if (this.job?.id) {
       for (let i = 0; i < this.chosenItems.length; i++) {
-        if (this.chosenItems[i].quantity === 0){
+        if (this.chosenItems[i].quantity === 0) {
           this.toastr.error('Item quantity cannot be 0')
           return;
         }
@@ -129,12 +131,12 @@ export class EditJobComponent implements OnInit {
   }
 
   removeItem(chosenItem: Item) {
-    if(this.job)
-    this.jobService.removeItemsFromJob(this.job?.id, chosenItem.id).subscribe({
-      next: value => {
-        this.toastr.success('Item removed')
-      }
-    });
+    if (this.job)
+      this.jobService.removeItemsFromJob(this.job?.id, chosenItem.id).subscribe({
+        next: value => {
+          this.toastr.success('Item removed')
+        }
+      });
 
 
     this.chosenItems = this.chosenItems.filter(x => x.id != chosenItem.id);
@@ -145,7 +147,7 @@ export class EditJobComponent implements OnInit {
       this.toastr.error('Status must be chosen')
       return;
     }
-    if(this.job) {
+    if (this.job) {
       this.jobService.changeProcessingStatus(this.job.id, this.newStatus).subscribe({
         next: response => {
           this.toastr.success('Status Changed')
@@ -158,15 +160,15 @@ export class EditJobComponent implements OnInit {
 
   loadJobChanges() {
     if (this.job)
-    this.jobService.getJobByJobId(this.job?.id).subscribe({
-      next: response => {
-        this.job = response
-      }
-    })
+      this.jobService.getJobByJobId(this.job?.id).subscribe({
+        next: response => {
+          this.job = response
+        }
+      })
   }
 
   completeJob() {
-    if(this.job){
+    if (this.job) {
       if (this.job.processing_Status != "Closed") {
         let confirmation = confirm("Are you sure you want to close this job?")
 
@@ -174,15 +176,20 @@ export class EditJobComponent implements OnInit {
           return;
         }
       }
-
+      this.loading = true
       this.jobService.closeJob(this.job?.id).subscribe({
         next: value => {
           this.toastr.success('Job closed')
           this.closeOverlay()
-      },
-        error: err => this.toastr.error(err.error)
+          this.loading = false
+        },
+        error: err => {
+          this.toastr.error(err.error)
+          this.loading = false
+
+        }
       });
-      }
+    }
   }
 
   onTimeChange(event: string, type: string): void {
@@ -190,7 +197,7 @@ export class EditJobComponent implements OnInit {
     if (type === 'startTime') {
       this.newScheduledStartTime = time;
     } else if (type === 'endTime') {
-      this.newScheduledEndTime= time;
+      this.newScheduledEndTime = time;
     }
   }
 
@@ -206,12 +213,13 @@ export class EditJobComponent implements OnInit {
 
     return `${paddedHours}:${paddedMinutes}`;
   }
+
   convertDateFormat(currentDateTime: Date): string {
     return `${currentDateTime.getMonth() + 1}-${currentDateTime.getDate()}-${currentDateTime.getFullYear()} ${currentDateTime.getHours()}:${currentDateTime.getMinutes()}:${currentDateTime.getSeconds()}`;
   }
 
   updateJobTime() {
-    if (this.job){
+    if (this.job) {
       let dateTimeStartTemp = new Date(this.job.scheduledStartDateTime);
       let formattedStartDate = this.dateService.returnDateTime(dateTimeStartTemp, this.newScheduledStartTime);
       let formattedStringStartDate: string = this.convertDateFormat(formattedStartDate);
@@ -222,7 +230,7 @@ export class EditJobComponent implements OnInit {
 
       let dateToCheckStart = new Date(formattedStringStartDate)
       let dateToCheckEnd = new Date(formattedStringEndDate)
-      if (dateToCheckStart.getTime() > dateToCheckEnd .getTime()) {
+      if (dateToCheckStart.getTime() > dateToCheckEnd.getTime()) {
         this.toastr.error("Start time cannot be later than end time")
         return
       }

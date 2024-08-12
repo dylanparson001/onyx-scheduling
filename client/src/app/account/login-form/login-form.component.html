@@ -15,15 +15,23 @@
       type="text"
       placeholder="Username"
     />
-    <p  class="login-subtitles">Password</p>
+    <p class="login-subtitles">Password</p>
+    <span>
+
     <input
       name="password"
       [(ngModel)]="model.password"
+      [type]="passwordType"
       class="form-control me-2"
-      type="password"
       placeholder="Password"
+      id="password"
     />
-    <p  class="login-subtitles">Company Code</p>
+      <span>
+      <i *ngIf="showPassword" class="fa-solid fa-eye" (click)="clickShowPassword()"></i>
+      <i *ngIf="!showPassword" class="fa-solid fa-eye-slash" (click)="clickShowPassword()"></i>
+      </span>
+    </span>
+    <p class="login-subtitles">Company Code</p>
     <input
       name="companyId"
       [(ngModel)]="model.companyId"
@@ -32,9 +40,9 @@
       placeholder="Company Code"
     />
     <div class="d-flex flex-row justify-content-between login-buttons">
-    <button class="btn login-button-submit" type="submit">Login</button>
+      <button class="btn login-button-submit" type="submit">Login</button>
     </div>
-<!--    <button class="btn forgot-button" (click)="resetPassword()">Forgot Password?</button>-->
+    <!--    <button class="btn forgot-button" (click)="resetPassword()">Forgot Password?</button>-->
   </form>
   <div *ngIf="loading" class="loading-spinner">
     <!-- Insert your loading animation here -->

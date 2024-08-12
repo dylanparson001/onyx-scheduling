@@ -4,13 +4,17 @@ import {BehaviorSubject, map, Observable} from 'rxjs';
 import {User} from '../models/user';
 import {environment} from '../environments/environment';
 import {loginDto} from '../dtos/loginDto';
+import {DATE_PIPE_DEFAULT_TIMEZONE} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
 })
 export class LoginServiceService {
   baseUrl: string = environment.apiUrl;
-
+  private jwt: string = ''
+  private expiryDate: any
+  private expiryHours: number = 0
   private currentUserSource = new BehaviorSubject<User | null>(null);
   currentUser$ = this.currentUserSource.asObservable();
   public user: User = {
@@ -30,7 +34,7 @@ export class LoginServiceService {
   };
   roleAs: string = '';
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
   }
 
   login(model: loginDto) {
@@ -49,6 +53,8 @@ export class LoginServiceService {
           // sets current staff member
           this.currentUserSource.next(user);
           this.user = user;
+          this.jwt = user.token
+          this.expiryDate = this.getExpiryDateFromToken(this.jwt)
         }
       })
     )
@@ -63,6 +69,23 @@ export class LoginServiceService {
     localStorage.removeItem('userName')
     localStorage.removeItem('userId')
     this.currentUserSource.next(null);
+    if (this.expiryDate) clearInterval(this.expiryDate);
+  }
+
+  checkExpiry() {
+    if (this.expiryDate && new Date() >= this.expiryDate) {
+      this.logout();
+      this.router.navigateByUrl("/login")
+    }
+  }
+
+  getExpiryDateFromToken(token: string): Date | null {
+    const tokenPayload = JSON.parse(atob(token.split('.')[1]));
+    if (tokenPayload.exp) {
+      // Token expiry time is in seconds since Unix epoch, convert to milliseconds
+      return new Date(tokenPayload.exp * 1000);
+    }
+    return null;
   }
 
   resetPassword(userId: string, currentPassword: string, newPassword: string) {

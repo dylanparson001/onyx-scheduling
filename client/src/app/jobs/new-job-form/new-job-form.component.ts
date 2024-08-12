@@ -35,6 +35,8 @@ export class NewJobFormComponent implements OnInit{
   scheduledStartTime: string = '';
   scheduledEndTime: string = '';
   model: any;
+  loading: boolean = false
+
   invoiceItems: InvoiceItems = {
     id: 0,
     categoryId: 0,
@@ -152,13 +154,16 @@ export class NewJobFormComponent implements OnInit{
 
     this.job.scheduledStartDateTime = this.convertDateFormat(completeStartDate);
     this.job.scheduledEndDateTime = this.convertDateFormat(completeEndDate);
-    console.log(this.job);
+    this.loading = true
     this.jobService.postJob(this.job).subscribe({
       next: value => {
         this.router.navigateByUrl('/jobs')
         this.toastr.success('Job Added Successfully')
+        this.loading = false
+
       },
       error: err => {
+        this.loading = false
 
       }
     })

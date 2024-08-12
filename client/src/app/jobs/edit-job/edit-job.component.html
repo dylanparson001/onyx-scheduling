@@ -8,7 +8,7 @@
   </button>
 </div>
 
-<div class="d-flex flex-row align-items-start">
+<div class="edit-layout d-flex flex-row align-items-start">
   <!--  Adding/ removing items section-->
   <div class="container d-flex flex-column align-items-left">
     <div>
@@ -44,6 +44,7 @@
     <label>Items</label>
     <div>
       <select
+        class="list-items"
         [(ngModel)]="selectedItem"
         (ngModelChange)="updateItems()"
       >
@@ -142,4 +143,9 @@
 
 <div class="complete-button" *ngIf="!editingItems">
   <button mat-raised-button color="primary" (click)="completeJob()">Complete Job</button>
+</div>
+
+<div *ngIf="loading" class="loading-spinner">
+  <!-- Insert your loading animation here -->
+  <div class="spinner"></div>
 </div>
