@@ -11,6 +11,7 @@
   border-radius: 1rem;
 }
 
+
 .login-form {
   display: flex;
   flex-direction: column;
@@ -40,6 +41,9 @@ input {
 .demo-button{
   background-color:  rgba(2, 93, 110, 0.9);
   color: white;
+  width: 100%;
+}
+a{
   width: 25%;
 }
 
