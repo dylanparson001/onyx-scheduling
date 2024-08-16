@@ -1,49 +1,89 @@
 <div class="background-login ">
 
-  <form
-    #loginForm="ngForm"
-    class="d-flex ms-auto login-form"
-    (ngSubmit)="login()"
-    autocomplete="off"
-  >
-    <p class="login-title">Onyx Solutions</p>
-    <p class="login-subtitles">Username</p>
-    <input
-      class="form-control me-2"
-      name="username"
-      [(ngModel)]="model.userName"
-      type="text"
-      placeholder="Username"
-    />
-    <p class="login-subtitles">Password</p>
-    <span>
+  <main class="main-container m-auto mt-5">
 
-    <input
-      name="password"
-      [(ngModel)]="model.password"
-      [type]="passwordType"
-      class="form-control me-2"
-      placeholder="Password"
-      id="password"
-    />
-      <span>
-      <i *ngIf="showPassword" class="fa-solid fa-eye" (click)="clickShowPassword()"></i>
-      <i *ngIf="!showPassword" class="fa-solid fa-eye-slash" (click)="clickShowPassword()"></i>
-      </span>
+    <aside class="about">
+      <h1 class="login-title">Onyx <span style="color: rgba(2, 93, 110, 0.9)">Solutions</span></h1>
+      <p class="about-description">Designed for service professionals, our platform brings together everything you need
+        to manage your field operations efficiently. From scheduling and dispatching to invoicing and customer
+        management, our system simplifies the complexities of your business, empowering your team to focus on what
+        they do best—delivering exceptional service.
+      </p>
+      <button class="btn btn-primary  demo-button">
+        Request a demo
+      </button>
+    </aside>
+
+    <form
+      #loginForm="ngForm"
+      class="card d-flex ms-auto login-form"
+      (ngSubmit)="login()"
+      autocomplete="off"
+    >
+      <h2>Login</h2>
+      <p class="login-subtitles">Username</p>
+      <div class="password-container">
+
+        <input
+          class="form-control me-2 card password-input"
+          name="username"
+          [(ngModel)]="model.userName"
+          type="text"
+          placeholder="Username"
+        />
+        <span><i class="fa-solid fa-user password-show-icon"></i> </span>
+      </div>
+      <p class="login-subtitles">Password</p>
+      <div class="password-container">
+        <input
+          name="password"
+          [(ngModel)]="model.password"
+          [type]="passwordType"
+          class="form-control me-2 card password-input"
+          placeholder="Password"
+          id="password"
+        />
+        <span class="password-show-icon">
+      <i
+        *ngIf="showPassword"
+        class="fa-solid fa-eye"
+        (click)="clickShowPassword()"
+      ></i>
+      <i
+        *ngIf="!showPassword"
+        class="fa-solid fa-eye-slash"
+        (click)="clickShowPassword()"
+      ></i>
     </span>
-    <p class="login-subtitles">Company Code</p>
-    <input
-      name="companyId"
-      [(ngModel)]="model.companyId"
-      class="form-control me-2"
-      type="text"
-      placeholder="Company Code"
-    />
-    <div class="d-flex flex-row justify-content-between login-buttons">
-      <button class="btn login-button-submit" type="submit">Login</button>
-    </div>
-    <!--    <button class="btn forgot-button" (click)="resetPassword()">Forgot Password?</button>-->
-  </form>
+      </div>
+
+      <!--    <input-->
+      <!--      name="password"-->
+      <!--      [(ngModel)]="model.password"-->
+      <!--      [type]="passwordType"-->
+      <!--      class="form-control me-2 card"-->
+      <!--      placeholder="Password"-->
+      <!--      id="password"-->
+      <!--    />-->
+      <!--      <span class="password-show-icon">-->
+      <!--      <i *ngIf="showPassword" class="fa-solid fa-eye" (click)="clickShowPassword()"></i>-->
+      <!--      <i *ngIf="!showPassword" class="fa-solid fa-eye-slash" (click)="clickShowPassword()"></i>-->
+      <!--      </span>-->
+      <p class="login-subtitles">Company Code</p>
+      <input
+        name="companyId"
+        [(ngModel)]="model.companyId"
+        class="form-control me-2 card"
+        type="text"
+        placeholder="Company Code"
+      />
+      <div class="d-flex flex-row justify-content-between login-buttons">
+        <button class="btn login-button-submit" type="submit">Login</button>
+      </div>
+      <!--    <button class="btn forgot-button" (click)="resetPassword()">Forgot Password?</button>-->
+    </form>
+  </main>
+
   <div *ngIf="loading" class="loading-spinner">
     <!-- Insert your loading animation here -->
     <div class="spinner"></div>

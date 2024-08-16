@@ -1,8 +1,20 @@
+.main-container {
+/*d-flex flex-row container */
+  display: flex;
+  flex-direction: row;
+  max-width: 90%;
+  border:1px outset #ffffff;
+  -webkit-box-shadow: 1px 1px 5px rgba(0,0,0,0.4);
+  -moz-box-shadow: 5px 5px 15px rgba(255, 255, 255, 0.4);
+  padding: 5%;
+  /*background-color: #fff;*/
+  border-radius: 1rem;
+}
 
-form {
+.login-form {
   display: flex;
   flex-direction: column;
-  max-width: 35%;
+  min-width: 45%;
   min-height: 50%;
   margin: 5% auto;
   padding: 2% 5% 2% 5%;
@@ -13,36 +25,77 @@ form {
 input {
   margin: 0 0 1rem 0;
   width: 100%;
-  border-radius: 0;
+  border-radius: 1rem;
   height: 2.5em;
 }
-.login-subtitles{
+
+.login-subtitles {
   font-size: 1.2rem;
 }
-.login-button-submit{
+
+.login-button-submit {
   background-color: #414b9b;
   color: white;
 }
+.demo-button{
+  background-color:  rgba(2, 93, 110, 0.9);
+  color: white;
+  width: 25%;
+}
 
-.background-login{
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.password-show-icon {
+  position: absolute;
+  right: 1rem;
+  top: 1.5rem;
+  transform: translateY(-50%);
+}
+
+
+.background-login {
   overflow: hidden;
-  height: 100%;
   margin: 0;
   background-size: cover;
   max-width: 100%;
-  background-color: #1a1a23;
+  background-color: rgba(240, 250, 255, 0.5);
+
 }
-.login-title{
-  font-size: 1.5rem;
+
+.about {
+/*  d-flex flex-column justify-content-center*/
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-description {
+
+  width: 75%;
+  font-size: 1.2rem;
+}
+
+.login-title {
+  font-size: 3rem;
   font-weight: bold;
 }
-.login-buttons button{
+
+
+.login-buttons button {
   margin: 0 auto;
   font-size: 1.2rem;
   width: 45%;
 }
 
-.forgot-button{
+.forgot-button {
   width: 25%;
   margin-left: 74%;
   margin-top: 2%;
@@ -51,7 +104,21 @@ input {
 
 
 @media (min-width: 300px) and (max-width: 1200px) {
-
+  i {
+    font-size:1.6rem;
+  }
+  .demo-button{
+    width: 55%;
+  }
+  .about{
+    justify-content: center;
+    align-content: center;
+  }
+  .main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
   .login-form {
     display: flex;
     flex-direction: column;
@@ -63,26 +130,30 @@ input {
     font-size: 2.5rem;
 
   }
-  .login-title{
-    font-size:1.8rem;
+
+  .login-title {
+    font-size: 1.8rem;
   }
-  .login-subtitles{
+
+  .login-subtitles {
     font-size: 1.5rem;
   }
-  input{
+
+  input {
     height: 3em;
   }
 
   .login-form input {
     font-size: 1.2rem;
   }
+
   .login-form button {
     font-size: 1.2rem;
     width: 100%;
 
   }
 
-  .forgot-button{
+  .forgot-button {
     width: 25%;
     margin-left: 0%;
     margin-top: 2%;
