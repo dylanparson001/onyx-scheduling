@@ -266,4 +266,5 @@ paket-files/
 appsettings.json
 appsettings.Development.json
 
-./api/OnyxScheduling/Invoices
+/api/OnyxScheduling/Invoices/
+**/Invoices/

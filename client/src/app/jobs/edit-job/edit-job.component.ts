@@ -1,4 +1,4 @@
-import {Component, Inject, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Inject, Input, OnInit, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {Jobs} from "../../models/jobs";
 import {User} from "../../models/user";
@@ -23,6 +23,7 @@ import {UsersService} from "../../_services/users.service";
 export class EditJobComponent implements OnInit {
   @Input() job: Jobs | undefined;
   @Input() customer: User | undefined;
+  @Output() updateJob = new EventEmitter<void>();
   technician: User | undefined;
   technicianList: User[] = []
   items: Item[] = [];
@@ -119,6 +120,7 @@ export class EditJobComponent implements OnInit {
   }
 
   closeOverlay() {
+    this.updateJob.emit();
     this.overlayRef.dispose();
   }
 
