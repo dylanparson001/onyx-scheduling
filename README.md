@@ -1,10 +1,11 @@
 # Onyx Web Application 
+<!--
 # DEMO ACCOUNT: 
 
 - Username: Test
 - Password: Welcome1!
 - Company ID: DEMO
-
+-->
 ## Description:
 
 Full stack website for a service company (ie plumbing, electrician, etc) to manage customers, invoices, and job schedules. 
