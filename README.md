@@ -1,4 +1,4 @@
-# Onyx Web Application [Link](https://onyx-solutions.azurewebsites.net)
+# Onyx Web Application 
 # DEMO ACCOUNT: 
 
 - Username: Test
