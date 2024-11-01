@@ -19,8 +19,9 @@ Email support for customer's and technicians notifying new jobs, and completed j
      - SQL Server
      - Deployed to Azure
 
-
+<!--
 <a target="_blank" href = "https://onyx-solutions.azurewebsites.net"  rel="noopener noreferrer">Now live on Azure!💻 </a> <br>
+-->
 Screenshots 
 
 Home Dashboard 📈
